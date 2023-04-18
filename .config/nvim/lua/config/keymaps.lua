@@ -6,10 +6,10 @@ local function map(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-map('i', 'jk', '<Esc>', { noremap = true })
+map('i', 'jk', '<Esc>')
 
-map('n', '<Leader>j', 'J', { noremap = true })
-map('n', '<Leader>/', ':noh<CR>', { noremap = true })
+map('n', '<Leader>j', 'J')
+map('n', '<Leader>/', ':noh<CR>')
 
 -- Accept Inline Suggestion (ex. Copilot)
 
