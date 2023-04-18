@@ -8,7 +8,7 @@ This is my personal dotfiles repository. It contains my configuration files for 
 
 Clone repo as bare repo in your home directory:
 ```bash
-git clone --bare https://github.com/USERNAME/dotfiles.git $HOME/.dotfiles
+git clone --bare https://github.com/fedeya/dotfiles.git $HOME/.dotfiles
 ```
 
 Define the alias in the current shell scope:
