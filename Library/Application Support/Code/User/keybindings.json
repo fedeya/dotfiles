@@ -1,0 +1,128 @@
+// Place your key bindings in this file to override the defaults
+[
+  {
+    "key": "cmd+n",
+    "command": "extension.advancedNewFile"
+  },
+  {
+    "key": "cmd+j",
+    "command": "selectNextSuggestion",
+    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+  },
+  {
+    "key": "cmd+k",
+    "command": "selectPrevSuggestion",
+    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
+  },
+  {
+    "key": "cmd+j",
+    "command": "workbench.action.quickOpenSelectNext",
+    "when": "inQuickOpen"
+  },
+  {
+    "key": "cmd+k",
+    "command": "workbench.action.quickOpenSelectPrevious",
+    "when": "inQuickOpen"
+  },
+  {
+    "command": "workbench.action.nextEditor",
+    "key": "tab",
+    "when": "editorTextFocus && neovim.mode == normal"
+  },
+  {
+    "command": "workbench.action.previousEditor",
+    "key": "shift+tab",
+    "when": "editorTextFocus && neovim.mode == normal"
+  },
+  {
+    "command": "runCommands",
+    "key": "cmd+s",
+    "when": "editorTextFocus && neovim.mode == insert",
+    "args": {
+      "commands": [
+        {
+          "command": "vscode-neovim.send",
+          "args": "<esc>"
+        },
+        "workbench.action.files.save"
+      ]
+    }
+  },
+  {
+    "command": "vscode-neovim.send",
+    "key": "shift+j",
+    "when": "editorTextFocus && neovim.mode == normal",
+    "args": "5j"
+  },
+  {
+    "command": "vscode-neovim.send",
+    "key": "shift+k",
+    "when": "editorTextFocus && neovim.mode == normal",
+    "args": "5k"
+  },
+  // use jk instead of esc **workaround**
+  {
+    "command": "vscode-neovim.compositeEscape1",
+    "key": "j",
+    "when": "neovim.mode == insert && editorTextFocus",
+    "args": "j"
+  },
+  {
+    "command": "vscode-neovim.compositeEscape2",
+    "key": "k",
+    "when": "neovim.mode == insert && editorTextFocus",
+    "args": "k"
+  },
+
+  // remove arrows for force me to use hjkl
+  {
+    "key": "left",
+    "command": "-cursorLeft",
+    "when": "textInputFocus"
+  },
+  {
+    "key": "right",
+    "command": "-cursorRight",
+    "when": "textInputFocus"
+  },
+  {
+    "key": "up",
+    "command": "-cursorUp",
+    "when": "textInputFocus"
+  },
+  {
+    "key": "down",
+    "command": "-cursorDown",
+    "when": "textInputFocus"
+  },
+  {
+    "key": "left",
+    "command": "-vscode-neovim.send",
+    "when": "neovim.recording || editorTextFocus && neovim.init && neovim.mode != 'insert'"
+  },
+  {
+    "key": "right",
+    "command": "-vscode-neovim.send",
+    "when": "neovim.recording || editorTextFocus && neovim.init && neovim.mode != 'insert'"
+  },
+  {
+    "key": "up",
+    "command": "-vscode-neovim.send",
+    "when": "neovim.recording || editorTextFocus && neovim.init && neovim.mode != 'insert'"
+  },
+  {
+    "key": "down",
+    "command": "-vscode-neovim.send",
+    "when": "neovim.recording || editorTextFocus && neovim.init && neovim.mode != 'insert'"
+  },
+  {
+    "key": "up",
+    "command": "-vscode-neovim.send-cmdline",
+    "when": "neovim.mode == 'cmdline_insert' || neovim.mode == 'cmdline_normal' || neovim.mode == 'cmdline_replace'"
+  },
+  {
+    "key": "down",
+    "command": "-vscode-neovim.send-cmdline",
+    "when": "neovim.mode == 'cmdline_insert' || neovim.mode == 'cmdline_normal' || neovim.mode == 'cmdline_replace'"
+  }
+]

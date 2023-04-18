@@ -1,0 +1,199 @@
+{
+  "editor.lineNumbers": "relative",
+  "security.workspace.trust.untrustedFiles": "open",
+  "prettier.jsxSingleQuote": false,
+  "docker.containers.description": ["ContainerId", "Status"],
+  "workbench.startupEditor": "newUntitledFile",
+  "csharp.semanticHighlighting.enabled": true,
+  "gitlens.codeLens.scopes": ["containers", "document"],
+  "terminal.integrated.gpuAcceleration": "on",
+  "workbench.editor.showTabs": true,
+  "editor.fontLigatures": true,
+  "files.associations": {
+    ".env.template": "dotenv"
+  },
+  "window.newWindowDimensions": "inherit",
+  "editor.fontFamily": "JetBrains Mono",
+  "tabnine.experimentalAutoImports": true,
+  "notebook.cellToolbarLocation": {
+    "default": "right",
+    "jupyter-notebook": "left"
+  },
+  "[csharp]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  "prettier.semi": true,
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "svelte": "html"
+  },
+  "editor.multiCursorModifier": "ctrlCmd",
+  "docker.containers.label": "ContainerName",
+  "material-icon-theme.folders.theme": "specific",
+  "[rust]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  "prettier.trailingComma": "none",
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "prettier.arrowParens": "avoid",
+  "editor.minimap.enabled": false,
+  "editor.accessibilitySupport": "off",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "css.validate": false,
+  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "dart.debugSdkLibraries": false,
+  "material-icon-theme.activeIconPack": "react_redux",
+  "editor.formatOnSave": true,
+  "prettier.useTabs": false,
+  "editor.semanticHighlighting.enabled": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.wordWrap": "on",
+  "go.toolsManagement.autoUpdate": true,
+  "prettier.tabWidth": 2,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "prettier.singleQuote": true,
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "go.useLanguageServer": true,
+  "[go]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  },
+  "editor.tabSize": 2,
+  "workbench.colorTheme": "GitHub Dark Default",
+  "emmet.triggerExpansionOnTab": true,
+  "terminal.integrated.env.osx": {
+    "FIG_NEW_SESSION": "1"
+  },
+  "explorer.confirmDelete": false,
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  },
+  "telemetry.telemetryLevel": "off",
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "workbench.iconTheme": "material-icon-theme",
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [80],
+    "editor.selectionHighlight": false,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": false
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "omnisharp.useGlobalMono": "never",
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "nxConsole.enableTelemetry": false,
+  "jest.debugCodeLens.showWhenTestStateIn": ["pass", "fail", "unknown"],
+  "jest.coverageFormatter": "GutterFormatter",
+  "editor.inlineSuggest.enabled": true,
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "projectManager.git.baseFolders": [
+    "/Users/fede/Fede/pro",
+    "/Users/fede/Fede/dev"
+  ],
+  "omnisharp.useModernNet": true,
+  "editor.bracketPairColorization.enabled": true,
+  "redhat.telemetry.enabled": true,
+  "explorer.fileNesting.enabled": true,
+  "remote.SSH.defaultExtensions": ["gitpod.gitpod-remote-ssh"],
+  "remote.SSH.remotePlatform": {
+    "fedeya-aerolabchallenge-kipq6eghi0t": "linux"
+  },
+  "remote.SSH.configFile": "C:\\Users\\fedey\\AppData\\Local\\Temp\\gitpod_ssh_config-14064-Az0r0LCYAKkb",
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.colorCustomizations": {},
+  "docwriter.hotkey.mac": "⌥ + .",
+  "material-icon-theme.folders.color": "#42a5f5",
+  "yaml.customTags": [
+    "!And",
+    "!And sequence",
+    "!If",
+    "!If sequence",
+    "!Not",
+    "!Not sequence",
+    "!Equals",
+    "!Equals sequence",
+    "!Or",
+    "!Or sequence",
+    "!FindInMap",
+    "!FindInMap sequence",
+    "!Base64",
+    "!Join",
+    "!Join sequence",
+    "!Cidr",
+    "!Ref",
+    "!Sub",
+    "!Sub sequence",
+    "!GetAtt",
+    "!GetAZs",
+    "!ImportValue",
+    "!ImportValue sequence",
+    "!Select",
+    "!Select sequence",
+    "!Split",
+    "!Split sequence"
+  ],
+  "diffEditor.codeLens": true,
+  "vscode-pets.petType": "dog",
+  "workbench.editor.enablePreview": false,
+  "totalTypeScript.hiddenTips": [
+    "variable-type-annotation",
+    "keyof",
+    "typeof",
+    "ts-object-type",
+    "typing-function-parameters",
+    "union-type",
+    "null-keyword",
+    "non-null-expression",
+    "passing-generics-to-types",
+    "type-alias-declaration",
+    "optional-object-property"
+  ],
+  "workbench.sideBar.location": "right",
+  "pasteImage.path": "${projectRoot}/docs/images",
+  "breadcrumbs.enabled": false,
+  "rust-analyzer.checkOnSave": true,
+  "solidity.compileUsingRemoteVersion": "v0.8.19+commit.7dd6d404",
+  "solidity.telemetry": false,
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "plaintext": false,
+    "markdown": true
+  },
+  "easynpm.packageManager": "pnpm"
+}
