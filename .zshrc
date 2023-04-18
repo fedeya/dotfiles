@@ -41,4 +41,4 @@ export PNPM_HOME="/Users/fede/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias cfg='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
