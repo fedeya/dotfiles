@@ -13,12 +13,4 @@ nnoremap <Leader>a <Cmd>call VSCodeNotify('editor.action.inlineSuggest.commit')<
 " Macros 
 let @i = "\yef';\"_dbP'" " Change file name to next word 
 
-" Plugins
-call plug#begin()
-
-Plug 'kylechui/nvim-surround'
-Plug 'phaazon/hop.nvim' " easymotion replacement
-
-call plug#end()
-
-lua require("plugins")
+lua require("config")
