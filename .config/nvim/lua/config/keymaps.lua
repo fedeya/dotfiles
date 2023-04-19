@@ -6,6 +6,10 @@ local function map(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+vim.g.mapleader = " "
+
+map('n', '<Enter>', 'o<Esc>')
+
 map('i', 'jk', '<Esc>')
 
 map('n', '<Leader>j', 'J')
