@@ -21,12 +21,41 @@ Checkout the actual content from the bare repository to your $HOME:
 cfg checkout
 ```
 
+#### Exclude Untracked Files
+
+```bash
+cfg config --local status.showUntrackedFiles no
+```
+
 ### Neovim
 
 I use neovim with the next vscode extension: [vscode-neovim](https://marketplace.visualstudio.com/items?itemName=asvetliakov.vscode-neovim)
+
+#### Install Neovim
+
+```bash
+brew install neovim
+```
 
 #### Install Plugins
 
 ```bash
 nvim --headless "+Lazy! sync" +qall
 ```
+
+#### Enable Key Repeating
+  
+```bash
+defaults write com.microsoft.VSCode ApplePressAndHoldEnabled -bool false
+```
+
+##### Increase Repeat and Delay Until Repeat
+
+- Repeat
+
+*Settings -> Keyboard -> Key Repeat -> Fast (all the way to the right)*
+
+- Delay Until Repeat
+
+*Settings -> Keyboard -> Delay Until Repeat -> Short - 1 (all the way to the right - 1)* 
+
