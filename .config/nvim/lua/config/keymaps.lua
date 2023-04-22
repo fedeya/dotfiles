@@ -18,3 +18,10 @@ map('n', '<Leader>/', ':noh<CR>')
 -- Accept Inline Suggestion (ex. Copilot)
 
 map('n', '<Leader>a', "<Cmd>call VSCodeNotify('editor.action.inlineSuggest.commit')<CR>")
+
+-- Commenting
+
+map('x', 'gc', '<Plug>VSCodeCommentary', { silent = true })
+map('n', 'gc', '<Plug>VSCodeCommentary', { silent = true })
+map('o', 'gc', '<Plug>VSCodeCommentary', { silent = true })
+map('n', 'gcc', '<Plug>VSCodeCommentaryLine', { silent = true })
