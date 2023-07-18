@@ -6,8 +6,6 @@ local function map(mode, lhs, rhs, opts)
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
-vim.g.mapleader = " "
-
 map('n', '<Enter>', 'o<Esc>')
 
 map('i', 'jk', '<Esc>')
@@ -15,13 +13,57 @@ map('i', 'jk', '<Esc>')
 map('n', '<Leader>j', 'J')
 map('n', '<Leader>/', ':noh<CR>')
 
--- Accept Inline Suggestion (ex. Copilot)
+map('n', '<Tab>', '<Cmd>BufferNext<CR>')
+map('n', '<S-Tab>', '<Cmd>BufferPrevious<CR>')
+map('n', '<Leader>w', '<Cmd>BufferClose<CR>')
 
-map('n', '<Leader>a', "<Cmd>call VSCodeNotify('editor.action.inlineSuggest.commit')<CR>")
+map('n', 'J', '5j')
+map('n', 'K', '5k')
+map('v', 'J', '5j')
+map('v', 'K', '5k')
 
--- Commenting
+-- File Explorer
 
-map('x', 'gc', '<Plug>VSCodeCommentary', { silent = true })
-map('n', 'gc', '<Plug>VSCodeCommentary', { silent = true })
-map('o', 'gc', '<Plug>VSCodeCommentary', { silent = true })
-map('n', 'gcc', '<Plug>VSCodeCommentaryLine', { silent = true })
+map('n', '<Leader>b', '<Cmd>NvimTreeFocus<CR>')
+map('n', '<Leader>e', '<Cmd>NvimTreeToggle<CR>')
+
+-- Accept Inline Suggestion (ex. Copilot) VSCode
+
+if vim.g.vscode then
+  map('n', '<Leader>a', "<Cmd>call VSCodeNotify('editor.action.inlineSuggest.commit')<CR>")
+end
+
+-- Commenting VSCode
+
+if vim.g.vscode then
+  map('x', 'gc', '<Plug>VSCodeCommentary', { silent = true })
+  map('n', 'gc', '<Plug>VSCodeCommentary', { silent = true })
+  map('o', 'gc', '<Plug>VSCodeCommentary', { silent = true })
+  map('n', 'gcc', '<Plug>VSCodeCommentaryLine', { silent = true })
+end
+
+-- Hop
+
+local hop = require('hop')
+
+local directions = require('hop.hint').HintDirection
+
+vim.keymap.set('', '<Leader>l', function()
+  hop.hint_lines()
+end, { remap = true })
+
+vim.keymap.set('', 'f', function()
+  hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true })
+end, { remap = true })
+
+vim.keymap.set('', 'F', function()
+  hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true })
+end, { remap = true })
+
+vim.keymap.set('', 't', function()
+  hop.hint_char1({ direction = directions.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })
+end, { remap = true })
+
+vim.keymap.set('', 'T', function()
+  hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })
+end, { remap = true })

@@ -51,13 +51,13 @@
   {
     "command": "vscode-neovim.send",
     "key": "shift+j",
-    "when": "editorTextFocus && neovim.mode == normal",
+    "when": "editorTextFocus && (neovim.mode == normal || neovim.mode == visual)",
     "args": "5j"
   },
   {
     "command": "vscode-neovim.send",
     "key": "shift+k",
-    "when": "editorTextFocus && neovim.mode == normal",
+    "when": "editorTextFocus && (neovim.mode == normal || neovim.mode == visual)",
     "args": "5k"
   },
   // use jk instead of esc **workaround**

@@ -1,5 +1,8 @@
 {
   "editor.lineNumbers": "relative",
+  "vscode-neovim.neovimExecutablePaths.darwin": "/opt/homebrew/bin/nvim",
+  "editor.stickyScroll.enabled": true,
+  "discord.removeDetails": true,
   "security.workspace.trust.untrustedFiles": "open",
   "prettier.jsxSingleQuote": false,
   "docker.containers.description": ["ContainerId", "Status"],
@@ -195,5 +198,8 @@
     "plaintext": false,
     "markdown": true
   },
-  "easynpm.packageManager": "pnpm"
+  "easynpm.packageManager": "pnpm",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  }
 }
