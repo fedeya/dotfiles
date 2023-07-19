@@ -1,8 +1,5 @@
 return {
   {
-    'jose-elias-alvarez/null-ls.nvim'
-  },
-  {
     "glepnir/lspsaga.nvim",
     branch = "main",
     dependencies = {
@@ -50,9 +47,14 @@ return {
       { 'saadparwaiz1/cmp_luasnip' },
       { 'rafamadriz/friendly-snippets' },
       { "glepnir/lspsaga.nvim" },
+      {
+        'jose-elias-alvarez/null-ls.nvim'
+      },
     },
     config = function()
       local lsp = require('lsp-zero').preset({})
+
+      require('lsp-format').setup {}
 
       lsp.ensure_installed({
         'tsserver',
@@ -76,12 +78,12 @@ return {
 
       lsp.format_on_save({
         format_opts = {
-          async = false,
+          async = true,
           timeout_ms = 10000
         },
-        servers = {
-          ['null_ls'] = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
-        }
+        -- servers = {
+        --   ['null_ls'] = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
+        -- }
       })
 
       -- (Optional) Configure lua language server for neovim
@@ -92,8 +94,9 @@ return {
       local null_ls = require('null-ls')
 
       null_ls.setup({
+        debug = false,
         sources = {
-          null_ls.builtins.formatting.prettier
+          null_ls.builtins.formatting.prettierd
         }
       })
 

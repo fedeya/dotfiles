@@ -1,22 +1,46 @@
 return {
   {
-    'windwp/nvim-ts-autotag'
-  },
-  {
-    'windwp/nvim-autopairs',
-    opts = {
-      check_ts = true,
-    }
-  },
-  {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    dependencies = {
+      { 'nvim-treesitter/nvim-treesitter-textobjects' },
+      {
+        'windwp/nvim-autopairs',
+        opts = {
+          check_ts = true,
+        }
+      },
+      {
+        'windwp/nvim-ts-autotag'
+      },
+    },
     config = function()
       local configs = require('nvim-treesitter.configs')
 
       configs.setup({
         autotag = {
           enable = true,
+          enable_close_on_slash = false
+        },
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ["ak"] = { query = "@block.outer", desc = "around block" },
+              ["ik"] = { query = "@block.inner", desc = "inside block" },
+              ["ac"] = { query = "@class.outer", desc = "around class" },
+              ["ic"] = { query = "@class.inner", desc = "inside class" },
+              ["a?"] = { query = "@conditional.outer", desc = "around conditional" },
+              ["i?"] = { query = "@conditional.inner", desc = "inside conditional" },
+              ["af"] = { query = "@function.outer", desc = "around function " },
+              ["if"] = { query = "@function.inner", desc = "inside function " },
+              ["al"] = { query = "@loop.outer", desc = "around loop" },
+              ["il"] = { query = "@loop.inner", desc = "inside loop" },
+              ["aa"] = { query = "@parameter.outer", desc = "around argument" },
+              ["ia"] = { query = "@parameter.inner", desc = "inside argument" },
+            }
+          }
         },
         ensure_installed = { "lua", "javascript", "typescript", "tsx", "html", "css", "json", "markdown",
           "markdown_inline" },

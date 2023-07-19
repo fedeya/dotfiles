@@ -10,7 +10,11 @@ return {
       require("nvim-tree").setup {
         view = {
           width = 40,
-          side = "right"
+          side = "right",
+        },
+        update_focused_file = {
+          enable = true,
+          update_root = false,
         },
         on_attach = function(bufnr)
           local api = require 'nvim-tree.api'

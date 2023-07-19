@@ -62,8 +62,26 @@ return {
     },
     version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
+  -- {
+  --   'github/copilot.vim'
+  -- },
   {
-    'github/copilot.vim'
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        suggestion = {
+          auto_trigger = true,
+          keymap = {
+            accept = false
+          }
+        }
+      })
+    end,
+  },
+  {
+    'rcarriga/nvim-notify'
   },
   {
     'lewis6991/gitsigns.nvim',
@@ -71,6 +89,7 @@ return {
       require('gitsigns').setup()
     end
   },
+  { "lukas-reineke/indent-blankline.nvim" },
   {
     'goolord/alpha-nvim',
     event = "VimEnter",

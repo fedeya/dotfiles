@@ -15,7 +15,7 @@ map('n', '<Leader>/', ':noh<CR>')
 
 map('n', '<Tab>', '<Cmd>BufferNext<CR>')
 map('n', '<S-Tab>', '<Cmd>BufferPrevious<CR>')
-map('n', '<Leader>w', '<Cmd>BufferClose<CR>')
+map('n', '<M-w>', '<Cmd>BufferClose<CR>')
 
 map('n', 'J', '5j')
 map('n', 'K', '5k')
@@ -42,6 +42,16 @@ if vim.g.vscode then
   map('n', 'gcc', '<Plug>VSCodeCommentaryLine', { silent = true })
 end
 
+-- Telescope
+
+local builtin = require('telescope.builtin')
+
+vim.keymap.set('n', '<Leader>p', builtin.find_files, {})
+vim.keymap.set('n', '<Leader>f', builtin.live_grep, {})
+vim.keymap.set('n', '<Leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<Leader>fh', builtin.help_tags, {})
+vim.keymap.set('n', '<Leader>gs', builtin.git_status, {})
+
 -- Hop
 
 local hop = require('hop')
@@ -67,3 +77,16 @@ end, { remap = true })
 vim.keymap.set('', 'T', function()
   hop.hint_char1({ direction = directions.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })
 end, { remap = true })
+
+-- Copilot
+vim.keymap.set('i', '<Tab>', function()
+  if require("copilot.suggestion").is_visible() then
+    require("copilot.suggestion").accept()
+  else
+    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
+  end
+end, { desc = "Super Tab" })
+
+-- Toggleterm
+
+map('n', '<Leader>t', '<Cmd>ToggleTerm<CR>')

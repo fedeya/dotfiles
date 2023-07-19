@@ -33,6 +33,7 @@ return {
           telescope = {
             enabled = true,
           },
+          notify = true
         },
         color_overrides = {
           mocha = {
