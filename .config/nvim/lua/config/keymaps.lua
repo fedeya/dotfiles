@@ -90,3 +90,7 @@ end, { desc = "Super Tab" })
 -- Toggleterm
 
 map('n', '<Leader>t', '<Cmd>ToggleTerm<CR>')
+
+-- Persistence
+
+vim.api.nvim_set_keymap("n", "<leader>qs", [[<cmd>lua require("persistence").load()<cr>]], {})

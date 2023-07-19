@@ -15,9 +15,7 @@ return {
       },
     },
     config = function()
-      local configs = require('nvim-treesitter.configs')
-
-      configs.setup({
+      require('nvim-treesitter.configs').setup({
         autotag = {
           enable = true,
           enable_close_on_slash = false

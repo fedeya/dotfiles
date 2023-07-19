@@ -1,11 +1,5 @@
 return {
   {
-    'LazyVim/LazyVim',
-    opts = {
-      colorscheme = 'catppuccin'
-    }
-  },
-  {
     'catppuccin/nvim',
     name = 'catppuccin',
     lazy = false,    -- make sure we load this during startup if it is your main colorscheme

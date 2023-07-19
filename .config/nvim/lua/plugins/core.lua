@@ -14,6 +14,17 @@ return {
     end
   },
   {
+    'rmagatti/auto-session',
+    config = function()
+      require("auto-session").setup {
+        log_level = "error",
+        auto_session_enabled = true,
+        auto_save_enabled = true,
+        auto_restore_enabled = true,
+      }
+    end
+  },
+  {
     'tpope/vim-repeat'
   },
   {
@@ -29,11 +40,12 @@ return {
         main_image = 'file',
       })
     end
-
+  },
+  {
+    'nvim-tree/nvim-web-devicons'
   },
   {
     'nvim-lualine/lualine.nvim',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('lualine').setup({
         options = {
@@ -52,19 +64,12 @@ return {
   },
   {
     'romgrk/barbar.nvim',
-    dependencies = {
-      'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
-      'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
-    },
     init = function() vim.g.barbar_auto_setup = false end,
     opts = {
       animation = false,
     },
     version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
-  -- {
-  --   'github/copilot.vim'
-  -- },
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
@@ -93,7 +98,6 @@ return {
   {
     'goolord/alpha-nvim',
     event = "VimEnter",
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require 'alpha'.setup(require('alpha.themes.startify').config)
     end
