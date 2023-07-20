@@ -5,6 +5,9 @@ return {
     dependencies = {
       { 'nvim-treesitter/nvim-treesitter-textobjects' },
       {
+        'JoosepAlviste/nvim-ts-context-commentstring',
+      },
+      {
         'windwp/nvim-autopairs',
         opts = {
           check_ts = true,
@@ -19,6 +22,10 @@ return {
         autotag = {
           enable = true,
           enable_close_on_slash = false
+        },
+        context_commentstring = {
+          enable = true,
+          enable_autocmd = false
         },
         textobjects = {
           select = {

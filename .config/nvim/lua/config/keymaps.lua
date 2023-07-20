@@ -16,6 +16,7 @@ map('n', '<Leader>/', ':noh<CR>')
 map('n', '<Tab>', '<Cmd>BufferNext<CR>')
 map('n', '<S-Tab>', '<Cmd>BufferPrevious<CR>')
 map('n', '<M-w>', '<Cmd>BufferClose<CR>')
+map('n', '<Leader>qb', '<Cmd>BufferClose<CR>');
 
 map('n', 'J', '5j')
 map('n', 'K', '5k')
@@ -94,3 +95,7 @@ map('n', '<Leader>t', '<Cmd>ToggleTerm<CR>')
 -- Persistence
 
 vim.api.nvim_set_keymap("n", "<leader>qs", [[<cmd>lua require("persistence").load()<cr>]], {})
+
+-- Undotree
+
+vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)

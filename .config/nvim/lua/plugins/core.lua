@@ -1,9 +1,6 @@
 return {
   {
     'mbbill/undotree',
-    config = function()
-      vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
-    end
   },
   {
     'kylechui/nvim-surround',
@@ -88,12 +85,6 @@ return {
   {
     'rcarriga/nvim-notify'
   },
-  {
-    'lewis6991/gitsigns.nvim',
-    config = function()
-      require('gitsigns').setup()
-    end
-  },
   { "lukas-reineke/indent-blankline.nvim" },
   {
     'goolord/alpha-nvim',
@@ -105,7 +96,9 @@ return {
   {
     'numToStr/Comment.nvim',
     config = function()
-      require('Comment').setup()
+      require('Comment').setup({
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
+      })
     end
   },
 }

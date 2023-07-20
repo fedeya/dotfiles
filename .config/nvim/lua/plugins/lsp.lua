@@ -67,9 +67,13 @@ return {
         vim.keymap.set('n', '<F3>', function() vim.lsp.buf.format() end, opts)
         vim.keymap.set('n', '<leader>a', '<cmd>Lspsaga code_action<CR>', opts)
 
+        vim.keymap.set('n', '<leader>d', '<cmd>Lspsaga diagnostic_jump_next<CR>', opts)
+
         if client.supports_method('textDocument/formatting') then
           require('lsp-format').on_attach(client)
         end
+
+        client.server_capabilities.semanticTokensProvider = nil
       end)
 
       lsp.format_on_save({
@@ -92,7 +96,7 @@ return {
       null_ls.setup({
         debug = false,
         sources = {
-          null_ls.builtins.formatting.prettierd
+          null_ls.builtins.formatting.prettier
         }
       })
 
