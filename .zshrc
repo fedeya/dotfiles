@@ -47,7 +47,7 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 alias cfg='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
-eval "$(direnv hook zsh)"
+# eval "$(direnv hook zsh)"
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
