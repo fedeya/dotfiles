@@ -47,11 +47,17 @@ end
 
 local builtin = require('telescope.builtin')
 
-vim.keymap.set('n', '<Leader>p', builtin.find_files, {})
+vim.keymap.set('n', '<Leader>p', function()
+  builtin.find_files({
+    hidden = true,
+    file_ignore_patterns = { 'node_modules', '.git/' },
+  })
+end)
 vim.keymap.set('n', '<Leader>f', builtin.live_grep, {})
 vim.keymap.set('n', '<Leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<Leader>fh', builtin.help_tags, {})
 vim.keymap.set('n', '<Leader>gs', builtin.git_status, {})
+vim.keymap.set('n', '<Leader>fp', ':Telescope projects<CR>', {})
 
 -- Hop
 

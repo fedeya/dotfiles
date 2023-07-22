@@ -96,7 +96,8 @@ return {
       null_ls.setup({
         debug = false,
         sources = {
-          null_ls.builtins.formatting.prettier
+          -- null_ls.builtins.formatting.prettier,
+          null_ls.builtins.formatting.eslint_d
         }
       })
 
@@ -110,7 +111,13 @@ return {
       cmp.setup({
         sources = {
           { name = 'path' },
-          { name = 'nvim_lsp' },
+          {
+            name = 'nvim_lsp',
+            entry_filter = function(entry)
+              return require("cmp").lsp.CompletionItemKind.Text ~= entry:get_kind()
+            end
+
+          },
           { name = 'buffer',  keyword_length = 3 },
           { name = 'luasnip', keyword_length = 2 },
         },
