@@ -108,7 +108,43 @@ return {
 
       vim.opt.completeopt = "menu,menuone,noselect"
 
+      local function border(hl_name)
+        return {
+          { "╭", hl_name },
+          { "─", hl_name },
+          { "╮", hl_name },
+          { "│", hl_name },
+          { "╯", hl_name },
+          { "─", hl_name },
+          { "╰", hl_name },
+          { "│", hl_name },
+        }
+      end
+
       cmp.setup({
+        completion = {
+          completeopt = "menu,menuone",
+        },
+        window = {
+          completion = {
+            side_padding = 1,
+            scrollbar = false,
+            winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel",
+            border = border "CmpBorder"
+          },
+          documentation = {
+            border = border "CmpDocBorder",
+            winhighlight = "Normal:CmpDoc",
+          },
+        },
+        formatting = {
+          fields = { 'abbr', 'kind', 'menu' },
+          format = function(_, item)
+            item.menu = " "
+
+            return item
+          end
+        },
         sources = {
           { name = 'path' },
           {
