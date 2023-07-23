@@ -1,3 +1,17 @@
+local function border(hl_name)
+  return {
+    { "╭", hl_name },
+    { "─", hl_name },
+    { "╮", hl_name },
+    { "│", hl_name },
+    { "╯", hl_name },
+    { "─", hl_name },
+    { "╰", hl_name },
+    { "│", hl_name },
+  }
+end
+
+
 return {
   {
     "glepnir/lspsaga.nvim",
@@ -7,9 +21,10 @@ return {
         symbol_in_winbar = {
           enable = false
         },
-        -- keybinds for navigation in lspsaga window
         scroll_preview = { scroll_down = "<C-f>", scroll_up = "<C-b>" },
-        -- use enter to open file with definition preview
+        ui = {
+          border = border "CmpBorder",
+        },
         definition = {
           edit = "<CR>",
         },
@@ -108,18 +123,6 @@ return {
 
       vim.opt.completeopt = "menu,menuone,noselect"
 
-      local function border(hl_name)
-        return {
-          { "╭", hl_name },
-          { "─", hl_name },
-          { "╮", hl_name },
-          { "│", hl_name },
-          { "╯", hl_name },
-          { "─", hl_name },
-          { "╰", hl_name },
-          { "│", hl_name },
-        }
-      end
 
       cmp.setup({
         completion = {
