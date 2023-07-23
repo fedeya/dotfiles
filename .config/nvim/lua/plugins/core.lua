@@ -9,6 +9,9 @@ return {
     end
   },
   {
+    'christoomey/vim-tmux-navigator'
+  },
+  {
     'kylechui/nvim-surround',
     version = "*",
     event = "VeryLazy",
