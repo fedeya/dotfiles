@@ -10,6 +10,9 @@ map('n', '<Enter>', 'o<Esc>')
 
 map('i', 'jk', '<Esc>')
 
+map('n', ';', ':')
+map('v', ';', ':')
+
 map('n', '<Leader>j', 'J')
 map('n', '<Leader>/', ':noh<CR>')
 
