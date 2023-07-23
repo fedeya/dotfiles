@@ -133,7 +133,7 @@ return {
             border = border "CmpBorder"
           },
           documentation = {
-            border = border "CmpDocBorder",
+            border = border "CmpBorder",
             winhighlight = "Normal:CmpDoc",
           },
         },

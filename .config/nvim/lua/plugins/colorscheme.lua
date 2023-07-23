@@ -39,6 +39,7 @@ return {
       })
 
       vim.api.nvim_set_hl(0, 'CmpDocBorder', { bg = '#191828', fg = '#191828' })
+      vim.api.nvim_set_hl(0, 'CmpDoc', { bg = '#191828' })
       vim.api.nvim_set_hl(0, 'CmpPmenu', { bg = '#1E1D2D' })
       vim.api.nvim_set_hl(0, 'CmpSel', { bg = '#ABE9B3', fg = '#1e1d2d' })
       vim.api.nvim_set_hl(0, 'PmenuSel', { bg = '#ABE9B3', fg = '#1e1d2d' })
