@@ -138,9 +138,9 @@ return {
           },
         },
         formatting = {
-          fields = { 'abbr', 'kind', 'menu' },
+          fields = { 'abbr', 'kind' },
           format = function(_, item)
-            item.menu = " "
+            item.kind = " " .. item.kind
 
             return item
           end
