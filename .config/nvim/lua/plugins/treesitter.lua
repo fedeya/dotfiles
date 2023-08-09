@@ -47,8 +47,20 @@ return {
             }
           }
         },
-        ensure_installed = { "lua", "javascript", "typescript", "tsx", "html", "css", "json", "markdown",
-          "markdown_inline" },
+        ensure_installed = {
+          "lua",
+          "javascript",
+          "typescript",
+          "tsx",
+          "html",
+          "css",
+          "json",
+          "rust",
+          "vim",
+          "regex",
+          "markdown",
+          "markdown_inline",
+        },
         sync_install = false,
         highlight = {
           enable = true,

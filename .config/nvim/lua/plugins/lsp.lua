@@ -32,6 +32,13 @@ return {
     end
   },
   {
+    "j-hui/fidget.nvim",
+    tag = "legacy",
+    event = "LspAttach",
+    enabled = false,
+    opts = {},
+  },
+  {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v2.x',
     dependencies = {

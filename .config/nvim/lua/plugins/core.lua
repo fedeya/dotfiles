@@ -9,6 +9,21 @@ return {
     end
   },
   {
+    'chentoast/marks.nvim',
+    config = function()
+      require('marks').setup({
+        default_mappings = true,
+      })
+    end
+  },
+  {
+    "Wansmer/treesj",
+    keys = {
+      { "<Leader>j", "<cmd>TSJToggle<cr>", desc = "Join Toggle" },
+    },
+    opts = { use_default_keymaps = false },
+  },
+  {
     'christoomey/vim-tmux-navigator'
   },
   {
@@ -51,32 +66,6 @@ return {
     'nvim-tree/nvim-web-devicons'
   },
   {
-    'nvim-lualine/lualine.nvim',
-    config = function()
-      require('lualine').setup({
-        options = {
-          theme = 'catppuccin'
-        },
-        sections = {
-          lualine_a = { 'mode' },
-          lualine_b = { 'branch', 'diff', 'diagnostics' },
-          lualine_c = {},
-          lualine_x = { 'filetype' },
-          lualine_y = {},
-          lualine_z = { 'location' },
-        },
-      })
-    end
-  },
-  {
-    'romgrk/barbar.nvim',
-    init = function() vim.g.barbar_auto_setup = false end,
-    opts = {
-      animation = false,
-    },
-    version = '^1.0.0', -- optional: only update when a new 1.x version is released
-  },
-  {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
@@ -91,17 +80,7 @@ return {
       })
     end,
   },
-  {
-    'rcarriga/nvim-notify'
-  },
   { "lukas-reineke/indent-blankline.nvim" },
-  {
-    'goolord/alpha-nvim',
-    event = "VimEnter",
-    config = function()
-      require 'alpha'.setup(require('alpha.themes.startify').config)
-    end
-  },
   {
     'numToStr/Comment.nvim',
     config = function()

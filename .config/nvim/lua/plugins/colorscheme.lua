@@ -23,6 +23,7 @@ return {
           hop = true,
           barbar = true,
           mason = true,
+          noice = true,
           alpha = true,
           telescope = {
             enabled = true,

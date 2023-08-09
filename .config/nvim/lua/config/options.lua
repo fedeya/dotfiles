@@ -6,6 +6,8 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
+vim.opt.cmdheight = 0
+
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
@@ -25,4 +27,4 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+vim.o.sessionoptions = "buffers,curdir,tabpages,winsize"
