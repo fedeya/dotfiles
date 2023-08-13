@@ -1,3 +1,16 @@
+local function border(hl_name)
+  return {
+    { "╭", hl_name },
+    { "─", hl_name },
+    { "╮", hl_name },
+    { "│", hl_name },
+    { "╯", hl_name },
+    { "─", hl_name },
+    { "╰", hl_name },
+    { "│", hl_name },
+  }
+end
+
 return {
   {
     'mbbill/undotree',
@@ -16,9 +29,14 @@ return {
       vim.o.timeoutlen = 300
     end,
     opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
+      window = {
+        border = border 'CmpBorder',
+        margin = { 1, 0, 1, 0.6 }
+      },
+      layout = {
+        height = { min = 4, max = 75 },
+        width = { min = 20, max = 50 }
+      }
     }
   },
   {

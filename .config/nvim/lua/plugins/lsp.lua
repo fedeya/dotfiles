@@ -11,7 +11,6 @@ local function border(hl_name)
   }
 end
 
-
 return {
   {
     "folke/neodev.nvim",
