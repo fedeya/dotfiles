@@ -99,6 +99,7 @@ return {
   {
     "folke/drop.nvim",
     event = "VeryLazy",
+    enabled = false,
     config = function()
       require("drop").setup({
         theme = "stars"

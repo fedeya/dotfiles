@@ -16,6 +16,10 @@ map('v', ';', ':')
 -- map('n', '<Leader>j', 'J')
 map('n', '<Leader>/', ':noh<CR>')
 
+-- Yank to clipboard
+map('n', '<Leader>y', '"+y')
+map('v', '<Leader>y', '"+y')
+
 map('n', '<Tab>', '<Cmd>BufferNext<CR>')
 map('n', '<S-Tab>', '<Cmd>BufferPrevious<CR>')
 map('n', '<M-w>', '<Cmd>BufferClose<CR>')
