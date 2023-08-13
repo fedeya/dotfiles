@@ -24,6 +24,7 @@ return {
           barbar = true,
           mason = true,
           noice = true,
+          which_key = true,
           alpha = true,
           telescope = {
             enabled = true,

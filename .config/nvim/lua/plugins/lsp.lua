@@ -14,6 +14,15 @@ end
 
 return {
   {
+    "folke/neodev.nvim",
+    enabled = false,
+    opts = {
+      library = {
+        enabled = true
+      }
+    }
+  },
+  {
     "glepnir/lspsaga.nvim",
     branch = "main",
     config = function()
@@ -58,6 +67,8 @@ return {
       { 'hrsh7th/nvim-cmp' },     -- Required
       { 'hrsh7th/cmp-nvim-lsp' }, -- Required
       { 'L3MON4D3/LuaSnip' },     -- Required
+
+      { "onsails/lspkind.nvim" },
 
       { 'hrsh7th/cmp-path' },
       { 'hrsh7th/cmp-nvim-lsp' },
@@ -130,6 +141,7 @@ return {
 
       vim.opt.completeopt = "menu,menuone,noselect"
 
+      local lspkind = require('lspkind')
 
       cmp.setup({
         completion = {
@@ -148,11 +160,18 @@ return {
           },
         },
         formatting = {
-          fields = { 'abbr', 'kind' },
-          format = function(_, item)
-            item.kind = " " .. item.kind
+          format = function(entry, item)
+            item.menu = nil;
 
-            return item
+            local new_item = lspkind.cmp_format({
+              mode = 'symbol_text',
+              maxwidth = 30,
+              ellipsis_char = '...',
+            })(entry, item)
+
+            new_item.kind = item.kind .. " "
+
+            return new_item
           end
         },
         sources = {
