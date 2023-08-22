@@ -24,12 +24,12 @@ return {
           barbar = true,
           mason = true,
           noice = true,
+          lsp_trouble = true,
           which_key = true,
           alpha = true,
           telescope = {
             enabled = true,
           },
-          notify = true
         },
         color_overrides = {
           mocha = {

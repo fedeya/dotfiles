@@ -14,7 +14,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(
-  "plugins",
+  "fedeya.plugins",
   {
     checker = { enabled = true, notify = false },
     change_detection = {
@@ -22,6 +22,14 @@ require("lazy").setup(
     },
     install = {
       colorscheme = { 'catppuccin' }
+    },
+    performance = {
+      cache = {
+        enabled = true
+      },
+      rtp = {
+        disabled_plugins = { "tohtml", "gzip", "matchit", "zipPlugin", "netrwPlugin", "tarPlugin" },
+      }
     }
   }
 )

@@ -1,2 +1,2 @@
-require("config")
-require("utils")
+require("fedeya.config")
+require("fedeya.utils")

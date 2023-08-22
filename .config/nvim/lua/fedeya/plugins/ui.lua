@@ -11,6 +11,12 @@ return {
         },
         progress = {
           enabled = true,
+        },
+        signature = {
+          enabled = false,
+        },
+        hover = {
+          enabled = false
         }
       },
       views    = {
@@ -62,16 +68,21 @@ return {
   },
   {
     'goolord/alpha-nvim',
-    event = "VimEnter",
-    config = function()
-      require 'alpha'.setup(require('alpha.themes.startify').config)
-    end
+    cmd = "Alpha",
+    init = function()
+      if vim.fn.argc() == 0 then
+        require("alpha").setup(require("alpha.themes.startify").config)
+      end
+    end,
   },
   {
-    'rcarriga/nvim-notify'
+    'rcarriga/nvim-notify',
+    event = "VeryLazy",
+    enabled = false,
   },
   {
     'romgrk/barbar.nvim',
+    event = "VeryLazy",
     init = function() vim.g.barbar_auto_setup = false end,
     opts = {
       animation = false,
@@ -80,6 +91,7 @@ return {
   },
   {
     'nvim-lualine/lualine.nvim',
+    event = "VeryLazy",
     config = function()
       require('lualine').setup({
         options = {
