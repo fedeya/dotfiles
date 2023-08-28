@@ -106,7 +106,7 @@ return {
         },
         renderer = {
           indent_markers = {
-            enable = true
+            enable = false
           }
         },
         sync_root_with_cwd = true,
