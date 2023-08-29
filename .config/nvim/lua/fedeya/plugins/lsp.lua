@@ -75,7 +75,7 @@ return {
       require('lsp-zero.cmp').extend()
 
       local cmp = require('cmp')
-      local cmp_action = require('lsp-zero').cmp_action()
+      local cmp_action = require('lsp-zero.cmp').action()
 
       local lspkind = require('lspkind')
 
@@ -147,6 +147,7 @@ return {
     dependencies = {
       { 'hrsh7th/cmp-nvim-lsp' },
       { 'jose-elias-alvarez/null-ls.nvim' },
+      { 'b0o/schemastore.nvim' },
       { 'lukas-reineke/lsp-format.nvim' },
       { 'williamboman/mason-lspconfig.nvim' },
       { 'williamboman/mason.nvim' },
@@ -203,6 +204,14 @@ return {
         }
       })
 
+      require('lspconfig').jsonls.setup {
+        settings = {
+          json = {
+            schemas = require('schemastore').json.schemas(),
+            validate = { enable = true },
+          },
+        },
+      }
 
       lsp.setup()
 
