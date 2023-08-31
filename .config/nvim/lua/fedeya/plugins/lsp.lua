@@ -15,18 +15,27 @@ return {
       {
         'gh',
         '<cmd>Lspsaga hover_doc<CR>',
+        desc = 'Hover Doc',
       },
       {
         'gd',
-        '<cmd>Lspsaga goto_definition<CR>'
+        '<cmd>Lspsaga goto_definition<CR>',
+        desc = 'Goto Definition',
       },
       {
         '<leader>a',
-        '<cmd>Lspsaga code_action<CR>'
+        '<cmd>Lspsaga code_action<CR>',
+        desc = 'Code Action',
+      },
+      {
+        '<leader>r',
+        '<cmd>Lspsaga rename mode=n<CR>',
+        desc = 'Rename',
       },
       {
         '<leader>d',
         '<cmd>Lspsaga diagnostic_jump_next<CR>',
+        desc = 'Diagnostic Jump Next',
       }
     },
     config = function()
@@ -37,6 +46,12 @@ return {
         scroll_preview = { scroll_down = "<C-f>", scroll_up = "<C-b>" },
         ui = {
           border = require('fedeya.utils.ui').border "CmpBorder",
+        },
+        rename = {
+          in_select = false,
+          keys = {
+            quit = "<ESC>",
+          }
         },
         definition = {
           edit = "<CR>",
@@ -151,6 +166,12 @@ return {
       { 'lukas-reineke/lsp-format.nvim' },
       { 'williamboman/mason-lspconfig.nvim' },
       { 'williamboman/mason.nvim' },
+
+      {
+        "pmizio/typescript-tools.nvim",
+        dependencies = { 'nvim-lua/plenary.nvim' }
+      },
+
     },
     config = function()
       require('lsp-format').setup {}
@@ -158,9 +179,10 @@ return {
       local lsp = require('lsp-zero')
 
       lsp.ensure_installed({
-        'tsserver',
         'eslint',
-      })
+      });
+
+      lsp.skip_server_setup({ 'tsserver' })
 
       lsp.on_attach(function(client, bufnr)
         local opts = { buffer = bufnr, remap = false }
@@ -181,9 +203,9 @@ return {
           async = true,
           timeout_ms = 10000
         },
-        servers = {
-          ['null_ls'] = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
-        }
+        -- servers = {
+        -- ['null_ls'] = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
+        -- }
       })
 
 
@@ -214,6 +236,8 @@ return {
       }
 
       lsp.setup()
+
+      require('typescript-tools').setup {}
 
       local null_ls = require('null-ls')
 

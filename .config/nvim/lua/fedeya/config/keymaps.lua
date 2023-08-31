@@ -14,10 +14,10 @@ map('n', ';', ':')
 map('v', ';', ':')
 
 -- map('n', '<Leader>j', 'J')
-map('n', '<Leader>/', ':noh<CR>')
+map('n', '<Leader>/', ':noh<CR>', { desc = 'Clean search highlight' })
 
 -- Yank to clipboard
-vim.keymap.set({ 'n', 'v' }, '<Leader>y', '"+y')
+vim.keymap.set({ 'n', 'v' }, '<Leader>y', '"+y', { desc = "Copy to clipboard" })
 
 -- better indenting
 map("v", "<", "<gv")
