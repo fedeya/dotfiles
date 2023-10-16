@@ -67,6 +67,40 @@ return {
     }
   },
   {
+    "echasnovski/mini.indentscope",
+    version = false, -- wait till new 0.7.0 release to put it back on semver
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    opts = function()
+      return {
+        symbol = "│",
+        draw = {
+          animation = require('mini.indentscope').gen_animation.none()
+        },
+        options = { try_as_border = true },
+      }
+    end,
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = {
+          "help",
+          "alpha",
+          "dashboard",
+          "neo-tree",
+          "NvimTree",
+          "Trouble",
+          "lazy",
+          "mason",
+          "notify",
+          "toggleterm",
+          "lazyterm",
+        },
+        callback = function()
+          vim.b.miniindentscope_disable = true
+        end,
+      })
+    end,
+  },
+  {
     'goolord/alpha-nvim',
     cmd = "Alpha",
     init = function()
@@ -131,7 +165,7 @@ return {
         lualine_y = { 'progress' },
         lualine_z = { 'location' },
       },
-      extensions = { 'nvim-tree', 'lazy' }
+      extensions = { 'nvim-tree', 'lazy', 'trouble' }
     }
   },
   {

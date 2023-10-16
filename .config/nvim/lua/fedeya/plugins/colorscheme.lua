@@ -18,14 +18,33 @@ return {
           lsp_saga = true,
           nvimtree = true,
           treesitter = true,
+          ufo = true,
           leap = true,
+          indent_blankline = { enabled = true },
+          mini = {
+            enabled = true,
+            indentscope_color = "lavender",
+          },
+          illuminate = {
+            enabled = true,
+          },
           gitsigns = true,
           hop = true,
+          native_lsp = {
+            enabled = true,
+            underlines = {
+              errors = { "undercurl" },
+              hints = { "undercurl" },
+              warnings = { "undercurl" },
+              information = { "undercurl" },
+            },
+          },
           barbar = true,
           mason = true,
           noice = true,
           lsp_trouble = true,
           which_key = true,
+          semantic_tokens = true,
           alpha = true,
           telescope = {
             enabled = true,

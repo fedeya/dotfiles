@@ -40,16 +40,6 @@ vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 vim.keymap.set({ 'n', 'v' }, 'J', '5j')
 vim.keymap.set({ 'n', 'v' }, 'K', '5k')
 
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.highlight.on_yank()
-  end,
-  group = highlight_group,
-  pattern = '*',
-})
-
 -- VSCode
 if vim.g.vscode then
   -- Accept Inline Suggestion (ex. Copilot) VSCode
