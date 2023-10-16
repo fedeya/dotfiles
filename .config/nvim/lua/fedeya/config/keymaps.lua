@@ -4,6 +4,8 @@ vim.keymap.set("i", "jk", "<Esc>")
 
 vim.keymap.set({ "n", "v" }, ";", ":")
 
+vim.keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
+
 -- map('n', '<Leader>j', 'J')
 vim.keymap.set("n", "<Leader>/", ":noh<CR>", { desc = "Clean search highlight" })
 

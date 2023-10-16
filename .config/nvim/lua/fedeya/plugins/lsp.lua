@@ -241,8 +241,6 @@ return {
 			{ "williamboman/mason-lspconfig.nvim" },
 		},
 		config = function()
-			-- require("lsp-format").setup({})
-
 			local lsp = require("lsp-zero")
 
 			lsp.extend_lspconfig()
@@ -272,22 +270,8 @@ return {
 					vim.lsp.buf.format()
 				end, opts)
 
-				-- if client.supports_method("textDocument/formatting") then
-				--   require("lsp-format").on_attach(client)
-				-- end
-
 				-- client.server_capabilities.semanticTokensProvider = nil
 			end)
-
-			-- lsp.format_on_save({
-			--   format_opts = {
-			--     async = true,
-			--     timeout_ms = 10000
-			--   },
-			--   servers = {
-			--     ['null_ls'] = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
-			--   }
-			-- })
 
 			require("mason-lspconfig").setup({
 				ensure_installed = {},
@@ -327,16 +311,6 @@ return {
 			})
 
 			require("typescript-tools").setup({})
-
-			-- local null_ls = require('null-ls')
-			--
-			-- null_ls.setup({
-			--   debug = false,
-			--   sources = {
-			--     -- null_ls.builtins.formatting.prettier,
-			--     null_ls.builtins.formatting.eslint_d
-			--   }
-			-- })
 		end,
 	},
 }
