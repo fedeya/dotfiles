@@ -17,6 +17,7 @@ return {
           cmp = true,
           lsp_saga = true,
           nvimtree = true,
+          neotree = true,
           treesitter = true,
           ufo = true,
           leap = true,

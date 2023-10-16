@@ -37,10 +37,10 @@ return {
           require('telescope.builtin').git_status()
         end
       },
-      {
-        '<leader>fp',
-        '<cmd>Telescope projects<CR>'
-      }
+      -- {
+      --   '<leader>fp',
+      --   '<cmd>Telescope projects<CR>'
+      -- }
     },
     dependencies = {
       {
@@ -73,7 +73,7 @@ return {
 
       })
 
-      require('telescope').load_extension('projects')
+      -- require('telescope').load_extension('projects')
     end
   },
 }

@@ -165,7 +165,7 @@ return {
         lualine_y = { 'progress' },
         lualine_z = { 'location' },
       },
-      extensions = { 'nvim-tree', 'lazy', 'trouble' }
+      extensions = { 'nvim-tree', 'lazy', 'trouble', 'neo-tree' }
     }
   },
   {

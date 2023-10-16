@@ -10,14 +10,7 @@ return {
     vscode = true,
     event = "VeryLazy",
     config = function()
-      require("nvim-surround").setup({
-        keymaps = {
-          normal = 'gsa',
-          visual = 'gsa',
-          delete = 'gsd',
-          change = 'gsr',
-        }
-      })
+      require("nvim-surround").setup()
     end
   },
   {
