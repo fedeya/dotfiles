@@ -1,16 +1,16 @@
 return {
-  -- Session management. This saves your session in the background,
-  -- keeping track of open buffers, window arrangement, and more.
-  -- You can restore sessions when returning through the dashboard.
-  {
-    "folke/persistence.nvim",
-    event = "BufReadPre",
-    opts = {
-      options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" },
-      pre_save = function()
-        vim.api.nvim_exec_autocmds('User', { pattern = 'SessionSavePre' })
-      end
-    },
+	-- Session management. This saves your session in the background,
+	-- keeping track of open buffers, window arrangement, and more.
+	-- You can restore sessions when returning through the dashboard.
+	{
+		"folke/persistence.nvim",
+		event = "BufReadPre",
+		opts = {
+			options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" },
+			pre_save = function()
+				vim.api.nvim_exec_autocmds("User", { pattern = "SessionSavePre" })
+			end,
+		},
     -- stylua: ignore
     keys = {
       {
@@ -29,11 +29,10 @@ return {
         desc = "Don't Save Current Session",
       },
     },
-  },
+	},
 
-
-  {
-    'nvim-lua/plenary.nvim',
-    lazy = true
-  },
+	{
+		"nvim-lua/plenary.nvim",
+		lazy = true,
+	},
 }

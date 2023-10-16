@@ -1,14 +1,14 @@
-vim.keymap.set('n', '<Enter>', 'o<Esc>')
+vim.keymap.set("n", "<Enter>", "o<Esc>")
 
-vim.keymap.set('i', 'jk', '<Esc>')
+vim.keymap.set("i", "jk", "<Esc>")
 
-vim.keymap.set({ 'n', 'v' }, ';', ':')
+vim.keymap.set({ "n", "v" }, ";", ":")
 
 -- map('n', '<Leader>j', 'J')
-vim.keymap.set('n', '<Leader>/', ':noh<CR>', { desc = 'Clean search highlight' })
+vim.keymap.set("n", "<Leader>/", ":noh<CR>", { desc = "Clean search highlight" })
 
 -- Yank to clipboard
-vim.keymap.set({ 'n', 'v' }, '<Leader>y', '"+y', { desc = "Copy to clipboard" })
+vim.keymap.set({ "n", "v" }, "<Leader>y", '"+y', { desc = "Copy to clipboard" })
 
 -- better indenting
 vim.keymap.set("v", "<", "<gv")
@@ -25,21 +25,21 @@ vim.keymap.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
 vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Better window movement
-vim.keymap.set({ 'n', 'v' }, 'J', '5j')
-vim.keymap.set({ 'n', 'v' }, 'K', '5k')
+vim.keymap.set({ "n", "v" }, "J", "5j")
+vim.keymap.set({ "n", "v" }, "K", "5k")
 
 -- VSCode
 if vim.g.vscode then
-  -- Accept Inline Suggestion (ex. Copilot) VSCode
-  vim.keymap.set('n', '<Leader>a', "<Cmd>call VSCodeNotify('editor.action.inlineSuggest.commit')<CR>")
+	-- Accept Inline Suggestion (ex. Copilot) VSCode
+	vim.keymap.set("n", "<Leader>a", "<Cmd>call VSCodeNotify('editor.action.inlineSuggest.commit')<CR>")
 
-  -- Commenting VSCode
-  vim.keymap.set('x', 'gc', '<Plug>VSCodeCommentary', { silent = true })
-  vim.keymap.set('n', 'gc', '<Plug>VSCodeCommentary', { silent = true })
-  vim.keymap.set('o', 'gc', '<Plug>VSCodeCommentary', { silent = true })
-  vim.keymap.set('n', 'gcc', '<Plug>VSCodeCommentaryLine', { silent = true })
+	-- Commenting VSCode
+	vim.keymap.set("x", "gc", "<Plug>VSCodeCommentary", { silent = true })
+	vim.keymap.set("n", "gc", "<Plug>VSCodeCommentary", { silent = true })
+	vim.keymap.set("o", "gc", "<Plug>VSCodeCommentary", { silent = true })
+	vim.keymap.set("n", "gcc", "<Plug>VSCodeCommentaryLine", { silent = true })
 end
