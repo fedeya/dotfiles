@@ -14,27 +14,9 @@ return {
         end
       },
       {
-        '<leader>f',
+        '<leader>s',
         function()
           require('telescope.builtin').live_grep()
-        end
-      },
-      {
-        '<leader>fb',
-        function()
-          require('telescope.builtin').buffers()
-        end
-      },
-      {
-        '<leader>fh',
-        function()
-          require('telescope.builtin').help_tags()
-        end
-      },
-      {
-        '<leader>gs',
-        function()
-          require('telescope.builtin').git_status()
         end
       },
       -- {
