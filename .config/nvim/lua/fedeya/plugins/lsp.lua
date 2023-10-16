@@ -10,13 +10,14 @@ return {
   },
   {
     "glepnir/lspsaga.nvim",
-    branch = "main",
+    -- branch = "main",
+    commit = "fc08019f2aea7a57488ed2414b835c8fc604412a",
     keys = {
-      {
-        'gh',
-        '<cmd>Lspsaga hover_doc<CR>',
-        desc = 'Hover Doc',
-      },
+      -- {
+      --   'gh',
+      --   '<cmd>Lspsaga hover_doc<CR>',
+      --   desc = 'Hover Doc',
+      -- },
       {
         'gd',
         '<cmd>Lspsaga goto_definition<CR>',
@@ -26,6 +27,7 @@ return {
         '<leader>a',
         '<cmd>Lspsaga code_action<CR>',
         desc = 'Code Action',
+        mode = { 'n', 'v' }
       },
       {
         '<leader>r',
@@ -67,12 +69,19 @@ return {
     opts = {},
   },
   {
+    'williamboman/mason.nvim',
+    lazy = false,
+    config = true
+  },
+  {
 
     'VonHeikemen/lsp-zero.nvim',
-    branch = 'v2.x',
+    branch = 'v3.x',
     lazy = true,
-    config = function()
-      require('lsp-zero.settings').preset({})
+    config = false,
+    init = function()
+      vim.g.lsp_zero_extend_cmp = 0
+      vim.g.lsp_zero_extend_lspconfig = 0
     end
   },
   {
@@ -87,10 +96,12 @@ return {
       { 'saadparwaiz1/cmp_luasnip' },
     },
     config = function()
-      require('lsp-zero.cmp').extend()
+      local lsp_zero = require('lsp-zero')
+
+      lsp_zero.extend_cmp()
 
       local cmp = require('cmp')
-      local cmp_action = require('lsp-zero.cmp').action()
+      local cmp_action = lsp_zero.cmp_action()
 
       local lspkind = require('lspkind')
 
@@ -156,6 +167,13 @@ return {
     end
   },
   {
+    "pmizio/typescript-tools.nvim",
+    lazy = true,
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    }
+  },
+  {
     'neovim/nvim-lspconfig',
     cmd = "LspInfo",
     event = { 'BufReadPre', 'BufNewFile' },
@@ -165,30 +183,26 @@ return {
       { 'b0o/schemastore.nvim' },
       { 'lukas-reineke/lsp-format.nvim' },
       { 'williamboman/mason-lspconfig.nvim' },
-      { 'williamboman/mason.nvim' },
-
-      {
-        "pmizio/typescript-tools.nvim",
-        dependencies = { 'nvim-lua/plenary.nvim' }
-      },
-
     },
     config = function()
       require('lsp-format').setup {}
 
       local lsp = require('lsp-zero')
 
-      lsp.ensure_installed({
-        'eslint',
-      });
+      lsp.extend_lspconfig()
 
-      lsp.skip_server_setup({ 'tsserver' })
+      lsp.set_server_config({
+        handlers = {
+          ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = require('fedeya.utils.ui').border "CmpBorder" })
+        }
+      })
 
       lsp.on_attach(function(client, bufnr)
         local opts = { buffer = bufnr, remap = false }
 
         vim.keymap.set('n', '[d', function() vim.diagnostic.goto_next() end, opts)
         vim.keymap.set('n', ']d', function() vim.diagnostic.goto_prev() end, opts)
+        vim.keymap.set('n', 'gh', function() vim.lsp.buf.hover() end, opts)
         vim.keymap.set('n', '<F3>', function() vim.lsp.buf.format() end, opts)
 
         if client.supports_method('textDocument/formatting') then
@@ -203,39 +217,49 @@ return {
           async = true,
           timeout_ms = 10000
         },
-        -- servers = {
-        -- ['null_ls'] = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
-        -- }
-      })
-
-
-      require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
-
-      require('lspconfig').tailwindcss.setup({
-        settings = {
-          tailwindCSS = {
-            experimental = {
-              classRegex = {
-                {
-                  "tv\\(([^)]*)\\)",
-                  "[\"'`]([^\"'`]*).*?[\"'`]"
-                }
-              }
-            }
-          }
+        servers = {
+          ['null_ls'] = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' }
         }
       })
 
-      require('lspconfig').jsonls.setup {
-        settings = {
-          json = {
-            schemas = require('schemastore').json.schemas(),
-            validate = { enable = true },
-          },
-        },
-      }
 
-      lsp.setup()
+      require('mason-lspconfig').setup({
+        ensure_installed = {},
+        handlers = {
+          lsp.default_setup,
+          tsserver = lsp.noop,
+          lua_ls = function()
+            require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
+          end,
+          tailwindcss = function()
+            require('lspconfig').tailwindcss.setup({
+              settings = {
+                tailwindCSS = {
+                  experimental = {
+                    classRegex = {
+                      {
+                        "tv\\(([^)]*)\\)",
+                        "[\"'`]([^\"'`]*).*?[\"'`]"
+                      }
+                    }
+                  }
+                }
+              }
+            })
+          end,
+          jsonls = function()
+            require('lspconfig').jsonls.setup {
+              settings = {
+                json = {
+                  schemas = require('schemastore').json.schemas(),
+                  validate = { enable = true },
+                },
+              },
+            }
+          end
+        }
+      })
+
 
       require('typescript-tools').setup {}
 

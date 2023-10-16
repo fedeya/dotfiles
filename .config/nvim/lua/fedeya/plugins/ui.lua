@@ -87,26 +87,52 @@ return {
     opts = {
       animation = false,
     },
+    keys = {
+      {
+        '<Tab>',
+        '<Cmd>BufferNext<CR>',
+      },
+      {
+        '<S-Tab>',
+        '<Cmd>BufferPrevious<CR>',
+      },
+      {
+        '<Leader>bp',
+        '<Cmd>BufferPick<CR>',
+      },
+    },
     version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
   {
     'nvim-lualine/lualine.nvim',
     event = "VeryLazy",
-    config = function()
-      require('lualine').setup({
-        options = {
-          theme = 'catppuccin'
-        },
-        sections = {
-          lualine_a = { 'mode' },
-          lualine_b = { 'branch', 'diff', 'diagnostics' },
-          lualine_c = {},
-          lualine_x = { 'filetype' },
-          lualine_y = { 'progress' },
-          lualine_z = { 'location' },
-        },
-      })
-    end
+    init = function()
+      vim.g.lualine_laststatus = vim.o.laststatus
+      if vim.fn.argc(-1) > 0 then
+        -- set an empty statusline till lualine loads
+        vim.o.statusline = " "
+      else
+        -- hide the statusline on the starter page
+        vim.o.laststatus = 0
+      end
+    end,
+    opts = {
+      options = {
+        theme = 'catppuccin',
+        globalstatus = true,
+        disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
+
+      },
+      sections = {
+        lualine_a = { 'mode' },
+        lualine_b = { 'branch', 'diff', 'diagnostics' },
+        lualine_c = {},
+        lualine_x = { 'filetype' },
+        lualine_y = { 'progress' },
+        lualine_z = { 'location' },
+      },
+      extensions = { 'nvim-tree', 'lazy' }
+    }
   },
   {
     "folke/drop.nvim",
@@ -117,5 +143,31 @@ return {
         theme = "stars"
       })
     end
-  }
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    main = "ibl",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    opts = {
+      indent = {
+        char = "│",
+        tab_char = "│",
+      },
+      scope = { enabled = false },
+      exclude = {
+        filetypes = {
+          "help",
+          "alpha",
+          "dashboard",
+          "neo-tree",
+          "Trouble",
+          "lazy",
+          "mason",
+          "notify",
+          "toggleterm",
+          "lazyterm",
+        },
+      },
+    },
+  },
 }

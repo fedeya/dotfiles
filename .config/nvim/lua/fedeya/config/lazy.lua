@@ -13,23 +13,32 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup(
-  "fedeya.plugins",
-  {
-    checker = { enabled = true, notify = false },
-    change_detection = {
-      notify = false
+require("lazy").setup({
+  spec = {
+    { import = "fedeya.plugins" },
+  },
+  defaults = {
+    cond = function(plugin)
+      if vim.g.vscode then
+        return plugin.vscode or false
+      end
+
+      return true
+    end
+  },
+  checker = { enabled = true, notify = false },
+  change_detection = {
+    notify = false
+  },
+  install = {
+    colorscheme = { 'catppuccin' }
+  },
+  performance = {
+    cache = {
+      enabled = true
     },
-    install = {
-      colorscheme = { 'catppuccin' }
-    },
-    performance = {
-      cache = {
-        enabled = true
-      },
-      rtp = {
-        disabled_plugins = { "tohtml", "gzip", "matchit", "zipPlugin", "netrwPlugin", "tarPlugin" },
-      }
+    rtp = {
+      disabled_plugins = { "tohtml", "gzip", "matchit", "zipPlugin", "netrwPlugin", "tarPlugin" },
     }
   }
-)
+})

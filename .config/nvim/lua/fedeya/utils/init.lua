@@ -1,1 +1,1 @@
-require("fedeya.utils.nvimtree")
+
