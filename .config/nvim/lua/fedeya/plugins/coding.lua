@@ -8,7 +8,25 @@ return {
 		"kylechui/nvim-surround",
 		version = "*",
 		vscode = true,
-		event = "VeryLazy",
+		keys = {
+			{
+				"cs",
+				desc = "Change Surrounding",
+			},
+			{
+				"ds",
+				desc = "Delete Surrounding",
+			},
+			{
+				"ys",
+				desc = "Add Surrounding",
+			},
+			{
+				"S",
+				desc = "Add Surrounding",
+				mode = "v",
+			},
+		},
 		config = function()
 			require("nvim-surround").setup()
 		end,
@@ -61,5 +79,16 @@ return {
 				pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
 			})
 		end,
+	},
+	{
+		"Wansmer/treesj",
+		keys = {
+			{
+				"<Leader>j",
+				"<cmd>TSJToggle<cr>",
+				desc = "Join Toggle",
+			},
+		},
+		opts = { use_default_keymaps = false },
 	},
 }

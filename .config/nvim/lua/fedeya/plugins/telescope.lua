@@ -21,10 +21,6 @@ return {
 				end,
 				desc = "Search",
 			},
-			-- {
-			--   '<leader>fp',
-			--   '<cmd>Telescope projects<CR>'
-			-- }
 		},
 		dependencies = {
 			{
@@ -55,8 +51,6 @@ return {
 					},
 				},
 			})
-
-			-- require('telescope').load_extension('projects')
 		end,
 	},
 }

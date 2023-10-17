@@ -2,6 +2,7 @@ return {
 	-- buffer remove
 	{
 		"echasnovski/mini.bufremove",
+		opts = {},
 		keys = {
 			{
 				"<leader>qb",
@@ -16,7 +17,7 @@ return {
 	-- marks plugin
 	{
 		"chentoast/marks.nvim",
-		event = "VeryLazy",
+		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
 		config = function()
 			require("marks").setup({
 				default_mappings = true,
@@ -246,6 +247,24 @@ return {
 			layout = {
 				height = { min = 4, max = 75 },
 				width = { min = 20, max = 50 },
+			},
+		},
+	},
+
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {},
+		keys = {
+			{
+				"<leader>xx",
+				"<cmd>TroubleToggle document_diagnostics<cr>",
+				desc = "Document Diagnostics (Trouble)",
+			},
+			{
+				"<leader>xX",
+				"<cmd>TroubleToggle workspace_diagnostics<cr>",
+				desc = "Workspace Diagnostics (Trouble)",
 			},
 		},
 	},

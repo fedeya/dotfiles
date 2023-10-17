@@ -16,7 +16,7 @@ return {
 				integrations = {
 					cmp = true,
 					lsp_saga = true,
-					nvimtree = true,
+					-- nvimtree = true,
 					neotree = true,
 					treesitter = true,
 					ufo = true,
@@ -30,7 +30,7 @@ return {
 						enabled = true,
 					},
 					gitsigns = true,
-					hop = true,
+					-- hop = true,
 					native_lsp = {
 						enabled = true,
 						underlines = {
@@ -58,14 +58,21 @@ return {
 						mantle = "#14141f",
 					},
 				},
+				highlight_overrides = {
+					mocha = function(mocha)
+						return {
+							NormalFloat = { bg = mocha.base },
+							Pmenu = { bg = mocha.base },
+							PmenuSel = { bg = "#ABE9B3", fg = "#1e1d2d" },
+							CmpBorder = { fg = "#474656" },
+							CmpSel = { bg = "#ABE9B3", fg = "#1e1d2d" },
+							CmpPmenu = { bg = "#1E1D2D" },
+							CmpDoc = { bg = "#191828" },
+							CmpDocBorder = { bg = "#191828", fg = "#191828" },
+						}
+					end,
+				},
 			})
-
-			vim.api.nvim_set_hl(0, "CmpDocBorder", { bg = "#191828", fg = "#191828" })
-			vim.api.nvim_set_hl(0, "CmpDoc", { bg = "#191828" })
-			vim.api.nvim_set_hl(0, "CmpPmenu", { bg = "#1E1D2D" })
-			vim.api.nvim_set_hl(0, "CmpSel", { bg = "#ABE9B3", fg = "#1e1d2d" })
-			vim.api.nvim_set_hl(0, "PmenuSel", { bg = "#ABE9B3", fg = "#1e1d2d" })
-			vim.api.nvim_set_hl(0, "CmpBorder", { fg = "#474656" })
 
 			vim.cmd.colorscheme("catppuccin")
 		end,

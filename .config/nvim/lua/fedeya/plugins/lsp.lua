@@ -11,12 +11,11 @@ return {
 	{
 		"glepnir/lspsaga.nvim",
 		branch = "main",
-		-- commit = "fc08019f2aea7a57488ed2414b835c8fc604412a",
 		keys = {
 			-- {
-			--   'gh',
-			--   '<cmd>Lspsaga hover_doc<CR>',
-			--   desc = 'Hover Doc',
+			-- 	"gh",
+			-- 	"<cmd>Lspsaga hover_doc<CR>",
+			-- 	desc = "Hover Doc",
 			-- },
 			{
 				"gd",
@@ -101,12 +100,12 @@ return {
 		init = function()
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 		end,
-		opts = function()
+		config = function()
 			local slow_format_filetypes = {}
 
 			local js_formatters = { "eslint_d", { "prettierd", "prettier" } }
 
-			return {
+			require("conform").setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
 					javascript = js_formatters,
@@ -138,7 +137,28 @@ return {
 				format = {
 					timeout_ms = 1000,
 				},
-			}
+
+				formatters = {
+					eslint_d = {
+						require_cwd = true,
+						cwd = require("conform.util").root_file({
+							".eslintrc.js",
+							".eslintrc.json",
+							".eslintrc.yaml",
+							".eslintrc.yml",
+							".eslintrc",
+						}),
+					},
+					prettier = {
+						inherit = true,
+						prepend_args = { "--single-quote", "--config-precedence=prefer-file" },
+					},
+					prettierd = {
+						inherit = true,
+						prepend_args = { "--single-quote", "--config-precedence=prefer-file" },
+					},
+				},
+			})
 		end,
 	},
 	{
@@ -146,7 +166,6 @@ return {
 		event = "InsertEnter",
 		dependencies = {
 			{ "L3MON4D3/LuaSnip" },
-			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "onsails/lspkind.nvim" },
 			{ "hrsh7th/cmp-path" },
 			{ "hrsh7th/cmp-buffer" },
@@ -223,6 +242,10 @@ return {
 		end,
 	},
 	{
+		"b0o/schemastore.nvim",
+		lazy = true,
+	},
+	{
 		"pmizio/typescript-tools.nvim",
 		lazy = true,
 		dependencies = {
@@ -231,13 +254,10 @@ return {
 	},
 	{
 		"neovim/nvim-lspconfig",
-		cmd = "LspInfo",
+		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
 			{ "hrsh7th/cmp-nvim-lsp" },
-			{ "jose-elias-alvarez/null-ls.nvim" },
-			{ "b0o/schemastore.nvim" },
-			-- { "lukas-reineke/lsp-format.nvim" },
 			{ "williamboman/mason-lspconfig.nvim" },
 		},
 		config = function()
@@ -260,12 +280,15 @@ return {
 				vim.keymap.set("n", "[d", function()
 					vim.diagnostic.goto_next()
 				end, opts)
+
 				vim.keymap.set("n", "]d", function()
 					vim.diagnostic.goto_prev()
 				end, opts)
+
 				vim.keymap.set("n", "gh", function()
 					vim.lsp.buf.hover()
 				end, opts)
+
 				vim.keymap.set("n", "<F3>", function()
 					vim.lsp.buf.format()
 				end, opts)
@@ -274,10 +297,10 @@ return {
 			end)
 
 			require("mason-lspconfig").setup({
-				ensure_installed = {},
+				ensure_installed = { "lua_ls", "jsonls", "tailwindcss", "eslint" },
 				handlers = {
 					lsp.default_setup,
-					tsserver = lsp.noop,
+					tsserver = lsp.noop, -- disabled for typescript-tools
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 					end,

@@ -166,18 +166,8 @@ return {
 				lualine_y = { "progress" },
 				lualine_z = { "location" },
 			},
-			extensions = { "nvim-tree", "lazy", "trouble", "neo-tree" },
+			extensions = { "lazy", "trouble", "neo-tree" },
 		},
-	},
-	{
-		"folke/drop.nvim",
-		event = "VeryLazy",
-		enabled = false,
-		config = function()
-			require("drop").setup({
-				theme = "stars",
-			})
-		end,
 	},
 	{
 		"lukas-reineke/indent-blankline.nvim",

@@ -8,27 +8,54 @@ return {
 		opts = {
 			options = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" },
 			pre_save = function()
-				vim.api.nvim_exec_autocmds("User", { pattern = "SessionSavePre" })
+				vim.api.nvim_exec_autocmds("User", { pattern = "SessionSavePre" }) -- Required by barbar
 			end,
 		},
-    -- stylua: ignore
-    keys = {
-      {
-        "<leader>qs",
-        function() require("persistence").load() end,
-        desc = "Restore Session",
-      },
-      {
-        "<leader>ql",
-        function() require("persistence").load({ last = true }) end,
-        desc = "Restore Last Session",
-      },
-      {
-        "<leader>qd",
-        function() require("persistence").stop() end,
-        desc = "Don't Save Current Session",
-      },
-    },
+		keys = {
+			{
+				"<leader>qs",
+				function()
+					require("persistence").load()
+				end,
+				desc = "Restore Session",
+			},
+			{
+				"<leader>ql",
+				function()
+					require("persistence").load({ last = true })
+				end,
+				desc = "Restore Last Session",
+			},
+			{
+				"<leader>qd",
+				function()
+					require("persistence").stop()
+				end,
+				desc = "Don't Save Current Session",
+			},
+		},
+	},
+
+	-- discord rich presence
+	{
+		"andweeb/presence.nvim",
+		event = "VeryLazy",
+		enabled = false,
+		config = function()
+			require("presence").setup({
+				main_image = "file",
+			})
+		end,
+	},
+
+	{
+		"tpope/vim-repeat",
+		event = "VeryLazy",
+	},
+
+	{
+		"nvim-tree/nvim-web-devicons",
+		lazy = true,
 	},
 
 	{

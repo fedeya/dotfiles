@@ -1,6 +1,7 @@
 return {
 	{
 		"mbbill/undotree",
+		cmd = "UndotreeToggle",
 		keys = {
 			{
 				"<leader>u",
@@ -10,27 +11,14 @@ return {
 		},
 	},
 	{
-		"folke/trouble.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		opts = {},
-		keys = {
-			{
-				"<leader>xx",
-				"<cmd>TroubleToggle document_diagnostics<cr>",
-				desc = "Document Diagnostics (Trouble)",
-			},
-			{
-				"<leader>xX",
-				"<cmd>TroubleToggle workspace_diagnostics<cr>",
-				desc = "Workspace Diagnostics (Trouble)",
-			},
-		},
-	},
-	{
 		"iamcco/markdown-preview.nvim",
-		-- cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
+		cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
+		ft = { "markdown" },
 		build = function()
 			vim.fn["mkdp#util#install"]()
+		end,
+		init = function()
+			vim.g.mkdp_auto_close = 0
 		end,
 	},
 	{
@@ -49,31 +37,25 @@ return {
 		end,
 	},
 	{
-		"ahmedkhalf/project.nvim",
-		enabled = false,
-		event = "VeryLazy",
-		config = function()
-			require("project_nvim").setup({})
-		end,
-	},
-	{
-		"Wansmer/treesj",
+		"christoomey/vim-tmux-navigator",
 		keys = {
 			{
-				"<Leader>j",
-				"<cmd>TSJToggle<cr>",
-				desc = "Join Toggle",
+				"<C-h>",
+				desc = "Navigate to left tmux pane",
+			},
+			{
+				"<C-j>",
+				desc = "Navigate to down tmux pane",
+			},
+			{
+				"<C-k>",
+				desc = "Navigate to up tmux pane",
+			},
+			{
+				"<C-l>",
+				desc = "Navigate to right tmux pane",
 			},
 		},
-		opts = { use_default_keymaps = false },
-	},
-	{
-		"christoomey/vim-tmux-navigator",
-		event = "VeryLazy",
-	},
-	{
-		"tpope/vim-repeat",
-		event = "VeryLazy",
 	},
 	{
 		"NvChad/nvim-colorizer.lua",
@@ -83,18 +65,5 @@ return {
 				tailwind = true,
 			},
 		},
-	},
-	{
-		"andweeb/presence.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("presence").setup({
-				main_image = "file",
-			})
-		end,
-	},
-	{
-		"nvim-tree/nvim-web-devicons",
-		lazy = true,
 	},
 }
