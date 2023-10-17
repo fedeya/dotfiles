@@ -12,12 +12,14 @@ return {
 						file_ignore_patterns = { "node_modules", ".git/", ".cache", "dist", "build" },
 					})
 				end,
+				desc = "Find files",
 			},
 			{
 				"<leader>s",
 				function()
 					require("telescope.builtin").live_grep()
 				end,
+				desc = "Search",
 			},
 			-- {
 			--   '<leader>fp',

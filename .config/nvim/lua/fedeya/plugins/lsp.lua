@@ -10,8 +10,8 @@ return {
 	},
 	{
 		"glepnir/lspsaga.nvim",
-		-- branch = "main",
-		commit = "fc08019f2aea7a57488ed2414b835c8fc604412a",
+		branch = "main",
+		-- commit = "fc08019f2aea7a57488ed2414b835c8fc604412a",
 		keys = {
 			-- {
 			--   'gh',

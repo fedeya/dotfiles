@@ -5,6 +5,7 @@ return {
 		{
 			"<leader>t",
 			"<cmd>ToggleTerm<cr>",
+			desc = "Toggle terminal",
 		},
 	},
 	opts = {

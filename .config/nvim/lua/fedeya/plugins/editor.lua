@@ -146,6 +146,7 @@ return {
 						require("neo-tree.command").execute({ action = "focus", source = "last" })
 					end
 				end,
+				desc = "Explorer NeoTree",
 			},
 			{
 				"<leader>E",
