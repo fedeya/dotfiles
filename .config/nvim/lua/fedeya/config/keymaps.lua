@@ -1,3 +1,5 @@
+vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+
 vim.keymap.set("n", "<Enter>", "o<Esc>")
 
 vim.keymap.set("i", "jk", "<Esc>")
@@ -6,17 +8,23 @@ vim.keymap.set({ "n", "v" }, ";", ":")
 
 vim.keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 
--- map('n', '<Leader>j', 'J')
-vim.keymap.set("n", "<Leader>/", ":noh<CR>", { desc = "Clean search highlight" })
+-- vim.keymap.set("n", "<Leader>/", ":noh<CR>", { desc = "Clean search highlight" })
 
 -- Yank to clipboard
 vim.keymap.set({ "n", "v" }, "<Leader>y", '"+y', { desc = "Copy to clipboard" })
+
+-- Better Paste
+vim.keymap.set({ "v" }, "p", '"_dP', { desc = "Paste without yanking" })
 
 -- better indenting
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
 vim.keymap.set({ "n", "x" }, "gw", "*N", { desc = "Search word under cursor" })
+
+-- better scrolling
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- Move Lines
 vim.keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
@@ -34,6 +42,10 @@ vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = tr
 vim.keymap.set({ "n", "v" }, "J", "5j")
 vim.keymap.set({ "n", "v" }, "K", "5k")
 
+-- Terminal
+vim.keymap.set("t", "jk", [[<C-\><C-n>]], { desc = "Enter Normal Mode" })
+vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
+
 -- VSCode
 if vim.g.vscode then
 	-- Accept Inline Suggestion (ex. Copilot) VSCode
@@ -44,4 +56,10 @@ if vim.g.vscode then
 	vim.keymap.set("n", "gc", "<Plug>VSCodeCommentary", { silent = true })
 	vim.keymap.set("o", "gc", "<Plug>VSCodeCommentary", { silent = true })
 	vim.keymap.set("n", "gcc", "<Plug>VSCodeCommentaryLine", { silent = true })
+end
+
+-- Neovide
+if vim.g.neovide then
+	vim.keymap.set({ "n", "v", "x", "o", "i" }, "<D-j>", "<C-n>", { remap = true })
+	vim.keymap.set({ "n", "v", "x", "o", "i" }, "<D-k>", "<C-p>", { remap = true })
 end

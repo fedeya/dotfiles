@@ -38,3 +38,10 @@ vim.o.foldenable = true
 vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
+
+vim.o.guifont = "JetBrainsMono Nerd Font Mono"
+
+if vim.g.neovide then
+	vim.g.neovide_background_color = "#191927"
+	vim.g.neovide_cursor_animation_length = 0
+end

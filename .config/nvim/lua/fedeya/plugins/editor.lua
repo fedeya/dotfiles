@@ -240,6 +240,7 @@ return {
 			vim.o.timeoutlen = 300
 		end,
 		opts = {
+			plugins = { spelling = true },
 			window = {
 				border = require("fedeya.utils.ui").border("CmpBorder"),
 				margin = { 1, 0, 1, 0.6 },
@@ -248,7 +249,20 @@ return {
 				height = { min = 4, max = 75 },
 				width = { min = 20, max = 50 },
 			},
+			defaults = {
+				mode = { "n" },
+				["<leader>t"] = { name = "terminal" },
+				["<leader>b"] = { name = "buffer" },
+				["<leader>q"] = { name = "sessions" },
+				["<leader>x"] = { name = "diagnostic" },
+			},
 		},
+		config = function(_, opts)
+			local wk = require("which-key")
+
+			wk.setup(opts)
+			wk.register(opts.defaults)
+		end,
 	},
 
 	{

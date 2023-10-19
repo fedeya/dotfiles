@@ -19,6 +19,7 @@ return {
 					-- nvimtree = true,
 					neotree = true,
 					treesitter = true,
+					treesitter_context = true,
 					ufo = true,
 					leap = true,
 					indent_blankline = { enabled = true },
