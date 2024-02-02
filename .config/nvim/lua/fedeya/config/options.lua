@@ -6,7 +6,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
--- vim.opt.cmdheight = 0
+-- vim.opt.cmdheight = 1
 
 vim.opt.completeopt = "menu,menuone,noselect"
 

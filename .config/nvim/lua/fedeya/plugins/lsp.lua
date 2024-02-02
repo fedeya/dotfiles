@@ -11,6 +11,7 @@ return {
 	{
 		"glepnir/lspsaga.nvim",
 		branch = "main",
+		cmd = { "Lspsaga" },
 		keys = {
 			-- {
 			-- 	"gh",
@@ -103,7 +104,14 @@ return {
 		config = function()
 			local slow_format_filetypes = {}
 
-			local js_formatters = { "eslint_d", { "prettierd", "prettier" } }
+			local js_formatters = { { "prettierd", "prettier" } }
+
+			local eslint_filetypes = {
+				javascript = true,
+				javascriptreact = true,
+				typescript = true,
+				typescriptreact = true,
+			}
 
 			require("conform").setup({
 				formatters_by_ft = {
@@ -115,16 +123,21 @@ return {
 				},
 
 				format_on_save = function(bufnr)
+					if eslint_filetypes[vim.bo[bufnr].filetype] then
+						vim.cmd("silent! EslintFixAll")
+					end
+
 					if slow_format_filetypes[vim.bo[bufnr].filetype] then
 						return
 					end
+
 					local function on_format(err)
 						if err and err:match("timeout$") then
 							slow_format_filetypes[vim.bo[bufnr].filetype] = true
 						end
 					end
 
-					return { timeout_ms = 200, lsp_fallback = true }, on_format
+					return { timeout_ms = 200, lsp_fallback = true, async = true }, on_format
 				end,
 
 				format_after_save = function(bufnr)
@@ -159,6 +172,17 @@ return {
 					},
 				},
 			})
+
+			-- vim.api.nvim_create_autocmd("BufWritePre", {
+			-- 	pattern = "*",
+			-- 	callback = function(args)
+			-- 		if eslint_filetypes[vim.bo[args.buf].filetype] then
+			-- 			vim.cmd("silent! EslintFixAll")
+			-- 		end
+			--
+			-- 		require("conform").format({ bufnr = args.buf })
+			-- 	end,
+			-- })
 		end,
 	},
 	{
@@ -170,6 +194,7 @@ return {
 			{ "hrsh7th/cmp-path" },
 			{ "hrsh7th/cmp-buffer" },
 			{ "saadparwaiz1/cmp_luasnip" },
+			{ "rafamadriz/friendly-snippets" },
 		},
 		config = function()
 			local lsp_zero = require("lsp-zero")
@@ -297,7 +322,17 @@ return {
 			end)
 
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "jsonls", "tailwindcss", "eslint" },
+				ensure_installed = {
+					"lua_ls",
+					"jsonls",
+					"tailwindcss",
+					"eslint",
+					"rust_analyzer",
+					"yamlls",
+					"html",
+					"cssls",
+					"taplo", -- TOML LSP
+				},
 				handlers = {
 					lsp.default_setup,
 					tsserver = lsp.noop, -- disabled for typescript-tools
@@ -311,7 +346,7 @@ return {
 									experimental = {
 										classRegex = {
 											{
-												"tv\\(([^)]*)\\)",
+												"tv\\((([^()]*|\\([^()]*\\))*)\\)",
 												"[\"'`]([^\"'`]*).*?[\"'`]",
 											},
 										},
@@ -330,10 +365,44 @@ return {
 							},
 						})
 					end,
+					yamlls = function()
+						require("lspconfig").yamlls.setup({
+							settings = {
+								yaml = {
+									schemaStore = {
+										-- You must disable built-in schemaStore support if you want to use
+										-- this plugin and its advanced options like `ignore`.
+										enable = false,
+										-- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+										url = "",
+									},
+									schemas = require("schemastore").yaml.schemas(),
+								},
+							},
+						})
+					end,
+					eslint = function()
+						require("lspconfig").eslint.setup({
+							settings = {
+								autoFixOnSave = true,
+								codeActionOnSave = {
+									enable = true,
+									mode = "all",
+								},
+								useESLintClass = true,
+							},
+						})
+					end,
 				},
 			})
 
-			require("typescript-tools").setup({})
+			require("typescript-tools").setup({
+				settings = {
+					jsx_close_tag = {
+						enable = true,
+					},
+				},
+			})
 		end,
 	},
 }

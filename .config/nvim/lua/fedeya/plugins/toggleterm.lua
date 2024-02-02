@@ -5,7 +5,13 @@ return {
 	keys = {
 		{
 			"<leader>tt",
-			"<cmd>ToggleTerm<cr>",
+			function()
+				if vim.bo.filetype == "toggleterm" and vim.v.count == 0 then
+					vim.cmd("ToggleTermToggleAll")
+				else
+					vim.cmd("exe v:count1 . 'ToggleTerm'")
+				end
+			end,
 			desc = "Toggle terminal",
 		},
 		{

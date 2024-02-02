@@ -1,31 +1,5 @@
 return {
 	{
-		"windwp/nvim-ts-autotag",
-		ft = {
-			"html",
-			"javascript",
-			"typescript",
-			"javascriptreact",
-			"typescriptreact",
-			"svelte",
-			"vue",
-			"tsx",
-			"jsx",
-			"rescript",
-			"xml",
-			"php",
-			"markdown",
-			"astro",
-			"glimmer",
-			"handlebars",
-			"hbs",
-		},
-		opts = {
-			enable = true,
-			enable_close_on_slash = false,
-		},
-	},
-	{
 		"nvim-treesitter/nvim-treesitter-context",
 		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
 		opts = {
@@ -42,15 +16,26 @@ return {
 			{ "nvim-treesitter/nvim-treesitter-textobjects" },
 			{
 				"JoosepAlviste/nvim-ts-context-commentstring",
+				init = function()
+					vim.g.skip_ts_context_commentstring_module = true
+				end,
+				config = function()
+					require("ts_context_commentstring").setup({
+						enable_autocmd = false,
+					})
+				end,
+			},
+			{
+				"windwp/nvim-ts-autotag",
 			},
 		},
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				context_commentstring = {
-					enable = true,
-					enable_autocmd = false,
-				},
 				incremental_selection = { enable = true },
+				autotag = {
+					enable = true,
+					enable_close_on_slash = false,
+				},
 				textobjects = {
 					select = {
 						enable = true,

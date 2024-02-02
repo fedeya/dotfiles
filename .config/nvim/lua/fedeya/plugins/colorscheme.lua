@@ -11,17 +11,18 @@ return {
 					light = "latte",
 					dark = "mocha",
 				},
-				term_colors = true,
-				no_bold = true,
+				-- term_colors = true,
+				-- no_bold = false,
 				integrations = {
 					cmp = true,
 					lsp_saga = true,
 					-- nvimtree = true,
 					neotree = true,
+					flash = true,
 					treesitter = true,
 					treesitter_context = true,
 					ufo = true,
-					leap = true,
+					-- leap = true,
 					indent_blankline = { enabled = true },
 					mini = {
 						enabled = true,
@@ -53,11 +54,11 @@ return {
 					},
 				},
 				color_overrides = {
-					mocha = {
-						base = "#191927",
-						crust = "#12121c",
-						mantle = "#14141f",
-					},
+					-- mocha = {
+					-- 	base = "#191927",
+					-- 	crust = "#12121c",
+					-- 	mantle = "#14141f",
+					-- },
 				},
 				highlight_overrides = {
 					mocha = function(mocha)
@@ -70,6 +71,7 @@ return {
 							CmpPmenu = { bg = "#1E1D2D" },
 							CmpDoc = { bg = "#191828" },
 							CmpDocBorder = { bg = "#191828", fg = "#191828" },
+							FlashLabel = { bg = "#ABE9B3", fg = "#1e1d2d" },
 						}
 					end,
 				},

@@ -152,22 +152,30 @@ return {
 				vim.o.laststatus = 0
 			end
 		end,
-		opts = {
-			options = {
-				theme = "catppuccin",
-				globalstatus = true,
-				disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
-			},
-			sections = {
-				lualine_a = { "mode" },
-				lualine_b = { "branch", "diff", "diagnostics" },
-				lualine_c = {},
-				lualine_x = { "filetype" },
-				lualine_y = { "progress" },
-				lualine_z = { "location" },
-			},
-			extensions = { "lazy", "trouble", "neo-tree" },
-		},
+		opts = function()
+			return {
+				options = {
+					theme = "catppuccin",
+					globalstatus = true,
+					section_separators = { left = "", right = "" },
+					disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
+				},
+				sections = {
+					lualine_a = {
+						{
+							"mode",
+							icon = "",
+						},
+					},
+					lualine_b = { "branch", "diff", "diagnostics" },
+					lualine_c = {},
+					lualine_x = { "filetype" },
+					lualine_y = {},
+					lualine_z = { "location" },
+				},
+				extensions = { "lazy", "trouble", "neo-tree" },
+			}
+		end,
 	},
 	{
 		"lukas-reineke/indent-blankline.nvim",
