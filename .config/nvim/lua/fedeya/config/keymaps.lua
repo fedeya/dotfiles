@@ -48,9 +48,6 @@ vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 
 -- VSCode
 if vim.g.vscode then
-	-- Accept Inline Suggestion (ex. Copilot) VSCode
-	vim.keymap.set("n", "<Leader>a", "<Cmd>call VSCodeNotify('editor.action.inlineSuggest.commit')<CR>")
-
 	-- Commenting VSCode
 	vim.keymap.set("x", "gc", "<Plug>VSCodeCommentary", { silent = true })
 	vim.keymap.set("n", "gc", "<Plug>VSCodeCommentary", { silent = true })

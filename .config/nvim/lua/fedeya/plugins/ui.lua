@@ -13,10 +13,10 @@ return {
 					enabled = true,
 				},
 				signature = {
-					enabled = false,
+					enabled = true,
 				},
 				hover = {
-					enabled = false,
+					enabled = true,
 				},
 			},
 			views = {

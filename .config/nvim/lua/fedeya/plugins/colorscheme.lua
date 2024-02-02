@@ -65,11 +65,13 @@ return {
 						return {
 							NormalFloat = { bg = mocha.base },
 							Pmenu = { bg = mocha.base },
-							PmenuSel = { bg = "#ABE9B3", fg = "#1e1d2d" },
+							-- PmenuSel = { bg = "#ABE9B3", fg = "#1e1d2d" },
+							PmenuSel = { bg = mocha.lavender, fg = mocha.base },
 							CmpBorder = { fg = "#474656" },
-							CmpSel = { bg = "#ABE9B3", fg = "#1e1d2d" },
+							-- CmpSel = { bg = "#ABE9B3", fg = "#1e1d2d" },
+							CmpSel = { bg = mocha.lavender, fg = mocha.base },
 							CmpPmenu = { bg = "#1E1D2D" },
-							CmpDoc = { bg = "#191828" },
+							CmpDoc = { bg = mocha.base },
 							CmpDocBorder = { bg = "#191828", fg = "#191828" },
 							FlashLabel = { bg = "#ABE9B3", fg = "#1e1d2d" },
 						}
