@@ -1,5 +1,8 @@
 vim.g.mapleader = " "
 
+vim.opt.cursorline = true
+vim.opt.cursorlineopt = "number"
+
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
@@ -42,6 +45,6 @@ vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 vim.o.guifont = "JetBrainsMono Nerd Font Mono"
 
 if vim.g.neovide then
-	vim.g.neovide_background_color = "#191927"
+	vim.g.neovide_background_color = "#1E1E2E"
 	vim.g.neovide_cursor_animation_length = 0
 end

@@ -15,7 +15,105 @@ return {
 	},
 
 	{
+		"folke/twilight.nvim",
+		opts = {},
+		cmd = {
+			"Twilight",
+			"TwilightEnable",
+			"TwilightDisable",
+		},
+	},
+
+	{
+		"folke/zen-mode.nvim",
+		opts = {},
+		cmd = "ZenMode",
+	},
+
+	{
+		"ThePrimeagen/harpoon",
+		branch = "harpoon2",
+		enabled = false,
+		config = true,
+		keys = {
+			{
+				"<leader>ha",
+				function()
+					require("harpoon"):list():append()
+				end,
+				desc = "Mark file with Harpoon",
+			},
+			{
+				"<leader>he",
+				function()
+					-- local function toggle_telescope(harpoon_files)
+					-- 	local file_paths = {}
+					-- 	for _, item in ipairs(harpoon_files.items) do
+					-- 		table.insert(file_paths, item.value)
+					-- 	end
+					--
+					-- 	local opts = {
+					-- 		prompt_title = "Harpoon",
+					-- 		finder = require("telescope.finders").new_table({
+					-- 			results = file_paths,
+					-- 		}),
+					-- 		previewer = require("telescope.previewers").vim_buffer_cat.new({}),
+					-- 		sorter = require("telescope.sorters").get_fuzzy_file({}),
+					-- 	}
+					--
+					-- 	require("telescope.pickers").new({}, require("telescope.themes").get_dropdown(opts)):find()
+					-- end
+
+					require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
+				end,
+				desc = "Toggle Harpoon menu",
+			},
+			{
+				"<leader>h1",
+				function()
+					require("harpoon"):list():select(1)
+				end,
+				desc = "Harpoon mark 1",
+			},
+			{
+				"<leader>h2",
+				function()
+					require("harpoon"):list():select(2)
+				end,
+				desc = "Harpoon mark 2",
+			},
+			{
+				"<leader>h3",
+				function()
+					require("harpoon"):list():select(3)
+				end,
+				desc = "Harpoon mark 3",
+			},
+			{
+				"<leader>h4",
+				function()
+					require("harpoon"):list():select(4)
+				end,
+				desc = "Harpoon mark 4",
+			},
+			-- {
+			-- 	"<Tab>",
+			-- 	function()
+			-- 		require("harpoon"):list():next()
+			-- 	end,
+			-- },
+			-- {
+			-- 	"<S-Tab>",
+			-- 	function()
+			-- 		require("harpoon"):list():prev()
+			-- 	end,
+			-- },
+		},
+	},
+
+	{
 		"LunarVim/bigfile.nvim",
+		event = "BufReadPre",
 		config = function()
 			require("bigfile").setup({
 				filesize = 1,
@@ -205,6 +303,7 @@ return {
 			},
 			window = {
 				position = "right",
+				width = 50,
 				mappings = {
 					["<space>"] = "none",
 					["e"] = function()
@@ -264,6 +363,7 @@ return {
 				["<leader>b"] = { name = "buffer" },
 				["<leader>q"] = { name = "sessions" },
 				["<leader>x"] = { name = "diagnostic" },
+				["<leader>T"] = { name = "tests" },
 			},
 		},
 		config = function(_, opts)
@@ -290,5 +390,26 @@ return {
 				desc = "Workspace Diagnostics (Trouble)",
 			},
 		},
+	},
+
+	{
+		"petertriho/nvim-scrollbar",
+		opts = function()
+			local mocha = require("catppuccin.palettes").get_palette("mocha")
+
+			return {
+				hide_if_all_visible = true,
+				handlers = {
+					gitsigns = true,
+					cursor = false,
+					diagnostic = true,
+					handle = true,
+				},
+				handle = {
+					blend = 50,
+					color = mocha.lavender,
+				},
+			}
+		end,
 	},
 }

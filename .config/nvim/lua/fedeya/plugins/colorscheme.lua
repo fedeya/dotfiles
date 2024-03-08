@@ -18,7 +18,10 @@ return {
 					lsp_saga = true,
 					-- nvimtree = true,
 					neotree = true,
+					neogit = true,
 					flash = true,
+					neotest = true,
+					harpoon = true,
 					treesitter = true,
 					treesitter_context = true,
 					ufo = true,
@@ -74,6 +77,7 @@ return {
 							CmpDoc = { bg = mocha.base },
 							CmpDocBorder = { bg = "#191828", fg = "#191828" },
 							FlashLabel = { bg = "#ABE9B3", fg = "#1e1d2d" },
+							MsgArea = { bg = mocha.mantle },
 						}
 					end,
 				},

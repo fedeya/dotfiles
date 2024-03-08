@@ -13,10 +13,10 @@ return {
 					enabled = true,
 				},
 				signature = {
-					enabled = true,
+					enabled = false,
 				},
 				hover = {
-					enabled = true,
+					enabled = false,
 				},
 			},
 			views = {
@@ -93,6 +93,7 @@ return {
 					"notify",
 					"toggleterm",
 					"lazyterm",
+					"neotest-summary",
 				},
 				callback = function()
 					vim.b.miniindentscope_disable = true
@@ -100,15 +101,116 @@ return {
 			})
 		end,
 	},
+
 	{
 		"goolord/alpha-nvim",
 		cmd = "Alpha",
+		enabled = false,
 		init = function()
 			if vim.fn.argc() == 0 then
 				require("alpha").setup(require("alpha.themes.startify").config)
 			end
 		end,
 	},
+
+	{
+		"nvimdev/dashboard-nvim",
+		event = "VimEnter",
+
+		opts = function()
+			local logo = [[
+ ██████╗  █████╗ ███████╗██╗  ██╗██████╗  ██████╗  █████╗ ██████╗ ██████╗ 
+ ██╔══██╗██╔══██╗██╔════╝██║  ██║██╔══██╗██╔═══██╗██╔══██╗██╔══██╗██╔══██╗
+ ██║  ██║███████║███████╗███████║██████╔╝██║   ██║███████║██████╔╝██║  ██║
+ ██║  ██║██╔══██║╚════██║██╔══██║██╔══██╗██║   ██║██╔══██║██╔══██╗██║  ██║
+ ██████╔╝██║  ██║███████║██║  ██║██████╔╝╚██████╔╝██║  ██║██║  ██║██████╔╝
+ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝
+      ]]
+
+			logo = string.rep("\n", 8) .. logo .. "\n\n"
+
+			local opts = {
+				theme = "doom",
+				hide = {
+					statusline = false,
+					tabline = false,
+				},
+				config = {
+					header = vim.split(logo, "\n"),
+					center = {
+						{
+							action = "Telescope find_files",
+							desc = " Find file",
+							icon = " ",
+							key = "f",
+						},
+						{
+							action = "ene | startinsert",
+							desc = " New file",
+							icon = " ",
+							key = "n",
+						},
+						{
+							action = "Telescope oldfiles",
+							desc = " Recent files",
+							icon = " ",
+							key = "r",
+						},
+						{
+							action = "Telescope live_grep",
+							desc = " Find text",
+							icon = " ",
+							key = "g",
+						},
+						{
+							action = 'lua require("persistence").load()',
+							desc = " Restore Session",
+							icon = " ",
+							key = "s",
+						},
+						{
+							action = "Lazy",
+							desc = " Lazy",
+							icon = "󰒲 ",
+							key = "l",
+						},
+						{
+							action = "qa",
+							desc = " Quit",
+							icon = " ",
+							key = "q",
+						},
+					},
+					footer = function()
+						local stats = require("lazy").stats()
+						local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+						return {
+							"",
+							"⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms",
+						}
+					end,
+				},
+			}
+
+			for _, button in ipairs(opts.config.center) do
+				button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
+				button.key_format = "  %s"
+			end
+
+			if vim.o.filetype == "lazy" then
+				vim.cmd.close()
+				vim.api.nvim_create_autocmd("User", {
+					pattern = "DashboardLoaded",
+					callback = function()
+						require("lazy").show()
+					end,
+				})
+			end
+
+			return opts
+		end,
+	},
+
 	{
 		"rcarriga/nvim-notify",
 		event = "VeryLazy",
@@ -153,26 +255,105 @@ return {
 			end
 		end,
 		opts = function()
+			-- local catppuccin_theme = require("lualine.themes.catppuccin")
+			--
+			-- catppuccin_theme.normal.c.bg = nil
+
 			return {
 				options = {
 					theme = "catppuccin",
+					icons_enabled = true,
 					globalstatus = true,
-					section_separators = { left = "", right = "" },
-					disabled_filetypes = { statusline = { "dashboard", "alpha", "starter" } },
+					-- section_separators = { left = "", right = "" },
+
+					component_separators = { left = "", right = "" },
+					section_separators = { left = "", right = "" },
+					disabled_filetypes = {
+						statusline = { "dashboard", "alpha", "starter" },
+						winbar = {},
+					},
+					always_divide_middle = true,
+					refresh = {
+						statusline = 1000,
+						tabline = 1000,
+						winbar = 1000,
+					},
 				},
 				sections = {
 					lualine_a = {
 						{
 							"mode",
 							icon = "",
+							separator = { left = "", right = "" },
+							color = {
+								fg = "#1c1d21",
+								bg = "#b4befe",
+							},
 						},
 					},
-					lualine_b = { "branch", "diff", "diagnostics" },
-					lualine_c = {},
-					lualine_x = { "filetype" },
-					lualine_y = {},
-					lualine_z = { "location" },
+					lualine_b = {
+						{
+							"branch",
+							icon = "",
+							separator = { left = "", right = "" },
+							color = {
+								fg = "#1c1d21",
+								bg = "#7d83ac",
+							},
+						},
+						{
+							"diff",
+							separator = { left = "", right = "" },
+							color = {
+								fg = "#1c1d21",
+								bg = "#7d83ac",
+							},
+						},
+					},
+					lualine_c = {
+						{
+							"diagnostics",
+							separator = { left = "", right = "" },
+							color = {
+								bg = "#45475a",
+							},
+						},
+						"filename",
+					},
+					lualine_x = { "filesize" },
+					lualine_y = {
+						{
+
+							"filetype",
+							-- icons_enabled = false,
+							-- color = {
+							-- 	fg = "#1C1D21",
+							-- 	bg = "#eba0ac",
+							-- },
+						},
+					},
+					lualine_z = {
+						{
+							"location",
+							icon = "",
+							-- color = {
+							-- 	fg = "#1c1d21",
+							-- 	bg = "#f2cdcd",
+							-- },
+						},
+					},
 				},
+				inactive_sections = {
+					lualine_a = {},
+					lualine_b = {},
+					lualine_c = { "filename" },
+					lualine_x = { "location" },
+					lualine_y = {},
+					lualine_z = {},
+				},
+				tabline = {},
+				winbar = {},
+				inactive_winbar = {},
 				extensions = { "lazy", "trouble", "neo-tree" },
 			}
 		end,
@@ -199,6 +380,7 @@ return {
 					"notify",
 					"toggleterm",
 					"lazyterm",
+					"neotest-summary",
 				},
 			},
 		},

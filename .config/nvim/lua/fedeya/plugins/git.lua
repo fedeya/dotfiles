@@ -29,6 +29,11 @@ return {
 				map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
 			end,
 		},
+		config = function(_, opts)
+			require("gitsigns").setup(opts)
+
+			require("scrollbar.handlers.gitsigns").setup()
+		end,
 	},
 	{
 		"tpope/vim-fugitive",
@@ -38,5 +43,26 @@ return {
 	{
 		"sindrets/diffview.nvim",
 		cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles", "DiffviewRefresh" },
+	},
+
+	{
+		"NeogitOrg/neogit",
+		cmd = "Neogit",
+		keys = {
+			{
+				"<leader>gn",
+				"<Cmd>Neogit<CR>",
+				desc = "Neogit",
+			},
+		},
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- required
+			"sindrets/diffview.nvim", -- optional - Diff integration
+
+			-- Only one of these is needed, not both.
+			"nvim-telescope/telescope.nvim", -- optional
+			"ibhagwan/fzf-lua", -- optional
+		},
+		config = true,
 	},
 }

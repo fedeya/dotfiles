@@ -40,12 +40,17 @@ return {
 	{
 		"andweeb/presence.nvim",
 		event = "VeryLazy",
-		enabled = false,
+		enabled = true,
 		config = function()
 			require("presence").setup({
 				main_image = "file",
 			})
 		end,
+	},
+
+	{
+		"antoinemadec/FixCursorHold.nvim",
+		lazy = true,
 	},
 
 	{

@@ -30,6 +30,9 @@ dev() {
 }
 
 alias cat="bat --theme 'Catppuccin-mocha'"
+alias icat="kitten icat"
+alias ls="eza --icons"
+alias cd="z"
 
 # bun completions
  # [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
@@ -45,7 +48,7 @@ export PATH="$PNPM_HOME:$PATH"
 # java
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
 
-# androi
+# android
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
@@ -57,3 +60,9 @@ alias cfg='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 # CodeWhisperer post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh"
+
+export PATH=$PATH:/Users/aerolab/.spicetify
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+eval "$(zoxide init zsh)"
