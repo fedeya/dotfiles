@@ -19,7 +19,7 @@ source $ZSH/oh-my-zsh.sh
 
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 
-export PATH="$(asdf where nodejs)/.npm/bin:$PATH"
+# export PATH="$(asdf where nodejs)/.npm/bin:$PATH"
 
 pro() {
   cd $HOME/Fede/pro/$1
