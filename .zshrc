@@ -33,9 +33,12 @@ alias cat="bat --theme 'Catppuccin-mocha'"
 alias icat="kitten icat"
 alias ls="eza --icons"
 alias cd="z"
+alias tf="terraform"
 
 # bun completions
  # [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+# export DYLD_LIBRARY_PATH="$(brew --prefix)/lib:$DYLD_LIBRARY_PATH"
+export DYLD_LIBRARY_PATH=/opt/homebrew/lib/
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -45,8 +48,11 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 
+# ruby
+export RUBYOPT="-W0 -W:no-deprecated -W:no-performance -W:no-experimental"
+
 # java
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
+# export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
 
 # android
 export ANDROID_HOME=$HOME/Library/Android/sdk
