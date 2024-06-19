@@ -13,11 +13,11 @@ return {
 		branch = "main",
 		cmd = { "Lspsaga" },
 		keys = {
-			-- {
-			-- 	"gh",
-			-- 	"<cmd>Lspsaga hover_doc<CR>",
-			-- 	desc = "Hover Doc",
-			-- },
+			{
+				"gh",
+				"<cmd>Lspsaga hover_doc<CR>",
+				desc = "Hover Doc",
+			},
 			{
 				"gd",
 				"<cmd>Lspsaga goto_definition<CR>",
@@ -97,6 +97,14 @@ return {
 				mode = { "n", "v" },
 				desc = "Format buffer",
 			},
+			{
+				"<leader>cF",
+				function()
+					require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
+				end,
+				mode = { "n", "v" },
+				desc = "Format Injected Langs",
+			},
 		},
 		init = function()
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
@@ -104,7 +112,13 @@ return {
 		config = function()
 			local slow_format_filetypes = {}
 
-			local js_formatters = { { "prettierd", "prettier" } }
+			local js_formatters = function(buffr)
+				if require("conform").get_formatter_info("biome-check", buffr).available then
+					return { "biome-check" }
+				end
+
+				return { { "prettierd", "prettier" } }
+			end
 
 			local eslint_filetypes = {
 				javascript = true,
@@ -137,7 +151,7 @@ return {
 						end
 					end
 
-					return { timeout_ms = 200, lsp_fallback = true, async = true }, on_format
+					return { timeout_ms = 200, lsp_fallback = true }, on_format
 				end,
 
 				format_after_save = function(bufnr)
@@ -162,6 +176,9 @@ return {
 							".eslintrc",
 						}),
 					},
+					["biome-check"] = {
+						require_cwd = true,
+					},
 					prettier = {
 						inherit = true,
 						prepend_args = { "--single-quote", "--config-precedence=prefer-file" },
@@ -170,6 +187,7 @@ return {
 						inherit = true,
 						prepend_args = { "--single-quote", "--config-precedence=prefer-file" },
 					},
+					injected = { options = { ignore_errors = true } },
 				},
 			})
 
@@ -199,16 +217,16 @@ return {
 		config = function()
 			local lsp_zero = require("lsp-zero")
 
+			local lspkind = require("lspkind")
+
 			lsp_zero.extend_cmp()
 
 			local cmp = require("cmp")
 			local cmp_action = lsp_zero.cmp_action()
 
-			local lspkind = require("lspkind")
+			local border = require("fedeya.utils.ui").border
 
 			require("luasnip.loaders.from_vscode").lazy_load()
-
-			local border = require("fedeya.utils.ui").border
 
 			cmp.setup({
 				completion = {
@@ -239,6 +257,11 @@ return {
 						new_item.kind = item.kind .. " "
 
 						return new_item
+					end,
+				},
+				snippet = {
+					expand = function(args)
+						require("luasnip").lsp_expand(args.body)
 					end,
 				},
 				sources = {
@@ -273,6 +296,7 @@ return {
 	{
 		"pmizio/typescript-tools.nvim",
 		lazy = true,
+		enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
@@ -310,9 +334,17 @@ return {
 					vim.diagnostic.goto_prev()
 				end, opts)
 
-				vim.keymap.set("n", "gh", function()
-					vim.lsp.buf.hover()
-				end, opts)
+				-- vim.keymap.set("n", "gh", function()
+				--   vim.lsp.buf.hover()
+				-- end, opts)
+
+				vim.keymap.set("n", "<leader>h", function()
+					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+				end, {
+					desc = "Toggle inlay hints",
+					buffer = bufnr,
+					remap = false,
+				})
 
 				vim.keymap.set("n", "<F3>", function()
 					vim.lsp.buf.format()
@@ -331,11 +363,53 @@ return {
 					"yamlls",
 					"html",
 					"cssls",
+					"vtsls",
 					"taplo", -- TOML LSP
 				},
 				handlers = {
-					lsp.default_setup,
+					function(server_name)
+						require("lspconfig")[server_name].setup({})
+					end,
+
 					tsserver = lsp.noop, -- disabled for typescript-tools
+					vtsls = function()
+						require("lspconfig").vtsls.setup({
+							-- filetypes = {
+							-- 	"javascript",
+							-- 	"javascriptreact",
+							-- 	"javascript.jsx",
+							-- 	"typescript",
+							-- 	"typescriptreact",
+							-- 	"typescript.tsx",
+							-- },
+							settings = {
+								complete_function_calls = true,
+								vtsls = {
+									enableMoveToFileCodeAction = true,
+									autoUseWorkspaceTsdk = true,
+									experimental = {
+										completion = {
+											enableServerSideFuzzyMatch = true,
+										},
+									},
+								},
+								typescript = {
+									updateImportsOnFileMove = { enabled = "always" },
+									suggest = {
+										completeFunctionCalls = true,
+									},
+									inlayHints = {
+										enumMemberValues = { enabled = true },
+										functionLikeReturnTypes = { enabled = true },
+										parameterNames = { enabled = "literals" },
+										parameterTypes = { enabled = true },
+										propertyDeclarationTypes = { enabled = true },
+										variableTypes = { enabled = false },
+									},
+								},
+							},
+						})
+					end,
 					lua_ls = function()
 						require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
 					end,
@@ -347,6 +421,10 @@ return {
 										classRegex = {
 											{
 												"tv\\((([^()]*|\\([^()]*\\))*)\\)",
+												"[\"'`]([^\"'`]*).*?[\"'`]",
+											},
+											{
+												"tailwind|tw\\(([^)]*)\\)",
 												"[\"'`]([^\"'`]*).*?[\"'`]",
 											},
 										},
@@ -396,13 +474,22 @@ return {
 				},
 			})
 
-			require("typescript-tools").setup({
-				settings = {
-					jsx_close_tag = {
-						enable = true,
-					},
-				},
-			})
+			-- require("typescript-tools").setup({
+			--   settings = {
+			--     jsx_close_tag = {
+			--       enable = true,
+			--     },
+			--
+			--     tsserver_file_preferences = {
+			--       includeInlayParameterNameHints = "all",
+			--       includeInlayEnumMemberValueHints = true,
+			--       includeInlayFunctionLikeReturnTypeHints = true,
+			--       includeInlayFunctionParameterTypeHints = true,
+			--       includeInlayPropertyDeclarationTypeHints = true,
+			--       includeInlayVariableTypeHints = true
+			--     },
+			--   },
+			-- })
 		end,
 	},
 }

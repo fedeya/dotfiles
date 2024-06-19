@@ -1,6 +1,6 @@
 vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
-vim.keymap.set("n", "<Enter>", "o<Esc>")
+-- vim.keymap.set("n", "<Enter>", "o<Esc>")
 
 vim.keymap.set("i", "jk", "<Esc>")
 
@@ -48,15 +48,15 @@ vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 
 -- VSCode
 if vim.g.vscode then
-	-- Commenting VSCode
-	vim.keymap.set("x", "gc", "<Plug>VSCodeCommentary", { silent = true })
-	vim.keymap.set("n", "gc", "<Plug>VSCodeCommentary", { silent = true })
-	vim.keymap.set("o", "gc", "<Plug>VSCodeCommentary", { silent = true })
-	vim.keymap.set("n", "gcc", "<Plug>VSCodeCommentaryLine", { silent = true })
+  -- Commenting VSCode
+  vim.keymap.set("x", "gc", "<Plug>VSCodeCommentary", { silent = true })
+  vim.keymap.set("n", "gc", "<Plug>VSCodeCommentary", { silent = true })
+  vim.keymap.set("o", "gc", "<Plug>VSCodeCommentary", { silent = true })
+  vim.keymap.set("n", "gcc", "<Plug>VSCodeCommentaryLine", { silent = true })
 end
 
 -- Neovide
 if vim.g.neovide then
-	vim.keymap.set({ "n", "v", "x", "o", "i" }, "<D-j>", "<C-n>", { remap = true })
-	vim.keymap.set({ "n", "v", "x", "o", "i" }, "<D-k>", "<C-p>", { remap = true })
+  vim.keymap.set({ "n", "v", "x", "o", "i" }, "<D-j>", "<C-n>", { remap = true })
+  vim.keymap.set({ "n", "v", "x", "o", "i" }, "<D-k>", "<C-p>", { remap = true })
 end

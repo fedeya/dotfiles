@@ -44,6 +44,10 @@ return {
               warnings = { "undercurl" },
               information = { "undercurl" },
             },
+
+            inlay_hints = {
+              background = true
+            }
           },
           barbar = true,
           mason = true,

@@ -21,20 +21,42 @@ return {
 			vim.g.mkdp_auto_close = 0
 		end,
 	},
+	-- {
+	-- 	"samodostal/image.nvim",
+	-- 	enabled = false,
+	-- 	dependencies = {
+	-- 		"m00qek/baleia.nvim",
+	-- 	},
+	-- 	event = "BufReadPre",
+	-- 	config = function()
+	-- 		require("image").setup({
+	-- 			render = {
+	-- 				foreground_color = true,
+	-- 				background_color = true,
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
+	-- {
+	-- 	"vhyrro/luarocks.nvim",
+	-- 	priority = 1001, -- this plugin needs to run before anything else
+	-- 	lazy = false,
+	-- 	opts = {
+	-- 		rocks = { "magick" },
+	-- 	},
+	-- },
 	{
-		"samodostal/image.nvim",
-		dependencies = {
-			"m00qek/baleia.nvim",
-		},
-		event = "BufReadPre",
-		config = function()
-			require("image").setup({
-				render = {
-					foreground_color = true,
-					background_color = true,
-				},
-			})
+		"3rd/image.nvim",
+		-- dependencies = {
+		-- 	"vhyrro/luarocks.nvim",
+		-- },
+		init = function()
+			package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
+			package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua"
 		end,
+		enabled = false,
+		event = "BufReadPre",
+		config = true,
 	},
 	{
 		"christoomey/vim-tmux-navigator",
