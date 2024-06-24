@@ -15,6 +15,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 plugins=(asdf zsh-vi-mode git fast-syntax-highlighting)
 
+zvm_after_init_commands+=('source $ZSH/plugins/fzf/fzf.plugin.zsh')
+
 source $ZSH/oh-my-zsh.sh
 
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
@@ -34,11 +36,12 @@ alias icat="kitten icat"
 alias ls="eza --icons"
 alias cd="z"
 alias tf="terraform"
+alias kali="docker exec kali"
 
 # bun completions
  # [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 # export DYLD_LIBRARY_PATH="$(brew --prefix)/lib:$DYLD_LIBRARY_PATH"
-export DYLD_LIBRARY_PATH=/opt/homebrew/lib/
+# export DYLD_LIBRARY_PATH=/opt/homebrew/lib/
 
 # bun
 export BUN_INSTALL="$HOME/.bun"

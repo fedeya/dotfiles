@@ -2,12 +2,14 @@ return {
 	-- buffer remove
 	{
 		"echasnovski/mini.bufremove",
-		opts = {},
+		opts = {
+			silent = true,
+		},
 		keys = {
 			{
 				"<leader>qb",
 				function()
-					require("mini.bufremove").delete(0, true)
+					require("mini.bufremove").delete(0, false)
 				end,
 				desc = "Delete Buffer",
 			},

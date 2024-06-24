@@ -14,6 +14,8 @@ brew install \
   asdf \
   zoxide \
   fzf \
+  fd \
+  the_silver_searcher
 
 echo "Installing Homebrew Casks"
 
