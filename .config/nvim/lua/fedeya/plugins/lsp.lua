@@ -35,9 +35,14 @@ return {
 				desc = "Rename",
 			},
 			{
-				"<leader>d",
+				"]d",
 				"<cmd>Lspsaga diagnostic_jump_next<CR>",
 				desc = "Diagnostic Jump Next",
+			},
+			{
+				"[d",
+				"<cmd>Lspsaga diagnostic_jump_prev<CR>",
+				desc = "Diagnostic Jump Prev",
 			},
 		},
 		config = function()
@@ -76,9 +81,10 @@ return {
 	{
 
 		"VonHeikemen/lsp-zero.nvim",
-		branch = "v3.x",
+		branch = "v4.x",
 		lazy = true,
 		config = false,
+		enabled = false,
 		init = function()
 			vim.g.lsp_zero_extend_cmp = 0
 			vim.g.lsp_zero_extend_lspconfig = 0
@@ -90,7 +96,7 @@ return {
 		cmd = { "ConformInfo" },
 		keys = {
 			{
-				"<leader>f",
+				"<F3>",
 				function()
 					require("conform").format({ async = true, lsp_fallback = true })
 				end,
@@ -98,7 +104,15 @@ return {
 				desc = "Format buffer",
 			},
 			{
-				"<leader>cF",
+				"<leader>ff",
+				function()
+					require("conform").format({ async = true, lsp_fallback = true })
+				end,
+				mode = { "n", "v" },
+				desc = "Format buffer",
+			},
+			{
+				"<leader>fi",
 				function()
 					require("conform").format({ formatters = { "injected" }, timeout_ms = 3000 })
 				end,
@@ -117,7 +131,7 @@ return {
 					return { "biome-check" }
 				end
 
-				return { { "prettierd", "prettier" } }
+				return { "prettierd", "prettier", stop_after_first = true }
 			end
 
 			local eslint_filetypes = {
@@ -161,7 +175,7 @@ return {
 					return { lsp_fallback = true }
 				end,
 
-				format = {
+				default_format_opts = {
 					timeout_ms = 1000,
 				},
 
@@ -215,14 +229,10 @@ return {
 			{ "rafamadriz/friendly-snippets" },
 		},
 		config = function()
-			local lsp_zero = require("lsp-zero")
-
 			local lspkind = require("lspkind")
 
-			lsp_zero.extend_cmp()
-
 			local cmp = require("cmp")
-			local cmp_action = lsp_zero.cmp_action()
+			local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
 			local border = require("fedeya.utils.ui").border
 
@@ -282,9 +292,12 @@ return {
 					-- Ctrl+Space to trigger completion menu
 					["<C-Space>"] = cmp.mapping.complete(),
 
+					["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+					["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
+
 					-- Navigate between snippet placeholder
-					["<C-f>"] = cmp_action.luasnip_jump_forward(),
-					["<C-b>"] = cmp_action.luasnip_jump_backward(),
+					-- ["<C-f>"] = cmp_action.luasnip_jump_forward(),
+					-- ["<C-b>"] = cmp_action.luasnip_jump_backward(),
 				},
 			})
 		end,
@@ -310,48 +323,47 @@ return {
 			{ "williamboman/mason-lspconfig.nvim" },
 		},
 		config = function()
-			local lsp = require("lsp-zero")
+			local lsp_defaults = require("lspconfig").util.default_config
 
-			lsp.extend_lspconfig()
+			lsp_defaults = vim.tbl_deep_extend(
+				"force",
+				lsp_defaults.capabilities,
+				-- cmp
+				require("cmp_nvim_lsp").default_capabilities()
+			)
 
-			lsp.set_server_config({
-				handlers = {
-					["textDocument/hover"] = vim.lsp.with(
-						vim.lsp.handlers.hover,
-						{ border = require("fedeya.utils.ui").border("CmpBorder") }
-					),
-				},
+			vim.api.nvim_create_autocmd("LspAttach", {
+				desc = "LSP Attach",
+				callback = function(event)
+					-- local opts = { buffer = event.bufnr }
+
+					vim.keymap.set("n", "<leader>hl", function()
+						---@diagnostic disable-next-line: missing-parameter
+						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+					end, {
+						desc = "Toggle inlay hints",
+						buffer = event.bufnr,
+						remap = false,
+					})
+				end,
 			})
 
-			lsp.on_attach(function(_, bufnr)
-				local opts = { buffer = bufnr, remap = false }
+			-- lsp.extend_lspconfig({
+			-- 	capabilities = require("cmp_nvim_lsp").default_capabilities(),
+			-- 	lsp_attach = lsp_attach,
+			-- })
 
-				vim.keymap.set("n", "[d", function()
-					vim.diagnostic.goto_next()
-				end, opts)
+			-- lsp.set_server_config({
+			-- 	handlers = {
+			-- 		["textDocument/hover"] = vim.lsp.with(
+			-- 			vim.lsp.handlers.hover,
+			-- 			{ border = require("fedeya.utils.ui").border("CmpBorder") }
+			-- 		),
+			-- 	},
+			-- })
+			--
 
-				vim.keymap.set("n", "]d", function()
-					vim.diagnostic.goto_prev()
-				end, opts)
-
-				-- vim.keymap.set("n", "gh", function()
-				--   vim.lsp.buf.hover()
-				-- end, opts)
-
-				vim.keymap.set("n", "<leader>h", function()
-					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-				end, {
-					desc = "Toggle inlay hints",
-					buffer = bufnr,
-					remap = false,
-				})
-
-				vim.keymap.set("n", "<F3>", function()
-					vim.lsp.buf.format()
-				end, opts)
-
-				-- client.server_capabilities.semanticTokensProvider = nil
-			end)
+			local noop = function() end
 
 			require("mason-lspconfig").setup({
 				ensure_installed = {
@@ -363,15 +375,14 @@ return {
 					"yamlls",
 					"html",
 					"cssls",
-					"vtsls",
+					"vtsls", -- Vscode typescript
 					"taplo", -- TOML LSP
 				},
 				handlers = {
 					function(server_name)
 						require("lspconfig")[server_name].setup({})
 					end,
-
-					tsserver = lsp.noop, -- disabled for typescript-tools
+					ts_ls = noop,
 					vtsls = function()
 						require("lspconfig").vtsls.setup({
 							-- filetypes = {
@@ -411,7 +422,23 @@ return {
 						})
 					end,
 					lua_ls = function()
-						require("lspconfig").lua_ls.setup(lsp.nvim_lua_ls())
+						require("lspconfig").lua_ls.setup({
+							settings = {
+								Lua = {
+									runtime = {
+										version = "LuaJIT",
+									},
+									diagnostics = {
+										globals = { "vim" },
+									},
+									workspace = {
+										library = {
+											vim.env.VIMRUNTIME,
+										},
+									},
+								},
+							},
+						})
 					end,
 					tailwindcss = function()
 						require("lspconfig").tailwindcss.setup({
@@ -474,22 +501,16 @@ return {
 				},
 			})
 
-			-- require("typescript-tools").setup({
-			--   settings = {
-			--     jsx_close_tag = {
-			--       enable = true,
-			--     },
-			--
-			--     tsserver_file_preferences = {
-			--       includeInlayParameterNameHints = "all",
-			--       includeInlayEnumMemberValueHints = true,
-			--       includeInlayFunctionLikeReturnTypeHints = true,
-			--       includeInlayFunctionParameterTypeHints = true,
-			--       includeInlayPropertyDeclarationTypeHints = true,
-			--       includeInlayVariableTypeHints = true
-			--     },
-			--   },
-			-- })
+			local mr = require("mason-registry")
+
+			mr:on("package:install:success", function()
+				vim.defer_fn(function()
+					require("lazy.core.handler.event").trigger({
+						event = "FileType",
+						buf = vim.api.nvim_get_current_buf(),
+					})
+				end, 100)
+			end)
 		end,
 	},
 }

@@ -31,7 +31,7 @@ require("lazy").setup({
 		notify = false,
 	},
 	install = {
-		colorscheme = { "catppuccin" },
+		colorscheme = { "rose-pine" },
 	},
 	performance = {
 		cache = {

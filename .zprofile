@@ -22,3 +22,6 @@ export PATH="$PATH:/Users/aerolab/Library/Application Support/JetBrains/Toolbox/
 
 # Added by OrbStack: command-line tools and integration
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+
+# Created by `pipx` on 2024-07-02 00:08:43
+export PATH="$PATH:/Users/fede/.local/bin"

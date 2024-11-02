@@ -17,6 +17,9 @@ plugins=(asdf zsh-vi-mode git fast-syntax-highlighting)
 
 zvm_after_init_commands+=('source $ZSH/plugins/fzf/fzf.plugin.zsh')
 
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
 source $ZSH/oh-my-zsh.sh
 
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
@@ -75,3 +78,6 @@ export PATH=$PATH:/Users/aerolab/.spicetify
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 eval "$(zoxide init zsh)"
+
+# Created by `pipx` on 2024-07-02 00:08:43
+export PATH="$PATH:/Users/fede/.local/bin"

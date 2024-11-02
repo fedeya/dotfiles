@@ -9,6 +9,14 @@ return {
 		},
 	},
 	{
+		"windwp/nvim-ts-autotag",
+		event = {
+			"BufReadPre",
+			"BufNewFile",
+		},
+		opts = {},
+	},
+	{
 		"nvim-treesitter/nvim-treesitter",
 		version = false,
 		build = ":TSUpdate",
@@ -26,17 +34,10 @@ return {
 					})
 				end,
 			},
-			{
-				"windwp/nvim-ts-autotag",
-			},
 		},
 		config = function()
 			require("nvim-treesitter.configs").setup({
 				incremental_selection = { enable = true },
-				autotag = {
-					enable = true,
-					enable_close_on_slash = false,
-				},
 				textobjects = {
 					select = {
 						enable = true,

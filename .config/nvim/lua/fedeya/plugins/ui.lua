@@ -218,11 +218,80 @@ return {
 		enabled = false,
 	},
 	{
+		"akinsho/bufferline.nvim",
+		event = "VeryLazy",
+		keys = {
+			{
+				"<Tab>",
+				"<Cmd>BufferLineCycleNext<CR>",
+				desc = "Next buffer",
+			},
+			{
+				"<S-Tab>",
+				"<Cmd>BufferLineCyclePrev<CR>",
+				desc = "Previous buffer",
+			},
+			{
+				"<Leader>bp",
+				"<Cmd>BufferLinePick<CR>",
+				desc = "Pick buffer",
+			},
+			{
+				"]b",
+				"<Cmd>BufferLineMoveNext<CR>",
+				desc = "Move buffer to the right",
+			},
+			{
+				"[b",
+				"<Cmd>BufferLineMovePrev<CR>",
+				desc = "Move buffer to the left",
+			},
+		},
+		opts = function()
+			return {
+				-- highlights = require("catppuccin.groups.integrations.bufferline").get(),
+				options = {
+					sort_by = "insert_after_current",
+					diagnostics = "nvim_lsp",
+					always_show_bufferline = false,
+					close_command = function(n)
+						require("mini.bufremove").delete(n, false)
+					end,
+					right_mouse_command = function(n)
+						require("mini.bufremove").delete(n, true)
+					end,
+					offsets = {
+						{
+							filetype = "neo-tree",
+							text = "File Explorer",
+							highlight = "Directory",
+							text_align = "center",
+						},
+					},
+				},
+			}
+		end,
+		config = function(_, opts)
+			require("bufferline").setup(opts)
+
+			-- Fix bufferline when restoring a session
+			vim.api.nvim_create_autocmd({ "BufAdd", "BufDelete" }, {
+				callback = function()
+					vim.schedule(function()
+						---@diagnostic disable-next-line: undefined-global
+						pcall(nvim_bufferline)
+					end)
+				end,
+			})
+		end,
+	},
+	{
 		"romgrk/barbar.nvim",
 		event = "VeryLazy",
 		init = function()
 			vim.g.barbar_auto_setup = false
 		end,
+		enabled = false,
 		opts = {
 			animation = false,
 		},
@@ -240,7 +309,7 @@ return {
 				"<Cmd>BufferPick<CR>",
 			},
 		},
-		version = "^1.0.0", -- optional: only update when a new 1.x version is released
+		-- version = "^1.0.0", -- optional: only update when a new 1.x version is released
 	},
 	{
 		"nvim-lualine/lualine.nvim",
@@ -256,13 +325,9 @@ return {
 			end
 		end,
 		opts = function()
-			-- local catppuccin_theme = require("lualine.themes.catppuccin")
-			--
-			-- catppuccin_theme.normal.c.bg = nil
-
 			return {
 				options = {
-					theme = "catppuccin",
+					theme = "rose-pine",
 					icons_enabled = true,
 					globalstatus = true,
 					-- section_separators = { left = "", right = "" },
@@ -286,10 +351,10 @@ return {
 							"mode",
 							icon = "",
 							separator = { left = "", right = "" },
-							color = {
-								fg = "#1c1d21",
-								bg = "#b4befe",
-							},
+							-- color = {
+							-- 	fg = "#1c1d21",
+							-- 	bg = "#b4befe",
+							-- },
 						},
 					},
 					lualine_b = {
@@ -297,40 +362,50 @@ return {
 							"branch",
 							icon = "",
 							separator = { left = "", right = "" },
-							color = {
-								fg = "#1c1d21",
-								bg = "#7d83ac",
-							},
+							-- color = {
+							-- 	fg = "#1c1d21",
+							-- 	bg = "#7d83ac",
+							-- },
 						},
 						{
 							"diff",
 							separator = { left = "", right = "" },
-							color = {
-								fg = "#1c1d21",
-								bg = "#7d83ac",
-							},
+							source = function()
+								local gitsigns = vim.b.gitsigns_status_dict
+
+								if gitsigns then
+									return {
+										added = gitsigns.added,
+										modified = gitsigns.changed,
+										removed = gitsigns.removed,
+									}
+								end
+							end,
+							-- color = {
+							-- 	fg = "#1c1d21",
+							-- 	bg = "#7d83ac",
+							-- },
 						},
 					},
 					lualine_c = {
 						{
 							"diagnostics",
 							separator = { left = "", right = "" },
-							color = {
-								bg = "#45475a",
-							},
+							-- color = {
+							-- 	bg = "#45475a",
+							-- },
 						},
 						"filename",
 					},
-					lualine_x = { "filesize" },
+					lualine_x = {
+						{
+							require("lazy.status").updates,
+							cond = require("lazy.status").has_updates,
+						},
+					},
 					lualine_y = {
 						{
-
 							"filetype",
-							-- icons_enabled = false,
-							-- color = {
-							-- 	fg = "#1C1D21",
-							-- 	bg = "#eba0ac",
-							-- },
 						},
 					},
 					lualine_z = {
@@ -388,7 +463,6 @@ return {
 	},
 	{
 		"stevearc/dressing.nvim",
-		enabled = false,
 		lazy = true,
 		init = function()
 			---@diagnostic disable-next-line: duplicate-set-field

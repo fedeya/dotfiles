@@ -10,6 +10,9 @@ email = hello@fedeminaya.com
     pager = delta
     editor = nvim
 
+[diff]
+  colorMoved = default
+
 [interactive]
   diffFilter = delta --color-only
 
@@ -49,3 +52,5 @@ email = hello@fedeminaya.com
   features = "catppuccin-mocha"
   side-by-side = true
   line-numbers = true
+[pull]
+	rebase = false

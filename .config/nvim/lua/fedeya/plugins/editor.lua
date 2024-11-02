@@ -3,7 +3,7 @@ return {
 	{
 		"echasnovski/mini.bufremove",
 		opts = {
-			silent = true,
+			-- silent = true,
 		},
 		keys = {
 			{
@@ -35,13 +35,13 @@ return {
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
-		enabled = false,
+		enabled = true,
 		config = true,
 		keys = {
 			{
 				"<leader>ha",
 				function()
-					require("harpoon"):list():append()
+					require("harpoon"):list():add()
 				end,
 				desc = "Mark file with Harpoon",
 			},
@@ -98,18 +98,18 @@ return {
 				end,
 				desc = "Harpoon mark 4",
 			},
-			-- {
-			-- 	"<Tab>",
-			-- 	function()
-			-- 		require("harpoon"):list():next()
-			-- 	end,
-			-- },
-			-- {
-			-- 	"<S-Tab>",
-			-- 	function()
-			-- 		require("harpoon"):list():prev()
-			-- 	end,
-			-- },
+			{
+				"<leader>hp",
+				function()
+					require("harpoon"):list():prev()
+				end,
+			},
+			{
+				"<leader>hn",
+				function()
+					require("harpoon"):list():next()
+				end,
+			},
 		},
 	},
 
@@ -278,7 +278,7 @@ return {
 			end
 		end,
 		opts = {
-			sources = { "filesystem", "buffers", "git_status" },
+			sources = { "filesystem", "git_status" },
 			auto_clean_after_session_restore = true,
 			source_selector = {
 				winbar = true,
@@ -308,15 +308,13 @@ return {
 				width = 50,
 				mappings = {
 					["<space>"] = "none",
-					["e"] = function()
-						vim.api.nvim_exec("Neotree focus filesystem right", true)
-					end,
-					["b"] = function()
-						vim.api.nvim_exec("Neotree focus buffers right", true)
-					end,
-					["g"] = function()
-						vim.api.nvim_exec("Neotree focus git_status right", true)
-					end,
+					["O"] = {
+						function(state)
+							require("lazy.util").open(state.tree:get_node().path, { system = true })
+						end,
+						desc = "Open file in system",
+					},
+					-- ["P"] = { "toggle_preview", config = { use_float = false } },
 				},
 			},
 			default_component_configs = {
@@ -351,28 +349,34 @@ return {
 		end,
 		opts = {
 			plugins = { spelling = true },
-			window = {
+
+			preset = "helix",
+			-- win = {
+			-- 	border = require("fedeya.utils.ui").border("CmpBorder"),
+			-- 	margin = { 1, 0, 1, 0.6 },
+			-- },
+			win = {
+				-- height = { min = 4, max = 75 },
+				-- width = { min = 20, max = 50 },
 				border = require("fedeya.utils.ui").border("CmpBorder"),
-				margin = { 1, 0, 1, 0.6 },
 			},
-			layout = {
-				height = { min = 4, max = 75 },
-				width = { min = 20, max = 50 },
-			},
-			defaults = {
+			-- layout = {
+			-- 	height = { min = 4, max = 75 },
+			-- 	width = { min = 20, max = 50 },
+			-- },
+			spec = {
 				mode = { "n" },
-				["<leader>t"] = { name = "terminal" },
-				["<leader>b"] = { name = "buffer" },
-				["<leader>q"] = { name = "sessions" },
-				["<leader>x"] = { name = "diagnostic" },
-				["<leader>T"] = { name = "tests" },
+				{ "<leader>t", group = "terminal" },
+				{ "<leader>b", group = "buffer" },
+				{ "<leader>q", group = "sessions" },
+				{ "<leader>x", group = "diagnostic" },
+				{ "<leader>T", group = "tests" },
 			},
 		},
 		config = function(_, opts)
 			local wk = require("which-key")
 
 			wk.setup(opts)
-			wk.register(opts.defaults)
 		end,
 	},
 
@@ -427,7 +431,7 @@ return {
 	{
 		"petertriho/nvim-scrollbar",
 		opts = function()
-			local mocha = require("catppuccin.palettes").get_palette("mocha")
+			-- local mocha = require("catppuccin.palettes").get_palette("mocha")
 
 			return {
 				hide_if_all_visible = true,
@@ -439,7 +443,7 @@ return {
 				},
 				handle = {
 					blend = 50,
-					color = mocha.lavender,
+					-- color = mocha.lavender,
 				},
 			}
 		end,
@@ -447,6 +451,7 @@ return {
 
 	{
 		"nvim-pack/nvim-spectre",
+		enabled = false,
 		keys = {
 			{
 				"<leader>S",
@@ -457,6 +462,29 @@ return {
 			},
 		},
 		opts = {},
+	},
+
+	{
+		"MagicDuck/grug-far.nvim",
+		opts = { headerMaxWidth = 80 },
+		cmd = "GrugFar",
+		keys = {
+			{
+				"<leader>S",
+				function()
+					local grug = require("grug-far")
+					local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
+					grug.open({
+						transient = true,
+						prefills = {
+							filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+						},
+					})
+				end,
+				mode = { "n", "v" },
+				desc = "Search and Replace",
+			},
+		},
 	},
 
 	{
@@ -491,6 +519,91 @@ return {
 				"<cmd>Oil --float<cr>",
 				desc = "Open parent directory (Oil)",
 			},
+		},
+	},
+
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		event = { "BufReadPost", "BufNewFile" },
+		opts = {},
+		keys = {
+			{
+				"]t",
+				function()
+					require("todo-comments").jump_next()
+				end,
+				desc = "Next Todo Comment",
+			},
+			{
+				"[t",
+				function()
+					require("todo-comments").jump_prev()
+				end,
+				desc = "Previous Todo Comment",
+			},
+
+			{ "<leader>xt", "<cmd>Trouble todo toggle<cr>", desc = "Todo (Trouble)" },
+		},
+	},
+
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		opts = {
+			code = {
+				sign = false,
+				-- width = "block",
+				right_pad = 1,
+				left_pad = 1,
+			},
+			heading = {
+				sign = false,
+				icons = {},
+			},
+		},
+		ft = {
+			"markdown",
+			"norg",
+			"org",
+			"rmd",
+			"Avante",
+		},
+	},
+
+	{
+		"leath-dub/snipe.nvim",
+		keys = {
+			{
+				"gb",
+				function()
+					require("snipe").open_buffer_menu()
+				end,
+				desc = "Open Snipe buffer menu",
+			},
+		},
+		opts = {
+			ui = {
+				position = "center",
+				open_win_override = {
+					border = "rounded",
+				},
+			},
+			navigate = {
+				cancel_snipe = "q",
+			},
+			sort = "last",
+		},
+	},
+	{
+		"nvchad/showkeys",
+		cmd = "ShowkeysToggle",
+		opts = {
+			maxkeys = 3,
+			position = "top-center",
 		},
 	},
 }
