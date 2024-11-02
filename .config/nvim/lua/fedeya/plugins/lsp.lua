@@ -325,7 +325,7 @@ return {
 		config = function()
 			local lsp_defaults = require("lspconfig").util.default_config
 
-			lsp_defaults = vim.tbl_deep_extend(
+			lsp_defaults.capabilities = vim.tbl_deep_extend(
 				"force",
 				lsp_defaults.capabilities,
 				-- cmp
