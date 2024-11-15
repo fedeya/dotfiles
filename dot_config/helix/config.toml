@@ -1,0 +1,32 @@
+theme = "catppuccin_mocha"
+
+[editor]
+line-number = "relative"
+color-modes = true
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+
+[editor.indent-guides]
+render = true
+
+[keys.normal]
+";" = "command_mode"
+K = [
+  "move_line_up",
+  "move_line_up",
+  "move_line_up",
+  "move_line_up",
+  "move_line_up"
+]
+J = [
+  "move_line_down",
+  "move_line_down",
+  "move_line_down",
+  "move_line_down",
+  "move_line_down"
+]
+
+[keys.insert]
+j = { k = "normal_mode" } # Maps `jk` to exit insert mode

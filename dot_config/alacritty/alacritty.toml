@@ -1,0 +1,19 @@
+[general]
+import = [
+    "~/.config/alacritty/themes/themes/rose_pine.toml"
+]
+
+[font]
+size = 18.0
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+
+[window]
+decorations = "Buttonless"
+padding = { x = 10, y = 10 }
+dimensions = { columns = 181, lines = 66 }
+
+[keyboard]
+bindings = [
+  # cmd +j = ctrl + n
+  { key = "j", mods = "Command", chars = '\u000E' },
+]
