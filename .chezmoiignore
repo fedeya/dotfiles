@@ -1,4 +1,5 @@
 README.md
 {{- if ne .chezmoi.os "linux" }}
 .config/waybar
+.config/wofi
 {{- end }}
