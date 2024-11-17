@@ -555,6 +555,11 @@ return {
 			"nvim-treesitter/nvim-treesitter",
 		},
 		opts = {
+			dash = {
+				enabled = true,
+				icon = "-",
+				width = "full",
+			},
 			code = {
 				sign = false,
 				-- width = "block",
@@ -565,14 +570,20 @@ return {
 				sign = false,
 				icons = {},
 			},
+			file_types = {
+				"markdown",
+				"copilot-chat",
+				"Avante",
+			},
 		},
-		-- ft = {
-		-- 	"markdown",
-		-- 	"norg",
-		-- 	"org",
-		-- 	"rmd",
-		-- 	"Avante",
-		-- },
+		ft = {
+			-- "markdown",
+			-- "norg",
+			-- "org",
+			-- "rmd",
+			"Avante",
+			"copilot-chat",
+		},
 
 		cmd = {
 			"RenderMarkdown",
