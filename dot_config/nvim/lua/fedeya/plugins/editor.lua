@@ -582,6 +582,7 @@ return {
 			-- "org",
 			-- "rmd",
 			"Avante",
+			"AvanteInput",
 			"copilot-chat",
 		},
 

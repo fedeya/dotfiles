@@ -34,6 +34,7 @@ return {
 		"CopilotC-Nvim/CopilotChat.nvim",
 		branch = "canary",
 		build = "make tiktoken",
+		enabled = false,
 		cmd = {
 			"CopilotChat",
 			"CopilotChatOpen",
@@ -123,10 +124,65 @@ return {
 		version = "*",
 		opts = {
 			provider = "copilot",
+			auto_suggestions_provider = "copilot",
 			copilot = {
 				model = "claude-3.5-sonnet",
 			},
+			behaviour = {
+				auto_set_keymaps = false,
+			},
+			mappings = {
+				ask = "<leader>ca",
+				refresh = "<leader>cr",
+				edit = "<leader>ce",
+			},
 		},
+		keys = function(_, keys)
+			local opts = require("lazy.core.plugin").values(
+				require("lazy.core.config").spec.plugins["avante.nvim"],
+				"opts",
+				false
+			)
+
+			local mappings = {
+				{
+					opts.mappings.ask,
+					function()
+						require("avante.api").ask()
+					end,
+					desc = "avante: ask",
+					mode = { "n", "v" },
+				},
+				{
+					opts.mappings.refresh,
+					function()
+						require("avante.api").refresh()
+					end,
+					desc = "avante: refresh",
+					mode = { "n", "v" },
+				},
+				{
+					opts.mappings.edit,
+					function()
+						require("avante.api").edit()
+					end,
+					desc = "avante: edit",
+					mode = { "n", "v" },
+				},
+				{
+					"<leader>cc",
+					"<cmd>AvanteToggle<CR>",
+					desc = "avante: toggle",
+					mode = { "n", "v" },
+				},
+			}
+
+			mappings = vim.tbl_filter(function(m)
+				return m[1] and #m[1] > 0
+			end, mappings)
+
+			return vim.list_extend(mappings, keys)
+		end,
 		build = "make",
 		dependencies = {
 			"MunifTanjim/nui.nvim",
