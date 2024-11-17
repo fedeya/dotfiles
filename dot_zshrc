@@ -1,5 +1,3 @@
-# CodeWhisperer pre block. Keep at the top of this file.
-[[ -f "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.pre.zsh"
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -7,24 +5,85 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export ZSH="$HOME/.oh-my-zsh"
+### Added by Zinit's installer
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
+fi
+
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+zinit light-mode for \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
+    zdharma-continuum/zinit-annex-patch-dl \
+    zdharma-continuum/zinit-annex-rust
+
+
+# Load Completions
+autoload -Uz compinit && compinit
+autoload -Uz _zinit
+
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Autocomplete Bindings
+zmodload zsh/complist  # Cargar el módulo complist primero
+bindkey -M menuselect '^[[Z' reverse-menu-complete  # Shift-Tab
+bindkey -M menuselect '^P' up-line-or-history      # Ctrl-P
+bindkey -M menuselect '^N' down-line-or-history    # Ctrl-N
+bindkey -M menuselect '^[[A' up-line-or-history    # Flecha arriba
+bindkey -M menuselect '^[[B' down-line-or-history  # Flecha abajo
+bindkey -M menuselect '^H' backward-delete-char    # Backspace
+bindkey -M menuselect '^[[3~' delete-char-or-list  # Delete
+
+# Plugins
+zinit ice depth=1;zinit light romkatv/powerlevel10k
+zinit ice depth=1;zinit light jeffreytse/zsh-vi-mode
+zinit light zdharma-continuum/fast-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+zinit light Aloxaf/fzf-tab
+
+# Snippet
+zi snippet OMZP::asdf
+zi snippet OMZP::git
+zi snippet OMZP::command-not-found
+
+zi ice lucid wait
+zinit snippet OMZP::fzf
 
 export EDITOR=nvim
-
-ZSH_THEME="powerlevel10k/powerlevel10k"
-
-plugins=(asdf zsh-vi-mode git fast-syntax-highlighting)
-
-zvm_after_init_commands+=('source $ZSH/plugins/fzf/fzf.plugin.zsh')
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --no-ignore-vcs'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-source $ZSH/oh-my-zsh.sh
-
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 
-# export PATH="$(asdf where nodejs)/.npm/bin:$PATH"
+# History
+HISTSIZE=5000
+HISTFILE=~/.zsh_history
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+setopt appendhistory
+setopt sharehistory
+setopt hist_ignore_space
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt hist_ignore_dups
+setopt hist_find_no_dups
+
+# Aliases
+alias cat="bat --theme 'Catppuccin-mocha'"
+alias icat="kitten icat"
+alias ls="eza --icons"
+alias cd="z"
+alias tf="terraform"
+alias kali="docker exec kali"
 
 pro() {
   cd $HOME/Fede/pro/$1
@@ -34,19 +93,10 @@ dev() {
   cd $HOME/Fede/dev/$1
 }
 
-alias cat="bat --theme 'Catppuccin-mocha'"
-alias icat="kitten icat"
-alias ls="eza --icons"
-alias cd="z"
-alias tf="terraform"
-alias kali="docker exec kali"
-
-# bun completions
- # [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-# export DYLD_LIBRARY_PATH="$(brew --prefix)/lib:$DYLD_LIBRARY_PATH"
 export DYLD_FALLBACK_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_FALLBACK_LIBRARY_PATH"
 export DYLD_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_LIBRARY_PATH"
-# export DYLD_LIBRARY_PATH=/opt/homebrew/lib/
+
+# Path
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -59,6 +109,9 @@ export PATH="$PNPM_HOME:$PATH"
 # ruby
 export RUBYOPT="-W0 -W:no-deprecated -W:no-performance -W:no-experimental"
 
+# Created by `pipx` on 2024-07-02 00:08:43
+export PATH="$PATH:/Users/fede/.local/bin"
+
 # java
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
 
@@ -67,19 +120,38 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 
-alias cfg='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+export PATH=$PATH:/Users/aerolab/.spicetify
+
+# Completions Styling
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*' menu select
+zstyle ':completion:*' special-dirs true
+zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
+zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
+zstyle ':completion:*' squeeze-slashes true # Elimina slashes duplicados
+zstyle ':fzf-tab:complete:cd:*' disable-on any
+zstyle ':fzf-tab:complete:__zoxide_z:*' disable-on any
+zstyle ':fzf-tab:*' disabled-on files
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+
+# Opts
+setopt auto_cd
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt pushd_silent
+setopt correct
+setopt extended_glob
+setopt multios
+
+setopt extended_history
+setopt inc_append_history
+setopt hist_expire_dups_first
+setopt hist_verify
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# CodeWhisperer post block. Keep at the bottom of this file.
-[[ -f "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/codewhisperer/shell/zshrc.post.zsh"
-
-export PATH=$PATH:/Users/aerolab/.spicetify
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
+# Shell Integrations
 eval "$(zoxide init zsh)"
-
-# Created by `pipx` on 2024-07-02 00:08:43
-export PATH="$PATH:/Users/fede/.local/bin"
