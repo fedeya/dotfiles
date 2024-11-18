@@ -53,6 +53,7 @@ zinit light Aloxaf/fzf-tab
 zi snippet OMZP::asdf
 zi snippet OMZP::git
 zi snippet OMZP::command-not-found
+zi snippet OMZL::clipboard.zsh
 
 zi ice lucid wait
 zinit snippet OMZP::fzf
@@ -77,8 +78,10 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
+export BAT_THEME="rose-pine"
+
 # Aliases
-alias cat="bat --theme 'Catppuccin-mocha'"
+alias cat="bat"
 alias icat="kitten icat"
 alias ls="eza --icons"
 alias cd="z"
