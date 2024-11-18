@@ -1,5 +1,10 @@
 README.md
+
 {{- if ne .chezmoi.os "linux" }}
 .config/waybar
 .config/wofi
+{{- end }}
+
+{{- if ne .chezmoi.os "darwin" }}
+~/Library/*
 {{- end }}

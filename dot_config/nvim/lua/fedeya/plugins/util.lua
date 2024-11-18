@@ -117,4 +117,31 @@ return {
 			end,
 		},
 	},
+
+	{
+		"xvzc/chezmoi.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		init = function()
+			vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+				pattern = { os.getenv("HOME") .. "/.local/share/chezmoi/*" },
+				callback = function()
+					vim.schedule(require("chezmoi.commands.__edit").watch)
+				end,
+			})
+		end,
+		config = function()
+			require("chezmoi").setup({
+				edit = {
+					watch = true,
+				},
+			})
+		end,
+	},
+	{
+		"alker0/chezmoi.vim",
+		init = function()
+			vim.g["chezmoi#use_tmp_buffer"] = 1
+			vim.g["chezmoi#source_dir_path"] = os.getenv("HOME") .. "/.local/share/chezmoi"
+		end,
+	},
 }

@@ -84,6 +84,7 @@ alias ls="eza --icons"
 alias cd="z"
 alias tf="terraform"
 alias kali="docker exec kali"
+alias cfg="chezmoi"
 
 pro() {
   cd $HOME/Fede/pro/$1
