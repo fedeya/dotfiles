@@ -42,7 +42,13 @@ return {
 	},
 	{
 		"sindrets/diffview.nvim",
-		cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewToggleFiles", "DiffviewFocusFiles", "DiffviewRefresh" },
+		cmd = {
+			"DiffviewOpen",
+			"DiffviewClose",
+			"DiffviewToggleFiles",
+			"DiffviewFocusFiles",
+			"DiffviewRefresh",
+		},
 	},
 
 	{

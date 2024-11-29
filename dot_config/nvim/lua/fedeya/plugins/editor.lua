@@ -28,7 +28,16 @@ return {
 
 	{
 		"folke/zen-mode.nvim",
-		opts = {},
+		opts = {
+			window = {
+				-- width = 0.7,
+			},
+			plugins = {
+				kitty = {
+					enabled = true,
+				},
+			},
+		},
 		cmd = "ZenMode",
 	},
 
@@ -278,55 +287,67 @@ return {
 				end
 			end
 		end,
-		opts = {
-			sources = { "filesystem", "git_status" },
-			auto_clean_after_session_restore = true,
-			source_selector = {
-				winbar = false,
-				content_layout = "center",
-			},
-			open_files_do_not_replace_types = { "terminal", "Trouble", "qf", "Outline" },
-			hide_root_node = true,
-			close_if_last_window = true,
-			filesystem = {
-				bind_to_cwd = false,
-				follow_current_file = { enabled = true, leave_dirs_open = true },
-				use_libuv_file_watcher = true,
-				filtered_items = {
-					hide_dotfiles = false,
-					always_show = {
-						".gitignore",
-						".env",
-					},
-					never_show = {
-						".DS_Store",
-						".git",
+		opts = function()
+			local on_move = function(data)
+				Snacks.rename.on_rename_file(data.source, data.destination)
+			end
+
+			local events = require("neo-tree.events")
+
+			return {
+				sources = { "filesystem", "git_status" },
+				auto_clean_after_session_restore = true,
+				source_selector = {
+					winbar = false,
+					content_layout = "center",
+				},
+				open_files_do_not_replace_types = { "terminal", "Trouble", "qf", "Outline" },
+				hide_root_node = true,
+				close_if_last_window = true,
+				filesystem = {
+					bind_to_cwd = false,
+					follow_current_file = { enabled = true, leave_dirs_open = true },
+					use_libuv_file_watcher = true,
+					filtered_items = {
+						hide_dotfiles = false,
+						always_show = {
+							".gitignore",
+							".env",
+						},
+						never_show = {
+							".DS_Store",
+							".git",
+						},
 					},
 				},
-			},
-			window = {
-				position = "right",
-				width = 50,
-				mappings = {
-					["<space>"] = "none",
-					["O"] = {
-						function(state)
-							require("lazy.util").open(state.tree:get_node().path, { system = true })
-						end,
-						desc = "Open file in system",
+				event_handlers = {
+					{ event = events.FILE_MOVED, handler = on_move },
+					{ event = events.FILE_RENAMED, handler = on_move },
+				},
+				window = {
+					position = "right",
+					width = 50,
+					mappings = {
+						["<space>"] = "none",
+						["O"] = {
+							function(state)
+								require("lazy.util").open(state.tree:get_node().path, { system = true })
+							end,
+							desc = "Open file in system",
+						},
+						-- ["P"] = { "toggle_preview", config = { use_float = false } },
 					},
-					-- ["P"] = { "toggle_preview", config = { use_float = false } },
 				},
-			},
-			default_component_configs = {
-				indent = {
-					with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
-					expander_collapsed = "",
-					expander_expanded = "",
-					expander_highlight = "NeoTreeExpander",
+				default_component_configs = {
+					indent = {
+						with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+						expander_collapsed = "",
+						expander_expanded = "",
+						expander_highlight = "NeoTreeExpander",
+					},
 				},
-			},
-		},
+			}
+		end,
 		config = function(_, opts)
 			require("neo-tree").setup(opts)
 
@@ -577,7 +598,7 @@ return {
 			},
 		},
 		ft = {
-			-- "markdown",
+			"markdown",
 			-- "norg",
 			-- "org",
 			-- "rmd",

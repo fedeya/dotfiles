@@ -144,4 +144,25 @@ return {
 			vim.g["chezmoi#source_dir_path"] = os.getenv("HOME") .. "/.local/share/chezmoi"
 		end,
 	},
+
+	{
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
+		opts = {},
+	},
+
+	{
+		"folke/lazydev.nvim",
+		ft = "lua", -- only load on lua files
+		opts = {
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+				{ path = "snacks.nvim", words = { "Snacks" } },
+				{ path = "lazy.nvim", words = { "LazyVim" } },
+			},
+		},
+	},
 }
