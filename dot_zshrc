@@ -36,8 +36,8 @@ zmodload zsh/complist  # Cargar el módulo complist primero
 bindkey -M menuselect '^[[Z' reverse-menu-complete  # Shift-Tab
 bindkey -M menuselect '^P' up-line-or-history      # Ctrl-P
 bindkey -M menuselect '^N' down-line-or-history    # Ctrl-N
-bindkey -M menuselect '^[[A' up-line-or-history    # Flecha arriba
-bindkey -M menuselect '^[[B' down-line-or-history  # Flecha abajo
+bindkey -M menuselect '^[[A' up-line-or-search    # Flecha arriba
+bindkey -M menuselect '^[[B' down-line-or-search  # Flecha abajo
 bindkey -M menuselect '^H' backward-delete-char    # Backspace
 bindkey -M menuselect '^[[3~' delete-char-or-list  # Delete
 
@@ -45,17 +45,45 @@ bindkey -M menuselect '^[[3~' delete-char-or-list  # Delete
 zinit ice depth=1;zinit light romkatv/powerlevel10k
 zinit ice depth=1;zinit light jeffreytse/zsh-vi-mode
 zinit light zdharma-continuum/fast-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
-zinit light Aloxaf/fzf-tab
+zi ice wait lucid;zinit light zsh-users/zsh-completions
+zi ice wait lucid;zinit light zsh-users/zsh-autosuggestions
+zi ice wait lucid;zinit light Aloxaf/fzf-tab
+zinit ice wait lucid;zinit light zsh-users/zsh-history-substring-search
+
+typeset -gA ZSH_HIGHLIGHT_STYLES
+ZSH_HIGHLIGHT_STYLES[history-expansion]='none'
+
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=none,fg=none,bold'
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=none,fg=none'
+HISTORY_SUBSTRING_SEARCH_GLOBBING_FLAGS='i'
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey '^p' history-search-backward
+bindkey '^n' history-search-forward
+bindkey -M vicmd 'k' history-substring-search-up
+bindkey -M vicmd 'j' history-substring-search-down
+
+function zvm_after_init() {
+    bindkey '^[[A' history-substring-search-up
+    bindkey '^[[B' history-substring-search-down
+    bindkey -M vicmd 'k' history-substring-search-up
+    bindkey -M vicmd 'j' history-substring-search-down
+}
 
 # Snippet
 zi snippet OMZP::asdf
+
+zi ice wait lucid
 zi snippet OMZP::git
+
+zi ice wait lucid
 zi snippet OMZP::command-not-found
+
+zi ice wait lucid
 zi snippet OMZL::clipboard.zsh
 
-zi ice lucid wait
+zi ice wait lucid
 zinit snippet OMZP::fzf
 
 export EDITOR=nvim
@@ -88,6 +116,10 @@ alias cd="z"
 alias tf="terraform"
 alias kali="docker exec kali"
 alias cfg="chezmoi"
+alias ll="ls -lh"
+alias la="ls -a"
+alias lla="ls -la"
+alias lah="ls -lah"
 
 pro() {
   cd $HOME/Fede/pro/$1
