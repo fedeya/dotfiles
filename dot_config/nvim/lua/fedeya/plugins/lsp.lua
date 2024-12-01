@@ -123,7 +123,7 @@ return {
 		init = function()
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 		end,
-		config = function()
+		opts = function()
 			local slow_format_filetypes = {}
 
 			local js_formatters = function(buffr)
@@ -141,7 +141,8 @@ return {
 				typescriptreact = true,
 			}
 
-			require("conform").setup({
+			--- @type conform.setupOpts
+			return {
 				formatters_by_ft = {
 					lua = { "stylua" },
 					javascript = js_formatters,
@@ -203,7 +204,10 @@ return {
 					},
 					injected = { options = { ignore_errors = true } },
 				},
-			})
+			}
+		end,
+		config = function(_, opts)
+			require("conform").setup(opts)
 
 			-- vim.api.nvim_create_autocmd("BufWritePre", {
 			-- 	pattern = "*",

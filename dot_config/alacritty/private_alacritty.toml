@@ -1,0 +1,34 @@
+[[keyboard.bindings]]
+chars = "\u000E"
+key = "J"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u0010"
+key = "K"
+mods = "Command"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 18
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+
+[general]
+import = ["~/.config/alacritty/themes/themes/rose_pine.toml"]
+
+[window]
+option_as_alt = "Both"
+decorations = "buttonless"
+
+[window.dimensions]
+columns = 181
+lines = 66
+
+
+[window.padding]
+x = 10
+y = 10

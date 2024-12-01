@@ -100,6 +100,7 @@ return {
 		name = "rose-pine",
 		priority = 1000,
 		lazy = false,
+		---@type Options
 		opts = {
 			highlight_groups = {
 				CmpSel = { bg = "overlay" },
@@ -120,6 +121,19 @@ return {
 		},
 		init = function()
 			vim.cmd.colorscheme("rose-pine")
+		end,
+	},
+
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		enabled = false,
+		opts = {
+			style = "night",
+		},
+		init = function()
+			vim.cmd.colorscheme("tokyonight")
 		end,
 	},
 }
