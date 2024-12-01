@@ -45,7 +45,7 @@ map cmd+shift+d launch --location=vsplit --cwd=current
 
 # Tabs
 
-tab_bar_edge bottom
+tab_bar_edge top
 tab_bar_style powerline
 tab_powerline_style slanted
 tab_title_template "{index}: {title.split('/')[-1]}"
@@ -77,7 +77,7 @@ map alt+right send_text all \x1b\x66
 
 map cmd+shift+m toggle_layout stack
 
-# background_opacity 0.98
+background_opacity 0.98
 
 dynamic_background_opacity no
 
@@ -85,21 +85,16 @@ dynamic_background_opacity no
 
 input_delay 1
 repaint_delay 6
-sync_to_monitor no
-gpu_rendering_fps 240
+sync_to_monitor yes
+gpu_rendering_fps 120
 cursor_blink_interval 0
 
 disable_ligatures always
 
 
 # BEGIN_KITTY_FONTS
-font_family      family="JetBrains Mono"
+font_family      family="JetBrainsMono Nerd Font Mono"
 bold_font        auto
 italic_font      auto
 bold_italic_font auto
 # END_KITTY_FONTS
-#
-
-enable_audio_bell no
-
-window_padding_width 10
