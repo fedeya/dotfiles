@@ -98,7 +98,7 @@ return {
 			{
 				"<F3>",
 				function()
-					require("conform").format({ async = true, lsp_fallback = true })
+					require("conform").format({ async = true, lsp_format = "fallback" })
 				end,
 				mode = { "n", "v" },
 				desc = "Format buffer",
@@ -106,7 +106,7 @@ return {
 			{
 				"<leader>ff",
 				function()
-					require("conform").format({ async = true, lsp_fallback = true })
+					require("conform").format({ async = true, lsp_format = "fallback" })
 				end,
 				mode = { "n", "v" },
 				desc = "Format buffer",
@@ -124,60 +124,69 @@ return {
 			vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 		end,
 		opts = function()
-			local slow_format_filetypes = {}
+			local formatters_by_ft = {
+				lua = { "stylua" },
+			}
 
-			local js_formatters = function(buffr)
-				if require("conform").get_formatter_info("biome-check", buffr).available then
-					return { "biome-check" }
-				end
+			local prettier_supported = {
+				"css",
+				"graphql",
+				"handlebars",
+				"html",
+				"javascript",
+				"javascriptreact",
+				"json",
+				"jsonc",
+				"less",
+				"markdown",
+				"markdown.mdx",
+				"scss",
+				"typescript",
+				"typescriptreact",
+				"vue",
+				"yaml",
+			}
 
-				return { "prettierd", "prettier", stop_after_first = true }
+			local biome_supported = {
+				"javascript",
+				"javascriptreact",
+				"typescript",
+				"typescriptreact",
+				"json",
+				"jsonc",
+				"css",
+				"graphql",
+			}
+
+			for _, ft in ipairs(prettier_supported) do
+				formatters_by_ft[ft] = { "prettierd", "prettier", stop_after_first = true }
 			end
 
-			local eslint_filetypes = {
-				javascript = true,
-				javascriptreact = true,
-				typescript = true,
-				typescriptreact = true,
-			}
+			for _, ft in ipairs(biome_supported) do
+				if formatters_by_ft[ft] then
+					table.insert(formatters_by_ft[ft], 1, "biome-check")
+				else
+					formatters_by_ft[ft] = { "biome-check" }
+				end
+			end
 
 			--- @type conform.setupOpts
 			return {
-				formatters_by_ft = {
-					lua = { "stylua" },
-					javascript = js_formatters,
-					javascriptreact = js_formatters,
-					typescript = js_formatters,
-					typescriptreact = js_formatters,
+				formatters_by_ft = formatters_by_ft,
+
+				format_on_save = {
+					timeout_ms = 500,
+					lsp_format = "fallback",
 				},
 
-				format_on_save = function(bufnr)
-					if eslint_filetypes[vim.bo[bufnr].filetype] then
-						vim.cmd("silent! EslintFixAll")
-					end
-
-					if slow_format_filetypes[vim.bo[bufnr].filetype] then
-						return
-					end
-
-					local function on_format(err)
-						if err and err:match("timeout$") then
-							slow_format_filetypes[vim.bo[bufnr].filetype] = true
-						end
-					end
-
-					return { timeout_ms = 200, lsp_fallback = true }, on_format
-				end,
-
-				format_after_save = function(bufnr)
-					if not slow_format_filetypes[vim.bo[bufnr].filetype] then
-						return
-					end
-					return { lsp_fallback = true }
-				end,
+				format_after_save = {
+					lsp_format = "fallback",
+				},
 
 				default_format_opts = {
-					timeout_ms = 1000,
+					timeout_ms = 3000,
+					lsp_format = "fallback",
+					quiet = true,
 				},
 
 				formatters = {
@@ -208,21 +217,11 @@ return {
 		end,
 		config = function(_, opts)
 			require("conform").setup(opts)
-
-			-- vim.api.nvim_create_autocmd("BufWritePre", {
-			-- 	pattern = "*",
-			-- 	callback = function(args)
-			-- 		if eslint_filetypes[vim.bo[args.buf].filetype] then
-			-- 			vim.cmd("silent! EslintFixAll")
-			-- 		end
-			--
-			-- 		require("conform").format({ bufnr = args.buf })
-			-- 	end,
-			-- })
 		end,
 	},
 	{
 		"hrsh7th/nvim-cmp",
+		enabled = false,
 		event = "InsertEnter",
 		dependencies = {
 			{ "L3MON4D3/LuaSnip" },
@@ -236,7 +235,7 @@ return {
 			local lspkind = require("lspkind")
 
 			local cmp = require("cmp")
-			local cmp_select = { behavior = cmp.SelectBehavior.Select }
+			local cmp_select = { behavior = cmp.SelectBehavior.Insert }
 
 			local border = require("fedeya.utils.ui").border
 
@@ -246,6 +245,7 @@ return {
 				completion = {
 					completeopt = "menu,menuone,noinsert",
 				},
+				preselect = cmp.PreselectMode.Item,
 				window = {
 					completion = {
 						side_padding = 1,
@@ -280,6 +280,10 @@ return {
 				},
 				sources = cmp.config.sources({
 					{
+						name = "lazydev",
+						group_index = 0,
+					},
+					{
 						name = "nvim_lsp",
 						-- entry_filter = function(entry)
 						-- 	return require("cmp").lsp.CompletionItemKind.Text ~= entry:get_kind()
@@ -290,7 +294,7 @@ return {
 				}, {
 					{ name = "buffer", keyword_length = 3 },
 				}),
-				mapping = {
+				mapping = cmp.mapping.preset.insert({
 					-- `Enter` key to confirm completion
 					["<CR>"] = cmp.mapping.confirm({ select = false }),
 
@@ -303,7 +307,7 @@ return {
 					-- Navigate between snippet placeholder
 					-- ["<C-f>"] = cmp_action.luasnip_jump_forward(),
 					-- ["<C-b>"] = cmp_action.luasnip_jump_backward(),
-				},
+				}),
 			})
 		end,
 	},
@@ -320,11 +324,127 @@ return {
 		},
 	},
 	{
+		"saghen/blink.cmp",
+		version = "v0.*",
+		dependencies = {
+			"rafamadriz/friendly-snippets",
+		},
+		event = "InsertEnter",
+		opts = {
+			keymap = {
+				preset = "enter",
+			},
+			appearance = {
+				use_nvim_cmp_as_default = false,
+				nerd_font_variant = "mono",
+				kind_icons = {
+					-- different icons of the corresponding source
+					Text = "",
+					Method = "󰆧",
+					Function = "󰊕",
+					Constructor = "",
+					Field = "",
+					Variable = "",
+					Class = "",
+					Interface = "",
+					Module = "",
+					Property = "",
+					Unit = "",
+					Value = "",
+					Enum = "",
+					Keyword = "",
+					Snippet = "",
+					Color = "",
+					File = "",
+					Reference = "",
+					Folder = "",
+					EnumMember = "",
+					Constant = "",
+					Struct = "",
+					Event = "",
+					Operator = "",
+					TypeParameter = "",
+				},
+			},
+			completion = {
+				trigger = {
+					show_on_insert_on_trigger_character = false,
+				},
+				accept = {
+					auto_brackets = {
+						enabled = true,
+					},
+				},
+				documentation = {
+					auto_show = true,
+					window = {
+						border = "rounded",
+						scrollbar = false,
+						-- winhighlight = "Normal:CmpDoc",
+					},
+					auto_show_delay_ms = 200,
+				},
+				menu = {
+					border = "rounded",
+					-- winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel",
+					draw = {
+						treesitter = "lsp",
+						-- columns = {
+						-- 	{ "label", "label_description", "kind_icon", gap = 1 },
+						-- },
+						--
+						columns = {
+							{ "kind_icon" },
+							{ "label", "label_description", gap = 1 },
+						},
+						components = {
+							label = {
+								width = { max = 30 },
+							},
+							label_description = { width = { max = 20 } },
+							kind_icon = {
+								text = function(ctx)
+									local source, client = ctx.item.source_id, ctx.item.client_id
+									local lspName = client and vim.lsp.get_client_by_id(client).name
+									if lspName == "emmet_language_server" then
+										source = "emmet"
+									end
+
+									local sourceIcons =
+										{ snippets = "󰩫", buffer = "󰦨", emmet = "", path = "" }
+									return (sourceIcons[source] or ctx.kind_icon) .. " "
+								end,
+							},
+						},
+					},
+				},
+			},
+			sources = {
+				-- completion = {
+				-- 	enabled_providers = { "lsp", "path", "snippets", "buffer" },
+				-- },
+				providers = {
+					buffer = {
+						min_keyword_length = 4,
+						score_offset = -3,
+						max_items = 4,
+					},
+					snippets = {
+						min_keyword_length = 2,
+						score_offset = -1,
+					},
+					-- lsp = { fallback_for = { "lazydev" } },
+					-- lazydev = { name = "LazyDev", module = "lazydev.integrations.blink" },
+				},
+			},
+		},
+	},
+	{
 		"neovim/nvim-lspconfig",
 		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
-			{ "hrsh7th/cmp-nvim-lsp" },
+			-- { "hrsh7th/cmp-nvim-lsp" },
 			{ "williamboman/mason-lspconfig.nvim" },
 		},
 		config = function()
@@ -334,7 +454,9 @@ return {
 				"force",
 				lsp_defaults.capabilities,
 				-- cmp
-				require("cmp_nvim_lsp").default_capabilities()
+				-- require("cmp_nvim_lsp").default_capabilities()
+				-- blink
+				require("blink.cmp").get_lsp_capabilities()
 			)
 
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -355,6 +477,15 @@ return {
 						buffer = event.bufnr,
 						remap = false,
 					})
+
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+					if client and client.name == "eslint" then
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							buffer = event.buf,
+							command = "EslintFixAll",
+						})
+					end
 				end,
 			})
 
@@ -376,6 +507,7 @@ return {
 			local noop = function() end
 
 			require("mason-lspconfig").setup({
+				automatic_installation = true,
 				ensure_installed = {
 					"lua_ls",
 					"jsonls",
@@ -393,6 +525,13 @@ return {
 						require("lspconfig")[server_name].setup({})
 					end,
 					ts_ls = noop,
+					emmet_language_server = function()
+						require("lspconfig").emmet_language_server.setup({
+							init_options = {
+								showSuggestionsAsSnippets = true,
+							},
+						})
+					end,
 					vtsls = function()
 						require("lspconfig").vtsls.setup({
 							-- filetypes = {
@@ -456,10 +595,12 @@ return {
 								tailwindCSS = {
 									experimental = {
 										classRegex = {
+											-- tailwind variants
 											{
 												"tv\\((([^()]*|\\([^()]*\\))*)\\)",
 												"[\"'`]([^\"'`]*).*?[\"'`]",
 											},
+											-- react-native-tw (tailwind/tw) fn
 											{
 												"tailwind|tw\\(([^)]*)\\)",
 												"[\"'`]([^\"'`]*).*?[\"'`]",
@@ -499,12 +640,10 @@ return {
 					eslint = function()
 						require("lspconfig").eslint.setup({
 							settings = {
-								autoFixOnSave = true,
-								codeActionOnSave = {
-									enable = true,
-									mode = "all",
+								eslint = {
+									format = true,
+									workingDirectory = { mode = "auto" },
 								},
-								useESLintClass = true,
 							},
 						})
 					end,

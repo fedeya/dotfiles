@@ -28,10 +28,12 @@ return {
 			},
 			messages = {
 				enabled = false,
+				view = "mini",
+				view_search = false,
 			},
 			notify = {
-				enabled = false,
-				-- view = "cmdline"
+				enabled = true,
+				view = "mini",
 			},
 			presets = {
 				command_palette = true,
@@ -63,7 +65,6 @@ return {
 		},
 		dependencies = {
 			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
 		},
 	},
 	{

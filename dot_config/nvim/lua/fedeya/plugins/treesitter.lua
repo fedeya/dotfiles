@@ -14,7 +14,11 @@ return {
 			"BufReadPre",
 			"BufNewFile",
 		},
-		opts = {},
+		opts = {
+			opts = {
+				enable_rename = false,
+			},
+		},
 	},
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -107,6 +111,7 @@ return {
 					"css",
 					"json",
 					"rust",
+					"ron",
 					"vim",
 					"regex",
 					"go",

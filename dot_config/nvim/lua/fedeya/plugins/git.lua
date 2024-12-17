@@ -37,7 +37,8 @@ return {
 	},
 	{
 		"tpope/vim-fugitive",
-		enabled = false,
+		enabled = true,
+		cmd = { "Git", "G" },
 		event = "VeryLazy",
 	},
 	{
@@ -69,7 +70,17 @@ return {
 			"nvim-telescope/telescope.nvim", -- optional
 			"ibhagwan/fzf-lua", -- optional
 		},
-		config = true,
+		opts = {
+			--- @type NeogitConfig
+			integrations = {
+				diffview = true,
+				telescope = true,
+			},
+			kind = "floating",
+			commit_editor = {
+				kind = "floating",
+			},
+		},
 	},
 
 	{
