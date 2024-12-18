@@ -140,7 +140,7 @@ return {
 					header = vim.split(logo, "\n"),
 					center = {
 						{
-							action = "Telescope find_files",
+							action = "FzfLua files",
 							desc = " Find file",
 							icon = " ",
 							key = "f",
@@ -152,13 +152,13 @@ return {
 							key = "n",
 						},
 						{
-							action = "Telescope oldfiles",
+							action = "FzfLua oldfiles",
 							desc = " Recent files",
 							icon = " ",
 							key = "r",
 						},
 						{
-							action = "Telescope live_grep",
+							action = "FzfLua live_grep",
 							desc = " Find text",
 							icon = " ",
 							key = "g",

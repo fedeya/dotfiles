@@ -61,7 +61,7 @@ return {
 					semantic_tokens = true,
 					alpha = true,
 					telescope = {
-						enabled = true,
+						enabled = false,
 					},
 				},
 				color_overrides = {

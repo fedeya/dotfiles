@@ -57,24 +57,6 @@ return {
 			{
 				"<leader>he",
 				function()
-					-- local function toggle_telescope(harpoon_files)
-					-- 	local file_paths = {}
-					-- 	for _, item in ipairs(harpoon_files.items) do
-					-- 		table.insert(file_paths, item.value)
-					-- 	end
-					--
-					-- 	local opts = {
-					-- 		prompt_title = "Harpoon",
-					-- 		finder = require("telescope.finders").new_table({
-					-- 			results = file_paths,
-					-- 		}),
-					-- 		previewer = require("telescope.previewers").vim_buffer_cat.new({}),
-					-- 		sorter = require("telescope.sorters").get_fuzzy_file({}),
-					-- 	}
-					--
-					-- 	require("telescope.pickers").new({}, require("telescope.themes").get_dropdown(opts)):find()
-					-- end
-
 					require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
 				end,
 				desc = "Toggle Harpoon menu",
