@@ -220,6 +220,7 @@ return {
 	{
 		"akinsho/bufferline.nvim",
 		event = "VeryLazy",
+		enabled = false,
 		keys = {
 			{
 				"<Tab>",
@@ -231,11 +232,11 @@ return {
 				"<Cmd>BufferLineCyclePrev<CR>",
 				desc = "Previous buffer",
 			},
-			{
-				"<Leader>bp",
-				"<Cmd>BufferLinePick<CR>",
-				desc = "Pick buffer",
-			},
+			-- {
+			-- 	"<Leader>bp",
+			-- 	"<Cmd>BufferLinePick<CR>",
+			-- 	desc = "Pick buffer",
+			-- },
 			{
 				"]b",
 				"<Cmd>BufferLineMoveNext<CR>",

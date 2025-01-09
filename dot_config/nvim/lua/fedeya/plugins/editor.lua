@@ -44,64 +44,57 @@ return {
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
-		enabled = true,
-		config = true,
-		keys = {
-			{
-				"<leader>ha",
-				function()
-					require("harpoon"):list():add()
-				end,
-				desc = "Mark file with Harpoon",
-			},
-			{
-				"<leader>he",
-				function()
-					require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
-				end,
-				desc = "Toggle Harpoon menu",
-			},
-			{
-				"<leader>h1",
-				function()
-					require("harpoon"):list():select(1)
-				end,
-				desc = "Harpoon mark 1",
-			},
-			{
-				"<leader>h2",
-				function()
-					require("harpoon"):list():select(2)
-				end,
-				desc = "Harpoon mark 2",
-			},
-			{
-				"<leader>h3",
-				function()
-					require("harpoon"):list():select(3)
-				end,
-				desc = "Harpoon mark 3",
-			},
-			{
-				"<leader>h4",
-				function()
-					require("harpoon"):list():select(4)
-				end,
-				desc = "Harpoon mark 4",
-			},
-			{
-				"<leader>hp",
-				function()
-					require("harpoon"):list():prev()
-				end,
-			},
-			{
-				"<leader>hn",
-				function()
-					require("harpoon"):list():next()
-				end,
+		opts = {
+			settings = {
+				save_on_toggle = true,
 			},
 		},
+		keys = function()
+			local keys = {
+				{
+					"<leader>H",
+					function()
+						require("harpoon"):list():add()
+					end,
+					desc = "Harpoon File",
+				},
+				{
+					"<leader>h",
+					function()
+						local harpoon = require("harpoon")
+
+						harpoon.ui:toggle_quick_menu(harpoon:list())
+					end,
+					desc = "Harpoon Quick Menu",
+				},
+				{
+					"<Tab>",
+					function()
+						require("harpoon"):list():prev()
+					end,
+					desc = "Harpoon to Previous",
+				},
+				{
+					"<S-Tab>",
+					function()
+						require("harpoon"):list():next()
+					end,
+					desc = "Harpoon to Next",
+				},
+			}
+
+			for i = 1, 5 do
+				table.insert(keys, {
+					"<leader>" .. i,
+					function()
+						require("harpoon"):list():select(i)
+					end,
+					desc = "Harpoon to File " .. i,
+				})
+			end
+
+			return keys
+		end,
 	},
 
 	{
@@ -497,7 +490,7 @@ return {
 			view_options = {
 				show_hidden = true,
 				is_always_hidden = function(name)
-					return name == ".git"
+					return name == ".git" or name == ".DS_Store"
 				end,
 			},
 			float = {
@@ -508,9 +501,9 @@ return {
 					winblend = 0,
 				},
 			},
-
+			delete_to_trash = true,
 			keymaps = {
-				["<C-s>"] = nil,
+				["<C-s>"] = false,
 				["q"] = "actions.close",
 			},
 		},
@@ -625,5 +618,17 @@ return {
 			maxkeys = 3,
 			position = "top-center",
 		},
+	},
+	{
+		"utilyre/barbecue.nvim",
+		name = "barbecue",
+		event = "BufReadPre",
+		version = "*",
+		enabled = true,
+		dependencies = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons", -- optional dependency
+		},
+		opts = {},
 	},
 }

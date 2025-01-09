@@ -221,7 +221,7 @@ return {
 	},
 	{
 		"hrsh7th/nvim-cmp",
-		enabled = false,
+		enabled = true,
 		event = "InsertEnter",
 		dependencies = {
 			{ "L3MON4D3/LuaSnip" },
@@ -230,6 +230,7 @@ return {
 			{ "hrsh7th/cmp-buffer" },
 			{ "saadparwaiz1/cmp_luasnip" },
 			{ "rafamadriz/friendly-snippets" },
+			"hrsh7th/cmp-cmdline",
 		},
 		config = function()
 			local lspkind = require("lspkind")
@@ -309,6 +310,27 @@ return {
 					-- ["<C-b>"] = cmp_action.luasnip_jump_backward(),
 				}),
 			})
+
+			cmp.setup.cmdline("/", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = {
+					{ name = "buffer" },
+				},
+			})
+
+			cmp.setup.cmdline(":", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = cmp.config.sources({
+					{ name = "path" },
+				}, {
+					{
+						name = "cmdline",
+						option = {
+							ignore_cmds = { "Man", "!" },
+						},
+					},
+				}),
+			})
 		end,
 	},
 	{
@@ -330,6 +352,7 @@ return {
 			"rafamadriz/friendly-snippets",
 		},
 		event = "InsertEnter",
+		enabled = false,
 		opts = {
 			keymap = {
 				preset = "enter",
@@ -353,7 +376,7 @@ return {
 					Value = "",
 					Enum = "",
 					Keyword = "",
-					Snippet = "",
+					Snippet = "󰩫",
 					Color = "",
 					File = "",
 					Reference = "",
@@ -372,6 +395,7 @@ return {
 					show_on_trigger_character = false,
 				},
 				accept = {
+					create_undo_point = false,
 					auto_brackets = {
 						enabled = true,
 					},
@@ -389,7 +413,7 @@ return {
 					border = "rounded",
 					-- winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel",
 					draw = {
-						treesitter = "lsp",
+						treesitter = { "lsp" },
 						-- columns = {
 						-- 	{ "label", "label_description", "kind_icon", gap = 1 },
 						-- },
@@ -445,7 +469,7 @@ return {
 		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
-			-- { "hrsh7th/cmp-nvim-lsp" },
+			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "williamboman/mason-lspconfig.nvim" },
 		},
 		config = function()
@@ -455,9 +479,9 @@ return {
 				"force",
 				lsp_defaults.capabilities,
 				-- cmp
-				-- require("cmp_nvim_lsp").default_capabilities()
+				require("cmp_nvim_lsp").default_capabilities()
 				-- blink
-				require("blink.cmp").get_lsp_capabilities()
+				-- require("blink.cmp").get_lsp_capabilities()
 			)
 
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -470,7 +494,7 @@ return {
 					-- 	buffer = event.bufnr,
 					-- })
 
-					vim.keymap.set("n", "<leader>hl", function()
+					vim.keymap.set("n", "<leader>i", function()
 						---@diagnostic disable-next-line: missing-parameter
 						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 					end, {

@@ -2,5 +2,8 @@
     "diagnostics.globals": [
         "vim",
         "Snacks"
+    ],
+    "diagnostics.disable": [
+        "duplicate-set-field"
     ]
 }

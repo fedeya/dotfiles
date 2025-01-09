@@ -108,15 +108,16 @@ return {
 				"telescope",
 				defaults = {
 					formatter = "path.dirname_first",
+					file_ignore_patterns = { "node_modules", ".git/", ".cache", "dist", "build", ".DS_Store" },
 				},
 				fzf_colors = true,
 				fzf_opts = {
 					["--no-scrollbar"] = true,
 				},
 				files = {
-					preview_opts = "hidden",
-					file_ignore_patterns = { "node_modules", ".git/", ".cache", "dist", "build", ".DS_Store" },
-					silent = true,
+					winopts = {
+						preview = { hidden = "hidden" },
+					},
 					cwd_prompt = false,
 					-- winopts = {
 					-- 	preview = {
@@ -151,11 +152,54 @@ return {
 				desc = "Find files",
 			},
 			{
+				"<leader>o",
+				function()
+					-- rose pine colors
+					local rose = "\x1b[38;2;235;188;186m" -- #ebbcba
+					local love = "\x1b[38;2;235;111;146m" -- #eb6f92
+					local reset = "\x1b[0m"
+
+					require("fzf-lua").fzf_exec("fd --type d -H --ignore -E .git", {
+						fzf_opts = {
+							["--preview"] = "fd --base-directory {} --max-depth 1 --color always",
+							["--header"] = ":: <"
+								.. rose
+								.. "ctrl-r"
+								.. reset
+								.. "> to "
+								.. love
+								.. "Open root dir"
+								.. reset,
+						},
+						actions = {
+							default = function(selected)
+								require("oil").open_float(selected[1])
+							end,
+							["ctrl-r"] = {
+								fn = function()
+									require("oil").open_float(vim.fn.getcwd())
+								end,
+							},
+						},
+					})
+				end,
+				desc = "Open Directory with Oil",
+			},
+			{
 				"<leader>.",
 				function()
 					require("fzf-lua").resume()
 				end,
 				desc = "Resume last fzf command",
+			},
+			{
+				"<leader>b",
+				function()
+					require("fzf-lua").buffers({
+						sort_mru = true,
+						sort_lastused = true,
+					})
+				end,
 			},
 			{
 				"<leader>s",
@@ -164,7 +208,17 @@ return {
 			},
 			{
 				"<leader>/",
-				"<cmd>FzfLua grep_curbuf<cr>",
+				function()
+					require("fzf-lua").grep_curbuf({
+						winopts = {
+							winblend = 10,
+							height = 0.2,
+							width = 0.4,
+							backdrop = 90,
+							preview = { hidden = "hidden" },
+						},
+					})
+				end,
 				desc = "Search in buffer",
 			},
 		},
