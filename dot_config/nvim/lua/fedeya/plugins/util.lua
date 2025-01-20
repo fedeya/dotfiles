@@ -120,6 +120,7 @@ return {
 
 	{
 		"xvzc/chezmoi.nvim",
+		enabled = false,
 		dependencies = { "nvim-lua/plenary.nvim" },
 		init = function()
 			vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
@@ -139,6 +140,7 @@ return {
 	},
 	{
 		"alker0/chezmoi.vim",
+		enabled = false,
 		init = function()
 			vim.g["chezmoi#use_tmp_buffer"] = 1
 			vim.g["chezmoi#source_dir_path"] = os.getenv("HOME") .. "/.local/share/chezmoi"
@@ -149,7 +151,98 @@ return {
 		"folke/snacks.nvim",
 		priority = 1000,
 		lazy = false,
-		opts = {},
+		keys = {
+			{
+				"]]",
+				function()
+					Snacks.words.jump(vim.v.count1)
+				end,
+				desc = "Next Reference",
+				mode = { "n", "t" },
+			},
+			{
+				"[[",
+				function()
+					Snacks.words.jump(-vim.v.count1)
+				end,
+				desc = "Prev Reference",
+				mode = { "n", "t" },
+			},
+			{
+				"<leader>tt",
+				function()
+					Snacks.terminal()
+				end,
+				desc = "Toggle terminal",
+			},
+
+			{
+				"<leader>tf",
+				function()
+					Snacks.terminal(nil, {
+						win = { position = "float", border = "rounded" },
+					})
+				end,
+				desc = "Toggle terminal (float)",
+			},
+			{
+				"<leader>tv",
+				function()
+					Snacks.terminal(nil, {
+						win = { position = "right", vertical = true, max_width = 80 },
+					})
+				end,
+				desc = "Toggle terminal (vertical)",
+			},
+			{
+				"<leader>th",
+				function()
+					Snacks.terminal(nil, {
+						win = { position = "bottom", max_height = 20 },
+					})
+				end,
+				desc = "Toggle terminal (horizontal)",
+			},
+		},
+		---@type snacks.Config
+		opts = {
+			terminal = {
+				win = {
+					position = "float",
+					border = "rounded",
+				},
+			},
+			indent = {
+				terminal = {
+					-- win = {
+					-- border = "rounded",
+					-- },
+				},
+				enabled = true,
+				animate = { enabled = false },
+				scope = { enabled = true },
+			},
+			dashboard = {
+				preset = {
+					keys = {
+						{ action = ":lua Snacks.picker.files()", desc = " Find file", icon = " ", key = "f" },
+						{ action = ":ene | startinsert", desc = " New file", icon = " ", key = "n" },
+						{ action = ":lua Snacks.picker.recent()", desc = " Recent files", icon = " ", key = "r" },
+						{ action = ":lua Snacks.picker.grep()", desc = " Find text", icon = " ", key = "g" },
+						{
+							action = ':lua require("persistence").load()',
+							desc = " Restore Session",
+							icon = " ",
+							section = "session",
+							key = "s",
+						},
+						{ action = ":Lazy", desc = " Lazy", icon = "󰒲 ", key = "l" },
+						{ action = ":qa", desc = " Quit", icon = " ", key = "q" },
+					},
+				},
+			},
+			words = { enabled = true, modes = { "n", "c" } },
+		},
 	},
 
 	{

@@ -110,6 +110,7 @@ return {
 	-- marks plugin
 	{
 		"chentoast/marks.nvim",
+		enabled = false,
 		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
 		config = function()
 			require("marks").setup({
@@ -121,6 +122,7 @@ return {
 	{
 		"RRethy/vim-illuminate",
 		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+		enabled = false,
 		opts = {
 			delay = 200,
 			large_file_cutoff = 2000,
@@ -423,6 +425,26 @@ return {
 				desc = "Next Trouble/Quickfix Item",
 			},
 		},
+		specs = {
+			"folke/snacks.nvim",
+			opts = function(_, opts)
+				return vim.tbl_deep_extend("force", opts or {}, {
+					picker = {
+						actions = require("trouble.sources.snacks").actions,
+						win = {
+							input = {
+								keys = {
+									["<c-t>"] = {
+										"trouble_open",
+										mode = { "n", "i" },
+									},
+								},
+							},
+						},
+					},
+				})
+			end,
+		},
 	},
 
 	{
@@ -622,13 +644,18 @@ return {
 	{
 		"utilyre/barbecue.nvim",
 		name = "barbecue",
-		event = "BufReadPre",
+		event = "BufReadPost",
 		version = "*",
-		enabled = true,
+		enabled = false,
 		dependencies = {
 			"SmiteshP/nvim-navic",
 			"nvim-tree/nvim-web-devicons", -- optional dependency
 		},
 		opts = {},
+	},
+	{
+		"Bekaboo/dropbar.nvim",
+		event = "BufReadPost",
+		config = true,
 	},
 }

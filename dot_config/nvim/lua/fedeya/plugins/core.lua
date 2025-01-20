@@ -48,12 +48,25 @@ return {
 	{
 
 		"3rd/image.nvim",
-		-- init = function()
-		-- 	package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?/init.lua"
-		-- 	package.path = package.path .. ";" .. vim.fn.expand("$HOME") .. "/.luarocks/share/lua/5.1/?.lua"
-		-- end,
-		event = "BufReadPre",
 		build = false,
+		lazy = true,
+		init = function()
+			--- autocmd for lazy loading before open a image
+			vim.api.nvim_create_autocmd({ "BufReadPre" }, {
+				pattern = {
+					"*.png",
+					"*.jpg",
+					"*.jpeg",
+					"*.gif",
+					"*.bmp",
+					"*.webp",
+					"*.ico",
+				},
+				callback = function()
+					require("lazy").load({ plugins = { "image.nvim" } })
+				end,
+			})
+		end,
 		opts = {
 			backend = "kitty",
 			processor = "magick_cli",

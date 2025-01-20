@@ -2,6 +2,7 @@ return {
 	"akinsho/toggleterm.nvim",
 	version = "*",
 	cmd = { "ToggleTerm", "TermExec" },
+	enabled = false,
 	keys = {
 		{
 			"<leader>tt",
@@ -30,18 +31,23 @@ return {
 			desc = "Toggle terminal (horizontal)",
 		},
 	},
-	opts = {
-		shade_terminals = false,
-		highlights = {
-			FloatBorder = { link = "CmpBorder" },
-		},
-		on_create = function()
-			vim.opt.foldcolumn = "0"
-			vim.opt.signcolumn = "no"
-		end,
-		direction = "float",
-		float_opts = {
-			border = "rounded",
-		},
-	},
+	opts = function()
+		local highlights = require("rose-pine.plugins.toggleterm")
+
+		return {
+			shade_terminals = false,
+			-- highlights = {
+			-- 	FloatBorder = { link = "CmpBorder" },
+			-- },
+			highlights = highlights,
+			on_create = function()
+				vim.opt.foldcolumn = "0"
+				vim.opt.signcolumn = "no"
+			end,
+			direction = "float",
+			float_opts = {
+				border = "rounded",
+			},
+		}
+	end,
 }

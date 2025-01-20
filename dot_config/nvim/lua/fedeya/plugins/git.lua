@@ -37,9 +37,7 @@ return {
 	},
 	{
 		"tpope/vim-fugitive",
-		enabled = true,
 		cmd = { "Git", "G" },
-		event = "VeryLazy",
 	},
 	{
 		"sindrets/diffview.nvim",

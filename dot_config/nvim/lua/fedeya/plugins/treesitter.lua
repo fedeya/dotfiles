@@ -11,7 +11,7 @@ return {
 	{
 		"windwp/nvim-ts-autotag",
 		event = {
-			"BufReadPre",
+			"BufReadPost",
 			"BufNewFile",
 		},
 		opts = {
@@ -24,7 +24,7 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		version = false,
 		build = ":TSUpdate",
-		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+		event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
 		dependencies = {
 			{ "nvim-treesitter/nvim-treesitter-textobjects" },
 			{

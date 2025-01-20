@@ -118,6 +118,7 @@ return {
 	{
 		"nvimdev/dashboard-nvim",
 		event = "VimEnter",
+		enabled = false,
 
 		opts = function()
 			local logo = [[
@@ -336,7 +337,7 @@ return {
 					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
 					disabled_filetypes = {
-						statusline = { "dashboard", "alpha", "starter" },
+						statusline = { "dashboard", "alpha", "starter", "snacks_dashboard" },
 						winbar = {},
 					},
 					always_divide_middle = true,
@@ -437,6 +438,7 @@ return {
 	},
 	{
 		"lukas-reineke/indent-blankline.nvim",
+		enabled = false,
 		main = "ibl",
 		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
 		opts = {
@@ -467,10 +469,10 @@ return {
 		lazy = true,
 		init = function()
 			---@diagnostic disable-next-line: duplicate-set-field
-			vim.ui.select = function(...)
-				require("lazy").load({ plugins = { "dressing.nvim" } })
-				return vim.ui.select(...)
-			end
+			-- vim.ui.select = function(...)
+			-- 	require("lazy").load({ plugins = { "dressing.nvim" } })
+			-- 	return vim.ui.select(...)
+			-- end
 			---@diagnostic disable-next-line: duplicate-set-field
 			vim.ui.input = function(...)
 				require("lazy").load({ plugins = { "dressing.nvim" } })

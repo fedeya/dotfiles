@@ -99,6 +99,7 @@ return {
 	{
 		"ibhagwan/fzf-lua",
 		cmd = "FzfLua",
+		enabled = false,
 		opts = function()
 			local config = require("fzf-lua.config")
 
@@ -220,6 +221,125 @@ return {
 					})
 				end,
 				desc = "Search in buffer",
+			},
+		},
+	},
+	{
+		"folke/snacks.nvim",
+		---@type snacks.Config
+		opts = {
+			picker = {
+				ui_select = true,
+				win = {
+					input = {
+						keys = {
+							["<Esc>"] = { "close", mode = { "n", "i" } },
+						},
+					},
+				},
+				layout = {
+					reverse = true,
+					preset = function()
+						return vim.o.columns >= 120 and "telescope" or "vertical"
+					end,
+				},
+				sources = {
+					files = {
+						hidden = true,
+					},
+				},
+			},
+		},
+		keys = {
+			{
+				"<leader>p",
+				function()
+					Snacks.picker.files()
+				end,
+				desc = "Find files",
+			},
+			{
+				"<leader>s",
+				function()
+					Snacks.picker.grep()
+				end,
+				desc = "Search",
+			},
+			{
+				"<leader>.",
+				function()
+					Snacks.picker.resume()
+				end,
+				desc = "Resume last snack picker",
+			},
+			{
+				"<leader>gl",
+				function()
+					Snacks.picker.git_log()
+				end,
+				desc = "Git log",
+			},
+			{
+				"<leader>/",
+				function()
+					Snacks.picker.lines()
+				end,
+				desc = "Search in buffer",
+			},
+			{
+				"<leader>b",
+				function()
+					---@diagnostic disable-next-line: missing-fields
+					Snacks.picker.buffers({
+						win = {
+							input = {
+								keys = {
+									["<c-d>"] = { "bufdelete", mode = { "n", "i" } },
+								},
+							},
+						},
+					})
+				end,
+				desc = "Buffers",
+			},
+			{
+				"<leader>o",
+				function()
+					vim.fn.jobstart({ "fd", "--type", "d", "-H", "--ignore", "-E", ".git" }, {
+						stdout_buffered = true,
+						on_stdout = function(_, data)
+							Snacks.picker.select(data, {
+								prompt = "Open Directory",
+								kind = "dir",
+							}, function(dir)
+								require("oil").open_float(dir)
+							end)
+
+							--- @type snacks.picker.finder.Item[]
+							-- local items = {}
+							--
+							-- for _, dir in ipairs(data) do
+							-- 	table.insert(items, {
+							-- 		--- @type snacks.picker.finder.Item
+							-- 		text = dir,
+							-- 	})
+							-- end
+							--
+							-- Snacks.picker.pick({
+							-- 	finder = function(opts, filter)
+							-- 		return items
+							-- 	end,
+							-- 	-- cwd = vim.fn.getcwd(),
+							-- 	confirm = function(_, item)
+							-- 		require("oil").open_float(item.text)
+							-- 	end,
+							-- 	preview = function()
+							-- 		return false
+							-- 	end,
+							-- })
+						end,
+					})
+				end,
 			},
 		},
 	},
