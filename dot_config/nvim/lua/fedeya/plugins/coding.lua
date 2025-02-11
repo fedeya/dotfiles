@@ -77,4 +77,8 @@ return {
 			{ "]y", "<Plug>(YankyCycleBackward)", desc = "Cycle Backward Through Yank History" },
 		},
 	},
+
+	{
+		"jidn/vim-dbml",
+	},
 }

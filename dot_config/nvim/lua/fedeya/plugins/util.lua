@@ -36,22 +36,9 @@ return {
 		},
 	},
 
-	-- discord rich presence
-	{
-		"andweeb/presence.nvim",
-		event = "VeryLazy",
-		enabled = false,
-		config = function()
-			require("presence").setup({
-				main_image = "file",
-			})
-		end,
-	},
-
 	{
 		"vyfor/cord.nvim",
-		enabled = false,
-		build = "./build",
+		build = ":Cord update",
 		event = "VeryLazy",
 		opts = {},
 	},
@@ -119,28 +106,8 @@ return {
 	},
 
 	{
-		"xvzc/chezmoi.nvim",
-		enabled = false,
-		dependencies = { "nvim-lua/plenary.nvim" },
-		init = function()
-			vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-				pattern = { os.getenv("HOME") .. "/.local/share/chezmoi/*" },
-				callback = function()
-					vim.schedule(require("chezmoi.commands.__edit").watch)
-				end,
-			})
-		end,
-		config = function()
-			require("chezmoi").setup({
-				edit = {
-					watch = true,
-				},
-			})
-		end,
-	},
-	{
 		"alker0/chezmoi.vim",
-		enabled = false,
+		enabled = true,
 		init = function()
 			vim.g["chezmoi#use_tmp_buffer"] = 1
 			vim.g["chezmoi#source_dir_path"] = os.getenv("HOME") .. "/.local/share/chezmoi"
@@ -152,6 +119,12 @@ return {
 		priority = 1000,
 		lazy = false,
 		keys = {
+			{
+				"<leader>qb",
+				function()
+					Snacks.bufdelete()
+				end,
+			},
 			{
 				"]]",
 				function()
@@ -211,6 +184,9 @@ return {
 					position = "float",
 					border = "rounded",
 				},
+			},
+			image = {
+				enabled = true,
 			},
 			indent = {
 				terminal = {

@@ -31,6 +31,50 @@ return {
 		},
 	},
 	{
+		"olimorris/codecompanion.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		keys = {
+			{
+				"<leader>cc",
+				"<cmd>CodeCompanionChat Toggle<cr>",
+				desc = "AI Chat - Toggle",
+			},
+			{
+				"<leader>ca",
+				function()
+					local input = vim.fn.input("Quick Chat: ")
+					if input ~= "" then
+						vim.cmd("CodeCompanion " .. input)
+					end
+				end,
+				desc = "AI Chat - Quick Ask",
+				mode = { "n", "v", "x" },
+			},
+		},
+		opts = function()
+			return {
+				adapters = {
+					copilot = require("codecompanion.adapters").extend("copilot", {
+						schema = {
+							model = {
+								default = "claude-3.5-sonnet",
+							},
+						},
+					}),
+				},
+				chat = {
+					adapter = "copilot",
+				},
+				inline = {
+					adapter = "copilot",
+				},
+			}
+		end,
+	},
+	{
 		"CopilotC-Nvim/CopilotChat.nvim",
 		branch = "canary",
 		build = "make tiktoken",

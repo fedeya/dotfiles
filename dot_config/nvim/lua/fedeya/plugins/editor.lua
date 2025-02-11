@@ -5,6 +5,7 @@ return {
 		opts = {
 			-- silent = true,
 		},
+		enabled = false,
 		keys = {
 			{
 				"<leader>qb",
@@ -449,7 +450,7 @@ return {
 
 	{
 		"petertriho/nvim-scrollbar",
-		enabled = false,
+		enabled = true,
 		opts = function()
 			-- local mocha = require("catppuccin.palettes").get_palette("mocha")
 			return {
@@ -466,21 +467,6 @@ return {
 				},
 			}
 		end,
-	},
-
-	{
-		"nvim-pack/nvim-spectre",
-		enabled = false,
-		keys = {
-			{
-				"<leader>S",
-				function()
-					require("spectre").toggle()
-				end,
-				desc = "Toggle Spectre",
-			},
-		},
-		opts = {},
 	},
 
 	{
@@ -529,6 +515,18 @@ return {
 				["q"] = "actions.close",
 			},
 		},
+		config = function(_, opts)
+			require("oil").setup(opts)
+
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "OilActionsPost",
+				callback = function(event)
+					if event.data.actions.type == "move" then
+						Snacks.rename.on_rename_file(event.data.actions.src_url, event.data.actions.dest_url)
+					end
+				end,
+			})
+		end,
 
 		-- Optional dependencies
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -592,6 +590,7 @@ return {
 				"markdown",
 				"copilot-chat",
 				"Avante",
+				"codecompanion",
 			},
 		},
 		ft = {
@@ -602,6 +601,7 @@ return {
 			"Avante",
 			"AvanteInput",
 			"copilot-chat",
+			"codecompanion",
 		},
 
 		cmd = {
@@ -640,18 +640,6 @@ return {
 			maxkeys = 3,
 			position = "top-center",
 		},
-	},
-	{
-		"utilyre/barbecue.nvim",
-		name = "barbecue",
-		event = "BufReadPost",
-		version = "*",
-		enabled = false,
-		dependencies = {
-			"SmiteshP/nvim-navic",
-			"nvim-tree/nvim-web-devicons", -- optional dependency
-		},
-		opts = {},
 	},
 	{
 		"Bekaboo/dropbar.nvim",

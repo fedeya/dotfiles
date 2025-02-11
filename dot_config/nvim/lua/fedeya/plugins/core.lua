@@ -48,6 +48,7 @@ return {
 	{
 
 		"3rd/image.nvim",
+		enabled = false,
 		build = false,
 		lazy = true,
 		init = function()
