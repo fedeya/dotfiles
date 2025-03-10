@@ -24,7 +24,6 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-patch-dl \
     zdharma-continuum/zinit-annex-rust
 
-
 # Load Completions
 autoload -Uz compinit && compinit
 autoload -Uz _zinit
@@ -84,6 +83,9 @@ zi ice wait lucid
 zi snippet OMZL::clipboard.zsh
 
 zi ice wait lucid
+zi snippet OMZL::directories.zsh
+
+zi ice wait lucid
 zinit snippet OMZP::fzf
 
 export EDITOR=nvim
@@ -110,7 +112,7 @@ export BAT_THEME="rose-pine"
 
 # Aliases
 alias cat="bat"
-alias icat="kitten icat"
+alias icat="kitty icat"
 alias ls="eza --icons"
 alias cd="z"
 alias tf="terraform"
@@ -121,12 +123,24 @@ alias la="ls -a"
 alias lla="ls -la"
 alias lah="ls -lah"
 
+# KEYS
+export ANTHROPIC_API_KEY='{{ onepasswordRead "op://Aerolab/anthropic-api-key/password" }}'
+
 pro() {
   cd $HOME/Fede/pro/$1
 }
 
 dev() {
   cd $HOME/Fede/dev/$1
+}
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
 }
 
 export DYLD_FALLBACK_LIBRARY_PATH="/opt/homebrew/lib:$DYLD_FALLBACK_LIBRARY_PATH"
@@ -155,6 +169,7 @@ export PATH="$PATH:/Users/fede/.local/bin"
 export ANDROID_HOME=$HOME/Library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
+export XDG_CONFIG_HOME=$HOME/.config
 
 export PATH=$PATH:/Users/aerolab/.spicetify
 
