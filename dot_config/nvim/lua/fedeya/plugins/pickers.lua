@@ -252,6 +252,13 @@ return {
 		},
 		keys = {
 			{
+				"<leader><space>",
+				function()
+					Snacks.picker.smart()
+				end,
+				desc = "Smart Find Files",
+			},
+			{
 				"<leader>p",
 				function()
 					Snacks.picker.files()
@@ -279,13 +286,13 @@ return {
 				end,
 				desc = "Git log",
 			},
-			{
-				"<leader>/",
-				function()
-					Snacks.picker.lines()
-				end,
-				desc = "Search in buffer",
-			},
+			-- {
+			-- 	"<leader>/",
+			-- 	function()
+			-- 		Snacks.picker.lines()
+			-- 	end,
+			-- 	desc = "Search in buffer",
+			-- },
 			{
 				"<leader>b",
 				function()
@@ -303,6 +310,13 @@ return {
 				desc = "Buffers",
 			},
 			{
+				"gr",
+				function()
+					Snacks.picker.lsp_references()
+				end,
+				nowait = true,
+			},
+			{
 				"<leader>o",
 				function()
 					vim.fn.jobstart({ "fd", "--type", "d", "-H", "--ignore", "-E", ".git" }, {
@@ -312,6 +326,10 @@ return {
 								prompt = "Open Directory",
 								kind = "dir",
 							}, function(dir)
+								if dir == nil then
+									return
+								end
+
 								require("oil").open_float(dir)
 							end)
 
@@ -340,6 +358,21 @@ return {
 						end,
 					})
 				end,
+			},
+		},
+	},
+	{
+		"bassamsdata/namu.nvim",
+		opts = {
+			namu_symbols = {
+				enable = true,
+			},
+		},
+		keys = {
+			{
+				"<leader>/",
+				"<cmd>Namu symbols<cr>",
+				desc = "Jump to LSP symbol",
 			},
 		},
 	},

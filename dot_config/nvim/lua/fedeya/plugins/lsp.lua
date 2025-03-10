@@ -13,22 +13,22 @@ return {
 		branch = "main",
 		cmd = { "Lspsaga" },
 		keys = {
-			{
-				"gh",
-				"<cmd>Lspsaga hover_doc<CR>",
-				desc = "Hover Doc",
-			},
+			-- {
+			-- 	"gh",
+			-- 	"<cmd>Lspsaga hover_doc<CR>",
+			-- 	desc = "Hover Doc",
+			-- },
 			{
 				"gd",
 				"<cmd>Lspsaga goto_definition<CR>",
 				desc = "Goto Definition",
 			},
-			{
-				"<leader>a",
-				"<cmd>Lspsaga code_action<CR>",
-				desc = "Code Action",
-				mode = { "n", "v" },
-			},
+			-- {
+			-- 	"<leader>a",
+			-- 	"<cmd>Lspsaga code_action<CR>",
+			-- 	desc = "Code Action",
+			-- 	mode = { "n", "v" },
+			-- },
 			{
 				"<leader>r",
 				"<cmd>Lspsaga rename mode=n<CR>",
@@ -212,13 +212,15 @@ return {
 		enabled = true,
 		event = "InsertEnter",
 		dependencies = {
+			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "L3MON4D3/LuaSnip" },
 			{ "onsails/lspkind.nvim" },
 			{ "hrsh7th/cmp-path" },
 			{ "hrsh7th/cmp-buffer" },
 			{ "saadparwaiz1/cmp_luasnip" },
 			{ "rafamadriz/friendly-snippets" },
-			"hrsh7th/cmp-cmdline",
+			{ "hrsh7th/cmp-cmdline" },
+			{ "roobert/tailwindcss-colorizer-cmp.nvim", opts = {} },
 		},
 		config = function()
 			local lspkind = require("lspkind")
@@ -239,27 +241,32 @@ return {
 					completion = {
 						side_padding = 1,
 						scrollbar = false,
-						winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel",
+						-- winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:PmenuSel",
+						winhighlight = "Normal:CmpPmenu,Search:PmenuSel",
 						border = border("CmpBorder"),
 					},
 					documentation = {
 						border = border("CmpBorder"),
-						winhighlight = "Normal:CmpDoc",
+						-- winhighlight = "Normal:CmpDoc",
 					},
 				},
 				formatting = {
+					fields = { "kind", "abbr", "menu" },
+					expandable_indicator = true,
 					format = function(entry, item)
 						item.menu = nil
 
-						local new_item = lspkind.cmp_format({
-							mode = "symbol_text",
+						local item_with_kind = lspkind.cmp_format({
+							mode = "symbol",
 							maxwidth = 30,
 							ellipsis_char = "...",
 						})(entry, item)
 
-						new_item.kind = item.kind .. " "
+						-- item_with_kind.kind = item.kind .. " "
 
-						return new_item
+						local item_with_tailwind = require("tailwindcss-colorizer-cmp").formatter(entry, item_with_kind)
+
+						return item_with_tailwind
 					end,
 				},
 				snippet = {
@@ -457,19 +464,21 @@ return {
 		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
-			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "williamboman/mason-lspconfig.nvim" },
 		},
 		config = function()
 			local lsp_defaults = require("lspconfig").util.default_config
 
+			local has_cmp, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+			local has_blink, blink = pcall(require, "blink.cmp")
+
 			lsp_defaults.capabilities = vim.tbl_deep_extend(
 				"force",
 				lsp_defaults.capabilities,
 				-- cmp
-				require("cmp_nvim_lsp").default_capabilities()
+				has_cmp and cmp_nvim_lsp.default_capabilities() or {},
 				-- blink
-				-- require("blink.cmp").get_lsp_capabilities()
+				has_blink and blink.get_lsp_capabilities() or {}
 			)
 
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -477,10 +486,17 @@ return {
 				callback = function(event)
 					-- local opts = { buffer = event.bufnr }
 
-					-- vim.keymap.set("n", "gh", vim.lsp.buf.hover, {
-					-- 	desc = "Hover Doc",
-					-- 	buffer = event.bufnr,
-					-- })
+					vim.keymap.set("n", "gh", vim.lsp.buf.hover, {
+						desc = "Hover Doc",
+						buffer = event.bufnr,
+					})
+
+					vim.keymap.set("n", "<leader>a", function()
+						vim.lsp.buf.code_action()
+					end, {
+						desc = "Code Action",
+						buffer = event.bufnr,
+					})
 
 					vim.keymap.set("n", "<leader>i", function()
 						---@diagnostic disable-next-line: missing-parameter
@@ -655,9 +671,51 @@ return {
 							settings = {
 								eslint = {
 									format = true,
-									workingDirectory = { mode = "auto" },
+									workingDirectories = { mode = "auto" },
 								},
 							},
+							-- handlers = {
+							-- 	["workspace/configuration"] = function(_, result, ctx)
+							-- 		local function lookup_section(table, section)
+							-- 			local keys = vim.split(section, ".", { plain = true }) --- @type string[]
+							-- 			return vim.tbl_get(table, unpack(keys))
+							-- 		end
+							--
+							-- 		local client_id = ctx.client_id
+							-- 		local client = vim.lsp.get_client_by_id(client_id)
+							--
+							-- 		if not client then
+							-- 			vim.notify("No client found", vim.log.levels.ERROR)
+							-- 		end
+							--
+							-- 		if not result.items then
+							-- 			return {}
+							-- 		end
+							--
+							-- 		local bufnr = vim.uri_to_bufnr(result.items[1].scopeUri)
+							--
+							-- 		client.settings.eslint.workingDirectory =
+							-- 			{ directory = vim.fs.root(bufnr, { "package.json" }) }
+							--
+							-- 		vim.cmd([[LspRestart eslint]])
+							--
+							-- 		local response = {}
+							-- 		for _, item in ipairs(result.items) do
+							-- 			if item.section then
+							-- 				local value = lookup_section(client.settings, item.section)
+							-- 				-- For empty sections with no explicit '' key, return settings as is
+							-- 				if value == nil and item.section == "" then
+							-- 					value = client.settings
+							-- 				end
+							-- 				if value == nil then
+							-- 					value = vim.NIL
+							-- 				end
+							-- 				table.insert(response, value)
+							-- 			end
+							-- 		end
+							-- 		return response
+							-- 	end,
+							-- },
 						})
 					end,
 				},

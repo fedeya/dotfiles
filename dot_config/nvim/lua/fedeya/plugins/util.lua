@@ -176,6 +176,12 @@ return {
 				end,
 				desc = "Toggle terminal (horizontal)",
 			},
+			{
+				"<leader>gB",
+				function()
+					Snacks.gitbrowse()
+				end,
+			},
 		},
 		---@type snacks.Config
 		opts = {
@@ -187,6 +193,13 @@ return {
 			},
 			image = {
 				enabled = true,
+				doc = {
+					enabled = false,
+					inline = false,
+					conceal = function(lang, type)
+						return lang == "markdown"
+					end,
+				},
 			},
 			indent = {
 				terminal = {
@@ -217,7 +230,7 @@ return {
 					},
 				},
 			},
-			words = { enabled = true, modes = { "n", "c" } },
+			words = { enabled = true, modes = { "n", "c" }, debounce = 200 },
 		},
 	},
 

@@ -68,20 +68,20 @@ return {
 					end,
 					desc = "Harpoon Quick Menu",
 				},
-				{
-					"<Tab>",
-					function()
-						require("harpoon"):list():prev()
-					end,
-					desc = "Harpoon to Previous",
-				},
-				{
-					"<S-Tab>",
-					function()
-						require("harpoon"):list():next()
-					end,
-					desc = "Harpoon to Next",
-				},
+				-- {
+				-- 	"<Tab>",
+				-- 	function()
+				-- 		require("harpoon"):list():prev()
+				-- 	end,
+				-- 	desc = "Harpoon to Previous",
+				-- },
+				-- {
+				-- 	"<S-Tab>",
+				-- 	function()
+				-- 		require("harpoon"):list():next()
+				-- 	end,
+				-- 	desc = "Harpoon to Next",
+				-- },
 			}
 
 			for i = 1, 5 do
@@ -595,9 +595,9 @@ return {
 		},
 		ft = {
 			"markdown",
-			-- "norg",
-			-- "org",
-			-- "rmd",
+			"norg",
+			"org",
+			"rmd",
 			"Avante",
 			"AvanteInput",
 			"copilot-chat",

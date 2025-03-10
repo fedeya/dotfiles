@@ -32,6 +32,7 @@ return {
 	},
 	{
 		"olimorris/codecompanion.nvim",
+		enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
@@ -164,22 +165,39 @@ return {
 	{
 		"yetone/avante.nvim",
 		event = "VeryLazy",
+		enabled = true,
+		version = false,
 		lazy = false,
-		enabled = false,
-		version = "*",
+		--- @type avante.Config
 		opts = {
-			provider = "copilot",
-			auto_suggestions_provider = "copilot",
+			provider = "claude",
+			auto_suggestions_provider = "claude-haiku",
 			copilot = {
 				model = "claude-3.5-sonnet",
 			},
+			claude = {
+				model = "claude-3-7-sonnet-20250219",
+			},
+			file_selector = {
+				provider = "snacks",
+			},
 			behaviour = {
+				auto_suggestions = false,
 				auto_set_keymaps = false,
+			},
+			windows = {
+				width = 38,
+				ask = {
+					-- floating = true,
+				},
 			},
 			mappings = {
 				ask = "<leader>ca",
 				refresh = "<leader>cr",
 				edit = "<leader>ce",
+				sidebar = {
+					close_from_input = { normal = "q" },
+				},
 			},
 		},
 		keys = function(_, keys)
@@ -220,6 +238,14 @@ return {
 					desc = "avante: toggle",
 					mode = { "n", "v" },
 				},
+				{
+					"<leader>cs",
+					function()
+						require("avante.api").get_suggestion():suggest()
+					end,
+					desc = "avante: suggest",
+					mode = { "n", "v" },
+				},
 			}
 
 			mappings = vim.tbl_filter(function(m)
@@ -231,6 +257,8 @@ return {
 		build = "make",
 		dependencies = {
 			"MunifTanjim/nui.nvim",
+			"stevearc/dressing.nvim",
+			"nvim-lua/plenary.nvim",
 			"zbirenbaum/copilot.lua",
 			{
 				-- support for image pasting

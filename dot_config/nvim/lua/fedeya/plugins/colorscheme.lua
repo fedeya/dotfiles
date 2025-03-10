@@ -100,6 +100,7 @@ return {
 		name = "rose-pine",
 		priority = 1000,
 		lazy = false,
+		enabled = true,
 		---@type Options
 		opts = {
 			highlight_groups = {
@@ -122,5 +123,25 @@ return {
 		init = function()
 			vim.cmd.colorscheme("rose-pine")
 		end,
+	},
+	{
+		"dgox16/oldworld.nvim",
+		priority = 1000,
+		enabled = false,
+		lazy = false,
+		name = "oldworld",
+		opts = {
+			integrations = {
+				telescope = false,
+			},
+		},
+		init = function()
+			vim.cmd.colorscheme("oldworld")
+		end,
+	},
+	{
+		"vague2k/vague.nvim",
+		lazy = false,
+		opts = {},
 	},
 }

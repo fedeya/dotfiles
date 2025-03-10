@@ -141,11 +141,17 @@ return {
 	},
 	{
 		"NvChad/nvim-colorizer.lua",
-		event = "BufRead",
+		event = "VeryLazy",
 		opts = {
+			user_commands = false,
+			lazy_load = true,
 			user_default_options = {
-				tailwind = "lsp",
+				names = false,
 				mode = "background",
+				tailwind = "lsp",
+				tailwind_opts = {
+					update_names = false,
+				},
 				-- virtualtext_inline = true,
 			},
 		},

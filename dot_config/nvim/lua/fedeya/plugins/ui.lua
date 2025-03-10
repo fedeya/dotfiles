@@ -16,7 +16,7 @@ return {
 					enabled = false,
 				},
 				hover = {
-					enabled = false,
+					enabled = true,
 				},
 			},
 			views = {
@@ -37,6 +37,7 @@ return {
 			},
 			presets = {
 				command_palette = true,
+				lsp_doc_border = true,
 			},
 			routes = {
 				{
@@ -180,11 +181,13 @@ return {
 			end
 		end,
 		opts = function()
+			vim.o.laststatus = vim.g.lualine_laststatus
+
 			return {
 				options = {
-					theme = "rose-pine",
+					theme = "auto",
 					icons_enabled = true,
-					globalstatus = true,
+					globalstatus = vim.o.laststatus == 3,
 					-- section_separators = { left = "", right = "" },
 
 					component_separators = { left = "", right = "" },
@@ -256,6 +259,9 @@ return {
 						{
 							require("lazy.status").updates,
 							cond = require("lazy.status").has_updates,
+							color = function()
+								return { fg = Snacks.util.color("Special") }
+							end,
 						},
 					},
 					lualine_y = {
