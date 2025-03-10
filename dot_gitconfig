@@ -54,3 +54,5 @@ email = hello@fedeminaya.com
   line-numbers = true
 [pull]
 	rebase = false
+[branch]
+	sort = -committerdate
