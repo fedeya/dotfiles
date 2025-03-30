@@ -44,11 +44,6 @@ return {
 	},
 
 	{
-		"antoinemadec/FixCursorHold.nvim",
-		lazy = true,
-	},
-
-	{
 		"tpope/vim-repeat",
 		event = "VeryLazy",
 	},
@@ -185,6 +180,12 @@ return {
 		},
 		---@type snacks.Config
 		opts = {
+			bigfile = {
+				enabled = true,
+			},
+			input = {
+				enabled = true,
+			},
 			terminal = {
 				win = {
 					position = "float",
@@ -211,6 +212,11 @@ return {
 				animate = { enabled = false },
 				scope = { enabled = true },
 			},
+			notifier = {
+				enabled = false,
+				style = "compat",
+				top_down = false,
+			},
 			dashboard = {
 				preset = {
 					keys = {
@@ -231,20 +237,6 @@ return {
 				},
 			},
 			words = { enabled = true, modes = { "n", "c" }, debounce = 200 },
-		},
-	},
-
-	{
-		"folke/lazydev.nvim",
-		ft = "lua", -- only load on lua files
-		opts = {
-			library = {
-				-- See the configuration section for more details
-				-- Load luvit types when the `vim.uv` word is found
-				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
-				{ path = "snacks.nvim", words = { "Snacks" } },
-				{ path = "lazy.nvim", words = { "LazyVim" } },
-			},
 		},
 	},
 }

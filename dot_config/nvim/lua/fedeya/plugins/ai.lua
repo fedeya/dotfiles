@@ -257,7 +257,7 @@ return {
 		build = "make",
 		dependencies = {
 			"MunifTanjim/nui.nvim",
-			"stevearc/dressing.nvim",
+			-- "stevearc/dressing.nvim",
 			"nvim-lua/plenary.nvim",
 			"zbirenbaum/copilot.lua",
 			{

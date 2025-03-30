@@ -59,7 +59,7 @@ return {
 					lsp_trouble = true,
 					which_key = true,
 					semantic_tokens = true,
-					alpha = true,
+					alpha = false,
 					telescope = {
 						enabled = false,
 					},
@@ -141,6 +141,7 @@ return {
 	},
 	{
 		"vague2k/vague.nvim",
+		enabled = false,
 		lazy = false,
 		opts = {},
 	},

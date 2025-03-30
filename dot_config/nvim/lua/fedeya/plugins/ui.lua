@@ -27,9 +27,11 @@ return {
 				},
 			},
 			messages = {
-				enabled = false,
+				enabled = true,
 				view = "mini",
-				view_search = false,
+				view_search = "mini",
+				view_error = "mini",
+				view_warn = "mini",
 			},
 			notify = {
 				enabled = true,
@@ -38,15 +40,16 @@ return {
 			presets = {
 				command_palette = true,
 				lsp_doc_border = true,
+				-- bottom_search = true,
 			},
 			routes = {
-				{
-					filter = {
-						event = "msg_show",
-						kind = "search_count",
-					},
-					opts = { skip = true },
-				},
+				-- {
+				-- 	filter = {
+				-- 		event = "msg_show",
+				-- 		kind = "search_count",
+				-- 	},
+				-- 	opts = { skip = true },
+				-- },
 				{
 					filter = {
 						event = "msg_show",
@@ -64,112 +67,20 @@ return {
 				},
 			},
 		},
+		config = function(_, opts)
+			require("noice").setup(opts)
+		end,
 		dependencies = {
 			"MunifTanjim/nui.nvim",
 		},
 	},
 
 	{
-		"nvimdev/dashboard-nvim",
-		event = "VimEnter",
-		enabled = false,
-
-		opts = function()
-			local logo = [[
-███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
-████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
-██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
-██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
-██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
-╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝]]
-
-			logo = string.rep("\n", 8) .. logo .. "\n\n\n"
-
-			local opts = {
-				theme = "doom",
-				hide = {
-					statusline = false,
-					tabline = false,
-				},
-				config = {
-					header = vim.split(logo, "\n"),
-					center = {
-						{
-							action = "FzfLua files",
-							desc = " Find file",
-							icon = " ",
-							key = "f",
-						},
-						{
-							action = "ene | startinsert",
-							desc = " New file",
-							icon = " ",
-							key = "n",
-						},
-						{
-							action = "FzfLua oldfiles",
-							desc = " Recent files",
-							icon = " ",
-							key = "r",
-						},
-						{
-							action = "FzfLua live_grep",
-							desc = " Find text",
-							icon = " ",
-							key = "g",
-						},
-						{
-							action = 'lua require("persistence").load()',
-							desc = " Restore Session",
-							icon = " ",
-							key = "s",
-						},
-						{
-							action = "Lazy",
-							desc = " Lazy",
-							icon = "󰒲 ",
-							key = "l",
-						},
-						{
-							action = "qa",
-							desc = " Quit",
-							icon = " ",
-							key = "q",
-						},
-					},
-					footer = function()
-						local stats = require("lazy").stats()
-						local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-						return {
-							"",
-							"⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms",
-						}
-					end,
-				},
-			}
-
-			for _, button in ipairs(opts.config.center) do
-				button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
-				button.key_format = "  %s"
-			end
-
-			if vim.o.filetype == "lazy" then
-				vim.cmd.close()
-				vim.api.nvim_create_autocmd("User", {
-					pattern = "DashboardLoaded",
-					callback = function()
-						require("lazy").show()
-					end,
-				})
-			end
-
-			return opts
-		end,
-	},
-
-	{
 		"nvim-lualine/lualine.nvim",
 		event = "VeryLazy",
+		dependencies = {
+			"AndreM222/copilot-lualine",
+		},
 		init = function()
 			vim.g.lualine_laststatus = vim.o.laststatus
 			if vim.fn.argc(-1) > 0 then
@@ -189,7 +100,7 @@ return {
 					icons_enabled = true,
 					globalstatus = vim.o.laststatus == 3,
 					-- section_separators = { left = "", right = "" },
-
+					-- component_separators = { left = "", right = "" },
 					component_separators = { left = "", right = "" },
 					section_separators = { left = "", right = "" },
 					disabled_filetypes = {
@@ -197,11 +108,6 @@ return {
 						winbar = {},
 					},
 					always_divide_middle = true,
-					refresh = {
-						statusline = 1000,
-						tabline = 1000,
-						winbar = 1000,
-					},
 				},
 				sections = {
 					lualine_a = {
@@ -253,9 +159,28 @@ return {
 							-- 	bg = "#45475a",
 							-- },
 						},
-						"filename",
+						{
+							"filetype",
+							icon_only = true,
+							separator = "",
+							padding = { left = 1, right = 0 },
+						},
+						{
+							"filename",
+							path = 1,
+							symbols = {
+								unnamed = "",
+							},
+						},
 					},
 					lualine_x = {
+						-- {
+						--
+						-- 	require("noice").api.status.search.get,
+						-- 	cond = require("noice").api.status.search.has,
+						-- 	color = { fg = "#ff9e64" },
+						-- },
+						"copilot",
 						{
 							require("lazy.status").updates,
 							cond = require("lazy.status").has_updates,
@@ -264,11 +189,7 @@ return {
 							end,
 						},
 					},
-					lualine_y = {
-						{
-							"filetype",
-						},
-					},
+					lualine_y = { "filetype" },
 					lualine_z = {
 						{
 							"location",
@@ -283,7 +204,12 @@ return {
 				inactive_sections = {
 					lualine_a = {},
 					lualine_b = {},
-					lualine_c = { "filename" },
+					lualine_c = {
+						{
+							"filename",
+							path = 1,
+						},
+					},
 					lualine_x = { "location" },
 					lualine_y = {},
 					lualine_z = {},
@@ -291,52 +217,8 @@ return {
 				tabline = {},
 				winbar = {},
 				inactive_winbar = {},
-				extensions = { "lazy", "trouble", "neo-tree" },
+				extensions = { "lazy" },
 			}
-		end,
-	},
-	{
-		"lukas-reineke/indent-blankline.nvim",
-		enabled = false,
-		main = "ibl",
-		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
-		opts = {
-			indent = {
-				char = "│",
-				tab_char = "│",
-			},
-			scope = { enabled = false },
-			exclude = {
-				filetypes = {
-					"help",
-					"alpha",
-					"dashboard",
-					"neo-tree",
-					"Trouble",
-					"lazy",
-					"mason",
-					"notify",
-					"toggleterm",
-					"lazyterm",
-					"neotest-summary",
-				},
-			},
-		},
-	},
-	{
-		"stevearc/dressing.nvim",
-		lazy = true,
-		init = function()
-			---@diagnostic disable-next-line: duplicate-set-field
-			-- vim.ui.select = function(...)
-			-- 	require("lazy").load({ plugins = { "dressing.nvim" } })
-			-- 	return vim.ui.select(...)
-			-- end
-			---@diagnostic disable-next-line: duplicate-set-field
-			vim.ui.input = function(...)
-				require("lazy").load({ plugins = { "dressing.nvim" } })
-				return vim.ui.input(...)
-			end
 		end,
 	},
 }

@@ -1,102 +1,5 @@
 return {
 	{
-		"nvim-telescope/telescope.nvim",
-		branch = "0.1.x",
-		cmd = "Telescope",
-		enabled = false,
-		keys = {
-			{
-				"<leader>p",
-				function()
-					require("telescope.builtin").find_files({
-						hidden = true,
-						file_ignore_patterns = { "node_modules", ".git/", ".cache", "dist", "build" },
-					})
-				end,
-				desc = "Find files",
-			},
-			-- {
-			-- 	"<leader>p",
-			-- 	"<cmd>Telescope frecency workspace=CWD<cr>",
-			-- 	desc = "Find files",
-			-- },
-			{
-				"<leader>s",
-				function()
-					require("telescope.builtin").live_grep()
-				end,
-				desc = "Search",
-			},
-			{
-				"<leader>/",
-				function()
-					require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-						winblend = 10,
-						previewer = false,
-					}))
-				end,
-				desc = "Search in buffer",
-			},
-		},
-		dependencies = {
-			{
-				"nvim-telescope/telescope-fzf-native.nvim",
-				build = "make",
-				config = function()
-					require("telescope").load_extension("fzf")
-				end,
-			},
-			-- {
-			-- 	"nvim-telescope/telescope-frecency.nvim",
-			-- 	config = function()
-			-- 		require("telescope").load_extension("frecency")
-			-- 	end,
-			-- },
-		},
-		config = function()
-			local actions = require("telescope.actions")
-
-			local open_with_trouble = function(...)
-				return require("trouble.sources.telescope").open(...)
-			end
-
-			require("telescope").setup({
-				defaults = {
-					mappings = {
-						i = {
-							["<esc>"] = actions.close,
-							["<c-t>"] = open_with_trouble,
-							["<a-t>"] = open_with_trouble,
-						},
-						n = {
-							["q"] = actions.close,
-						},
-					},
-				},
-				extensions = {
-					fzf = {
-						fuzzy = true,
-						override_generic_sorter = true,
-						override_file_sorter = true,
-						case_mode = "smart_case",
-					},
-					frecency = {
-						ignore_patterns = { "node_modules", ".git/", ".cache", "dist", "build" },
-						workspace = "CWD",
-						default_workspace = "CWD",
-						show_filter_column = { "FOO" },
-					},
-				},
-
-				pickers = {
-					find_files = {
-						find_command = { "rg", "--files", "--sortr=modified" },
-					},
-				},
-			})
-		end,
-	},
-	{
 		"ibhagwan/fzf-lua",
 		cmd = "FzfLua",
 		enabled = false,
@@ -242,6 +145,10 @@ return {
 					preset = function()
 						return vim.o.columns >= 120 and "telescope" or "vertical"
 					end,
+					layout = {
+						-- height = 0.8,
+						backdrop = true,
+					},
 				},
 				sources = {
 					files = {
@@ -286,15 +193,41 @@ return {
 				end,
 				desc = "Git log",
 			},
-			-- {
-			-- 	"<leader>/",
-			-- 	function()
-			-- 		Snacks.picker.lines()
-			-- 	end,
-			-- 	desc = "Search in buffer",
-			-- },
+			{
+				"<leader>/",
+				function()
+					Snacks.picker.lines({
+						-- layout = { preset = "dropdown" },
+						-- main = { current = false },
+						-- layout = { preset = "telescope" },
+					})
+				end,
+				desc = "Search in buffer",
+			},
 			{
 				"<leader>b",
+				function()
+					---@diagnostic disable-next-line: missing-fields
+					Snacks.picker.buffers({
+						win = {
+							input = {
+								keys = {
+									["<c-d>"] = { "bufdelete", mode = { "n", "i" } },
+								},
+							},
+						},
+					})
+				end,
+				desc = "Buffers",
+			},
+			{
+				"<leader>u",
+				function()
+					Snacks.picker.undo()
+				end,
+			},
+			{
+				"gb",
 				function()
 					---@diagnostic disable-next-line: missing-fields
 					Snacks.picker.buffers({
@@ -319,61 +252,49 @@ return {
 			{
 				"<leader>o",
 				function()
-					vim.fn.jobstart({ "fd", "--type", "d", "-H", "--ignore", "-E", ".git" }, {
+					vim.fn.jobstart({ "fd", "--type", "d", "-H", "--ignore", "-E", ".git", "--color", "never" }, {
 						stdout_buffered = true,
 						on_stdout = function(_, data)
-							Snacks.picker.select(data, {
-								prompt = "Open Directory",
-								kind = "dir",
-							}, function(dir)
-								if dir == nil then
-									return
+							if data then
+								local filtered = vim.tbl_filter(function(el)
+									return el ~= ""
+								end, data)
+
+								local items = {}
+								for _, v in ipairs(filtered) do
+									table.insert(items, { text = v })
 								end
 
-								require("oil").open_float(dir)
-							end)
-
-							--- @type snacks.picker.finder.Item[]
-							-- local items = {}
-							--
-							-- for _, dir in ipairs(data) do
-							-- 	table.insert(items, {
-							-- 		--- @type snacks.picker.finder.Item
-							-- 		text = dir,
-							-- 	})
-							-- end
-							--
-							-- Snacks.picker.pick({
-							-- 	finder = function(opts, filter)
-							-- 		return items
-							-- 	end,
-							-- 	-- cwd = vim.fn.getcwd(),
-							-- 	confirm = function(_, item)
-							-- 		require("oil").open_float(item.text)
-							-- 	end,
-							-- 	preview = function()
-							-- 		return false
-							-- 	end,
-							-- })
+								Snacks.picker.pick({
+									source = "directories",
+									items = items,
+									layout = { preset = "select", reverse = false },
+									format = "text",
+									confirm = function(picker, item)
+										picker:close()
+										require("oil").open_float(item.text)
+									end,
+								})
+							end
 						end,
 					})
 				end,
 			},
 		},
 	},
-	{
-		"bassamsdata/namu.nvim",
-		opts = {
-			namu_symbols = {
-				enable = true,
-			},
-		},
-		keys = {
-			{
-				"<leader>/",
-				"<cmd>Namu symbols<cr>",
-				desc = "Jump to LSP symbol",
-			},
-		},
-	},
+	-- {
+	-- 	"bassamsdata/namu.nvim",
+	-- 	opts = {
+	-- 		namu_symbols = {
+	-- 			enable = true,
+	-- 		},
+	-- 	},
+	-- 	keys = {
+	-- 		{
+	-- 			"<leader>/",
+	-- 			"<cmd>Namu symbols<cr>",
+	-- 			desc = "Jump to LSP symbol",
+	-- 		},
+	-- 	},
+	-- },
 }

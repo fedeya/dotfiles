@@ -115,6 +115,7 @@ alias cat="bat"
 alias icat="kitty icat"
 alias ls="eza --icons"
 alias cd="z"
+alias cdi="__zoxide_zi"
 alias tf="terraform"
 alias kali="docker exec kali"
 alias cfg="chezmoi"
@@ -122,6 +123,7 @@ alias ll="ls -lh"
 alias la="ls -a"
 alias lla="ls -la"
 alias lah="ls -lah"
+alias fm="yazi"
 
 # KEYS
 export ANTHROPIC_API_KEY='{{ onepasswordRead "op://Aerolab/anthropic-api-key/password" }}'
@@ -155,6 +157,8 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
+
+export PATH="~/go/bin:$PATH"
 
 # ruby
 export RUBYOPT="-W0 -W:no-deprecated -W:no-performance -W:no-experimental"

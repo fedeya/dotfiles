@@ -1,47 +1,4 @@
 return {
-	-- buffer remove
-	{
-		"echasnovski/mini.bufremove",
-		opts = {
-			-- silent = true,
-		},
-		enabled = false,
-		keys = {
-			{
-				"<leader>qb",
-				function()
-					require("mini.bufremove").delete(0, false)
-				end,
-				desc = "Delete Buffer",
-			},
-		},
-	},
-
-	{
-		"folke/twilight.nvim",
-		opts = {},
-		cmd = {
-			"Twilight",
-			"TwilightEnable",
-			"TwilightDisable",
-		},
-	},
-
-	{
-		"folke/zen-mode.nvim",
-		opts = {
-			window = {
-				-- width = 0.7,
-			},
-			plugins = {
-				kitty = {
-					enabled = true,
-				},
-			},
-		},
-		cmd = "ZenMode",
-	},
-
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
@@ -101,21 +58,10 @@ return {
 	{
 		"LunarVim/bigfile.nvim",
 		event = "BufReadPre",
+		enabled = false,
 		config = function()
 			require("bigfile").setup({
 				filesize = 1,
-			})
-		end,
-	},
-
-	-- marks plugin
-	{
-		"chentoast/marks.nvim",
-		enabled = false,
-		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
-		config = function()
-			require("marks").setup({
-				default_mappings = true,
 			})
 		end,
 	},
@@ -157,75 +103,6 @@ return {
 			{ "]]", desc = "Next Reference" },
 			{ "[[", desc = "Prev Reference" },
 		},
-	},
-
-	-- file explorer
-	{
-		"nvim-tree/nvim-tree.lua",
-		version = "*",
-		enabled = false,
-		keys = {
-			{
-				"<leader>e",
-				"<cmd>NvimTreeToggle<cr>",
-			},
-			{
-				"<leader>b",
-				"<cmd>NvimTreeFocus<cr>",
-			},
-		},
-		init = function()
-			if vim.fn.argc() == 1 then
-				local stat = vim.loop.fs_stat(vim.fn.argv(0))
-				if stat and stat.type == "directory" then
-					require("nvim-tree")
-				end
-			end
-		end,
-		config = function()
-			require("nvim-tree").setup({
-				filters = {
-					dotfiles = false,
-					git_ignored = false,
-					custom = { "^.git$", "^.DS_Store$" },
-				},
-				auto_reload_on_write = true,
-				view = {
-					width = 40,
-					side = "right",
-					debounce_delay = 15,
-				},
-				renderer = {
-					indent_markers = {
-						enable = false,
-					},
-				},
-				sync_root_with_cwd = true,
-				respect_buf_cwd = true,
-				update_focused_file = {
-					enable = true,
-					update_root = true,
-				},
-				on_attach = function(bufnr)
-					local api = require("nvim-tree.api")
-
-					local function opts(desc)
-						return {
-							desc = "nvim-tree: " .. desc,
-							buffer = bufnr,
-							noremap = true,
-							silent = true,
-							nowait = true,
-						}
-					end
-
-					api.config.mappings.default_on_attach(bufnr)
-
-					vim.keymap.set("n", "J", "5j", opts("Down 5"))
-					vim.keymap.set("n", "K", "5k", opts("Up 5"))
-				end,
-			})
-		end,
 	},
 
 	-- file explorer (neo-tree)
@@ -351,19 +228,9 @@ return {
 			plugins = { spelling = true },
 
 			preset = "helix",
-			-- win = {
-			-- 	border = require("fedeya.utils.ui").border("CmpBorder"),
-			-- 	margin = { 1, 0, 1, 0.6 },
-			-- },
 			win = {
-				-- height = { min = 4, max = 75 },
-				-- width = { min = 20, max = 50 },
 				border = require("fedeya.utils.ui").border("CmpBorder"),
 			},
-			-- layout = {
-			-- 	height = { min = 4, max = 75 },
-			-- 	width = { min = 20, max = 50 },
-			-- },
 			spec = {
 				mode = { "n" },
 				{ "<leader>t", group = "terminal" },
@@ -450,7 +317,6 @@ return {
 
 	{
 		"petertriho/nvim-scrollbar",
-		enabled = true,
 		opts = function()
 			-- local mocha = require("catppuccin.palettes").get_palette("mocha")
 			return {
@@ -473,6 +339,7 @@ return {
 		"MagicDuck/grug-far.nvim",
 		opts = { headerMaxWidth = 80 },
 		cmd = "GrugFar",
+		enabled = false,
 		keys = {
 			{
 				"<leader>S",
@@ -610,30 +477,6 @@ return {
 	},
 
 	{
-		"leath-dub/snipe.nvim",
-		keys = {
-			{
-				"gb",
-				function()
-					require("snipe").open_buffer_menu()
-				end,
-				desc = "Open Snipe buffer menu",
-			},
-		},
-		opts = {
-			ui = {
-				position = "center",
-				open_win_override = {
-					border = "rounded",
-				},
-			},
-			navigate = {
-				cancel_snipe = "q",
-			},
-			sort = "last",
-		},
-	},
-	{
 		"nvchad/showkeys",
 		cmd = "ShowkeysToggle",
 		opts = {
@@ -644,6 +487,32 @@ return {
 	{
 		"Bekaboo/dropbar.nvim",
 		event = "BufReadPost",
-		config = true,
+		enabled = false,
+		opts = {},
+	},
+	{
+		"hat0uma/csvview.nvim",
+		---@module "csvview"
+		---@type CsvView.Options
+		opts = {
+			parser = { comments = { "#", "//" } },
+			view = {
+				display_mode = "border",
+			},
+			keymaps = {
+				-- Text objects for selecting fields
+				textobject_field_inner = { "if", mode = { "o", "x" } },
+				textobject_field_outer = { "af", mode = { "o", "x" } },
+				-- Excel-like navigation:
+				-- Use <Tab> and <S-Tab> to move horizontally between fields.
+				-- Use <Enter> and <S-Enter> to move vertically between rows and place the cursor at the end of the field.
+				-- Note: In terminals, you may need to enable CSI-u mode to use <S-Tab> and <S-Enter>.
+				jump_next_field_end = { "<Tab>", mode = { "n", "v" } },
+				jump_prev_field_end = { "<S-Tab>", mode = { "n", "v" } },
+				jump_next_row = { "<Enter>", mode = { "n", "v" } },
+				jump_prev_row = { "<S-Enter>", mode = { "n", "v" } },
+			},
+		},
+		cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
 	},
 }

@@ -1,0 +1,35 @@
+theme = "rose-pine"
+
+font-size = 18
+window-inherit-font-size = true
+font-thicken = true
+bold-is-bright = true
+
+font-feature = -liga
+font-feature = -calt
+font-feature = -dlig
+
+macos-titlebar-style = tabs
+macos-option-as-alt = true
+mouse-hide-while-typing = true
+adjust-cursor-thickness = 3
+adjust-underline-position = 3
+
+keybind = super+s=text:\x13
+keybind = super+j=text:\x0e
+keybind = super+k=text:\x10
+
+window-height = 71
+window-width = 211
+
+window-save-state = always
+
+# title = " "
+
+window-padding-x = 10
+window-padding-y = 4
+
+shell-integration = zsh
+shell-integration-features = no-cursor,sudo,title
+window-vsync = true
+auto-update = check

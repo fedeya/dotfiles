@@ -2,6 +2,7 @@ return {
 	{
 		"kevinhwang91/nvim-ufo",
 		event = "BufReadPost",
+		enabled = true,
 		keys = {
 			{
 				"zR",

@@ -41,7 +41,6 @@ autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = {
 		"*.tf",
 		"*.tfvars",
-		"*.hcl",
 	},
 	command = "set filetype=terraform",
 })

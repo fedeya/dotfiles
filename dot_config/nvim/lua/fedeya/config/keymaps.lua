@@ -35,12 +35,12 @@ vim.keymap.set("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
 vim.keymap.set("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- Remap for dealing with word wrap
-vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+vim.keymap.set({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, remap = true })
+vim.keymap.set({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true, remap = true })
 
 -- Better window movement
-vim.keymap.set({ "n", "v" }, "J", "5j")
-vim.keymap.set({ "n", "v" }, "K", "5k")
+vim.keymap.set({ "n", "v" }, "J", "v:count == 0 ? '5gj' : '5j'", { expr = true, silent = true })
+vim.keymap.set({ "n", "v" }, "K", "v:count == 0 ? '5gk' : '5k'", { expr = true, silent = true })
 
 -- Terminal
 vim.keymap.set("t", "jk", [[<C-\><C-n>]], { desc = "Enter Normal Mode" })
