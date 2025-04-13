@@ -92,47 +92,6 @@ return {
 				has_blink and blink.get_lsp_capabilities() or {}
 			)
 
-			vim.diagnostic.config({
-				virtual_text = true,
-			})
-
-			vim.api.nvim_create_autocmd("LspAttach", {
-				desc = "LSP Attach",
-				callback = function(event)
-					-- local opts = { buffer = event.bufnr }
-
-					vim.keymap.set("n", "gh", vim.lsp.buf.hover, {
-						desc = "Hover Doc",
-						buffer = event.bufnr,
-					})
-
-					vim.keymap.set("n", "<leader>a", function()
-						vim.lsp.buf.code_action()
-					end, {
-						desc = "Code Action",
-						buffer = event.bufnr,
-					})
-
-					vim.keymap.set("n", "<leader>i", function()
-						---@diagnostic disable-next-line: missing-parameter
-						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-					end, {
-						desc = "Toggle inlay hints",
-						buffer = event.bufnr,
-						remap = false,
-					})
-
-					local client = vim.lsp.get_client_by_id(event.data.client_id)
-
-					if client and client.name == "eslint" then
-						vim.api.nvim_create_autocmd("BufWritePre", {
-							buffer = event.buf,
-							command = "EslintFixAll",
-						})
-					end
-				end,
-			})
-
 			local noop = function() end
 
 			require("mason-lspconfig").setup({
