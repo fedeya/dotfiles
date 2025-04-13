@@ -26,10 +26,16 @@ window-save-state = always
 
 # title = " "
 
-window-padding-x = 10
+window-padding-x = 4
 window-padding-y = 4
+window-padding-balance = true
+window-padding-color = extend
 
 shell-integration = zsh
 shell-integration-features = no-cursor,sudo,title
 window-vsync = true
 auto-update = check
+
+# cursor-color = #FF9E64
+# cursor-color = #F6C177
+cursor-color = #ebbcb9
