@@ -40,19 +40,59 @@ return {
 		"vyfor/cord.nvim",
 		build = ":Cord update",
 		event = "VeryLazy",
-		opts = {},
+		opts = {
+			-- display = {
+			-- theme = "catppuccin",
+			-- flavor = "dark",
+			-- },
+			text = {
+				workspace = "Secret Workspace",
+				viewing = "Viewing",
+				editing = "Editing",
+			},
+		},
 	},
 
-	{
-		"tpope/vim-repeat",
-		event = "VeryLazy",
-	},
+	-- {
+	-- 	"tpope/vim-repeat",
+	-- 	event = "VeryLazy",
+	-- },
+
+	-- {
+	-- 	"nvim-tree/nvim-web-devicons",
+	-- 	lazy = true,
+	-- 	opts = {
+	-- 		variant = "dark",
+	-- 		override_by_extension = {
+	-- 			["ts"] = {
+	-- 				icon = "",
+	-- 				color = "#2b7489",
+	-- 				name = "TypeScript",
+	-- 			},
+	-- 		},
+	-- 	},
+	-- },
 
 	{
-		"nvim-tree/nvim-web-devicons",
+		"echasnovski/mini.icons",
 		lazy = true,
+		specs = {
+			{ "nvim-tree/nvim-web-devicons", enabled = false, optional = true },
+		},
+		opts = {
+			file = {
+				[".keep"] = { glyph = "󰊢", hl = "MiniIconsGrey" },
+				["devcontainer.json"] = { glyph = "", hl = "MiniIconsAzure" },
+				[".env"] = { glyph = "", hl = "MiniIconsYellow" },
+			},
+		},
+		init = function()
+			package.preload["nvim-web-devicons"] = function()
+				require("mini.icons").mock_nvim_web_devicons()
+				return package.loaded["nvim-web-devicons"]
+			end
+		end,
 	},
-
 	{
 		"nvim-lua/plenary.nvim",
 		lazy = true,
@@ -162,6 +202,15 @@ return {
 				end,
 				desc = "Toggle terminal (vertical)",
 			},
+			-- {
+			-- 	"<leader>fm",
+			-- 	function()
+			-- 		Snacks.terminal("yazi", {
+			-- 			win = { position = "float", border = "rounded" },
+			-- 		})
+			-- 	end,
+			-- 	desc = "Open file manager (yazi)",
+			-- },
 			{
 				"<leader>th",
 				function()
@@ -172,10 +221,18 @@ return {
 				desc = "Toggle terminal (horizontal)",
 			},
 			{
+				"<leader>gg",
+				function()
+					Snacks.lazygit()
+				end,
+				desc = "Toggle lazygit",
+			},
+			{
 				"<leader>gB",
 				function()
 					Snacks.gitbrowse()
 				end,
+				desc = "Browse GitHub",
 			},
 		},
 		---@type snacks.Config
@@ -211,6 +268,10 @@ return {
 				enabled = true,
 				animate = { enabled = false },
 				scope = { enabled = true },
+				-- chunk = {
+				-- enabled = true,
+				-- hl = "SnacksIndentScope",
+				-- },
 			},
 			notifier = {
 				enabled = false,
@@ -237,6 +298,27 @@ return {
 				},
 			},
 			words = { enabled = true, modes = { "n", "c" }, debounce = 200 },
+		},
+	},
+
+	{
+		"mikavilpas/yazi.nvim",
+		keys = {
+			{
+				-- Open in the current working directory
+				"<leader>fm",
+				"<cmd>Yazi cwd<cr>",
+				desc = "Open file manager (yazi)",
+			},
+		},
+		---@type YaziConfig | {}
+		opts = {
+			-- if you want to open yazi instead of netrw, see below for more info
+			open_for_directories = false,
+			floating_window_scaling_factor = 0.8,
+			keymaps = {
+				show_help = "<f1>",
+			},
 		},
 	},
 }

@@ -99,10 +99,12 @@ return {
 					theme = "auto",
 					icons_enabled = true,
 					globalstatus = vim.o.laststatus == 3,
-					-- section_separators = { left = "", right = "" },
-					-- component_separators = { left = "", right = "" },
-					component_separators = { left = "", right = "" },
-					section_separators = { left = "", right = "" },
+					-- section_separators = { left = "", right = "" },
+					-- component_separators = { left = "", right = "" },
+					section_separators = { left = "", right = "" },
+					component_separators = { left = "", right = "" },
+					-- component_separators = { left = "", right = "" },
+					-- section_separators = { left = "", right = "" },
 					disabled_filetypes = {
 						statusline = { "dashboard", "alpha", "starter", "snacks_dashboard" },
 						winbar = {},
@@ -114,7 +116,7 @@ return {
 						{
 							"mode",
 							icon = "",
-							separator = { left = "", right = "" },
+							-- separator = { left = "", right = "" },
 							-- color = {
 							-- 	fg = "#1c1d21",
 							-- 	bg = "#b4befe",
@@ -168,6 +170,7 @@ return {
 						{
 							"filename",
 							path = 1,
+							padding = { left = 0, right = 1 },
 							symbols = {
 								unnamed = "",
 							},
@@ -180,9 +183,16 @@ return {
 						-- 	cond = require("noice").api.status.search.has,
 						-- 	color = { fg = "#ff9e64" },
 						-- },
-						"copilot",
+						{
+							"copilot",
+							separator = "",
+							color = function()
+								return { fg = Snacks.util.color("Special") }
+							end,
+						},
 						{
 							require("lazy.status").updates,
+							separator = "",
 							cond = require("lazy.status").has_updates,
 							color = function()
 								return { fg = Snacks.util.color("Special") }

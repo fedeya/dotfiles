@@ -12,7 +12,7 @@ vim.o.relativenumber = true
 
 -- vim.o.cmdheight = 1
 
--- vim.o.completeopt = "menu,menuone,noselect"
+vim.o.completeopt = "menu,menuone,noselect"
 
 vim.o.tabstop = 2
 vim.o.softtabstop = 2
@@ -79,3 +79,7 @@ if vim.g.neovide then
 	vim.g.neovide_background_color = "#1E1E2E"
 	vim.g.neovide_cursor_animation_length = 0
 end
+
+vim.diagnostic.config({
+	virtual_text = true,
+})

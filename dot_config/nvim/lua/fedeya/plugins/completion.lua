@@ -3,6 +3,7 @@ return {
 		"hrsh7th/nvim-cmp",
 		enabled = true,
 		event = "InsertEnter",
+		version = false,
 		dependencies = {
 			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "L3MON4D3/LuaSnip" },
@@ -14,20 +15,21 @@ return {
 			{ "hrsh7th/cmp-cmdline" },
 			{ "roobert/tailwindcss-colorizer-cmp.nvim", opts = {} },
 		},
-		config = function()
+		opts = function()
 			local lspkind = require("lspkind")
 
 			local cmp = require("cmp")
 			local cmp_select = { behavior = cmp.SelectBehavior.Insert }
+			local defaults = require("cmp.config.default")()
 
 			local border = require("fedeya.utils.ui").border
 
-			require("luasnip.loaders.from_vscode").lazy_load()
-
-			cmp.setup({
+			--- @type cmp.ConfigSchema
+			return {
 				completion = {
 					completeopt = "menu,menuone,noinsert",
 				},
+				sorting = defaults.sorting,
 				preselect = cmp.PreselectMode.Item,
 				window = {
 					completion = {
@@ -39,7 +41,6 @@ return {
 					},
 					documentation = {
 						border = border("CmpBorder"),
-						-- winhighlight = "Normal:CmpDoc",
 					},
 				},
 				formatting = {
@@ -67,16 +68,8 @@ return {
 					end,
 				},
 				sources = cmp.config.sources({
-					{
-						name = "lazydev",
-						group_index = 0,
-					},
-					{
-						name = "nvim_lsp",
-						-- entry_filter = function(entry)
-						-- 	return require("cmp").lsp.CompletionItemKind.Text ~= entry:get_kind()
-						-- end,
-					},
+					{ name = "lazydev", group_index = 0 },
+					{ name = "nvim_lsp" },
 					{ name = "luasnip", keyword_length = 2 },
 					{ name = "path" },
 				}, {
@@ -84,7 +77,7 @@ return {
 				}),
 				mapping = cmp.mapping.preset.insert({
 					-- `Enter` key to confirm completion
-					["<CR>"] = cmp.mapping.confirm({ select = false }),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
 
 					-- Ctrl+Space to trigger completion menu
 					["<C-Space>"] = cmp.mapping.complete(),
@@ -96,7 +89,14 @@ return {
 					-- ["<C-f>"] = cmp_action.luasnip_jump_forward(),
 					-- ["<C-b>"] = cmp_action.luasnip_jump_backward(),
 				}),
-			})
+			}
+		end,
+		config = function(_, opts)
+			local cmp = require("cmp")
+
+			require("luasnip.loaders.from_vscode").lazy_load()
+
+			cmp.setup(opts)
 
 			cmp.setup.cmdline("/", {
 				mapping = cmp.mapping.preset.cmdline(),
@@ -117,6 +117,14 @@ return {
 						},
 					},
 				}),
+			})
+
+			local cmp_nvim_lsp = require("cmp_nvim_lsp")
+
+			local completion_capabilities = cmp_nvim_lsp.default_capabilities()
+
+			vim.lsp.config("*", {
+				capabilities = completion_capabilities,
 			})
 		end,
 	},

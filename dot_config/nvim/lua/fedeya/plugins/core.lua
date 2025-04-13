@@ -12,15 +12,16 @@ return {
 		},
 	},
 	{
-		"iamcco/markdown-preview.nvim",
-		cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
-		-- ft = { "markdown" },
-		build = function()
-			vim.fn["mkdp#util#install"]()
-		end,
-		init = function()
-			vim.g.mkdp_auto_close = 0
-		end,
+		{
+			"toppair/peek.nvim",
+			build = "deno task --quiet build:fast",
+			ft = { "markdown" },
+			config = function()
+				require("peek").setup()
+				vim.api.nvim_create_user_command("MarkdownPreviewOpen", require("peek").open, {})
+				vim.api.nvim_create_user_command("MarkdownPreviewClose", require("peek").close, {})
+			end,
+		},
 	},
 	{
 		"alexghergh/nvim-tmux-navigation",

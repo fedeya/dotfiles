@@ -5,8 +5,17 @@ return {
 		opts = {
 			settings = {
 				save_on_toggle = true,
+				-- sync_on_ui_close = true,
 			},
 		},
+		config = function(_, opts)
+			local harpoon = require("harpoon")
+			local extensions = require("harpoon.extensions")
+
+			harpoon:setup(opts)
+			harpoon:extend(extensions.builtins.highlight_current_file())
+			-- harpoon:extend(extensions.builtins.navigate_with_number())
+		end,
 		keys = function()
 			local keys = {
 				{
@@ -124,23 +133,22 @@ return {
 				desc = "Explorer NeoTree",
 			},
 			{
+				"<leader>ge",
+				function()
+					require("neo-tree.command").execute({ source = "git_status", toggle = true })
+				end,
+				desc = "Explorer NeoTree (git_status)",
+			},
+			{
 				"<leader>E",
 				function()
-					require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
+					require("neo-tree.command").execute({ toggle = true, dir = vim.uv.cwd() })
 				end,
 				desc = "Explorer NeoTree (cwd)",
 			},
 		},
 		deactivate = function()
 			vim.cmd([[Neotree close]])
-		end,
-		init = function()
-			if vim.fn.argc() == 1 then
-				local stat = vim.loop.fs_stat(vim.fn.argv(0))
-				if stat and stat.type == "directory" then
-					require("neo-tree")
-				end
-			end
 		end,
 		opts = function()
 			local on_move = function(data)
@@ -163,6 +171,7 @@ return {
 					bind_to_cwd = false,
 					follow_current_file = { enabled = true, leave_dirs_open = true },
 					use_libuv_file_watcher = true,
+					hijack_netrw_behavior = "disabled",
 					filtered_items = {
 						hide_dotfiles = false,
 						always_show = {
@@ -196,9 +205,9 @@ return {
 				default_component_configs = {
 					indent = {
 						with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
-						expander_collapsed = "",
-						expander_expanded = "",
-						expander_highlight = "NeoTreeExpander",
+						-- expander_collapsed = "",
+						-- expander_expanded = "",
+						-- expander_highlight = "NeoTreeExpander",
 					},
 				},
 			}
@@ -238,6 +247,7 @@ return {
 				{ "<leader>q", group = "sessions" },
 				{ "<leader>x", group = "diagnostic" },
 				{ "<leader>T", group = "tests" },
+				{ "<leader>g", group = "git" },
 			},
 		},
 		config = function(_, opts)
@@ -249,7 +259,6 @@ return {
 
 	{
 		"folke/trouble.nvim",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {},
 		cmd = "Trouble",
 		keys = {
@@ -317,22 +326,21 @@ return {
 
 	{
 		"petertriho/nvim-scrollbar",
-		opts = function()
-			-- local mocha = require("catppuccin.palettes").get_palette("mocha")
-			return {
-				hide_if_all_visible = true,
-				handlers = {
-					gitsigns = true,
-					cursor = false,
-					diagnostic = true,
-					handle = true,
-				},
-				handle = {
-					blend = 50,
-					-- color = mocha.lavender,
-				},
-			}
-		end,
+		event = { "BufReadPre", "BufNewFile" },
+		opts = {
+			hide_if_all_visible = true,
+			show_in_active_only = true,
+			handlers = {
+				gitsigns = true,
+				cursor = false,
+				diagnostic = true,
+				handle = true,
+			},
+			handle = {
+				blend = 0,
+				-- color = mocha.lavender,
+			},
+		},
 	},
 
 	{
@@ -361,7 +369,10 @@ return {
 
 	{
 		"stevearc/oil.nvim",
+		lazy = false,
+		--- @type oil.SetupOpts
 		opts = {
+			default_file_explorer = true,
 			view_options = {
 				show_hidden = true,
 				is_always_hidden = function(name)
@@ -379,6 +390,8 @@ return {
 			delete_to_trash = true,
 			keymaps = {
 				["<C-s>"] = false,
+				["<C-]>"] = { "actions.select", opts = { vertical = true } },
+				["<C-v>"] = { "actions.select", opts = { vertical = true } },
 				["q"] = "actions.close",
 			},
 		},
@@ -395,8 +408,6 @@ return {
 			})
 		end,
 
-		-- Optional dependencies
-		dependencies = { "nvim-tree/nvim-web-devicons" },
 		keys = {
 			{
 				"-",
@@ -434,7 +445,6 @@ return {
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		dependencies = {
-			"nvim-tree/nvim-web-devicons",
 			"nvim-treesitter/nvim-treesitter",
 		},
 		opts = {

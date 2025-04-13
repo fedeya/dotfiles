@@ -141,7 +141,6 @@ return {
 					},
 				},
 				layout = {
-					reverse = true,
 					preset = function()
 						return vim.o.columns >= 120 and "telescope" or "vertical"
 					end,
@@ -196,11 +195,7 @@ return {
 			{
 				"<leader>/",
 				function()
-					Snacks.picker.lines({
-						-- layout = { preset = "dropdown" },
-						-- main = { current = false },
-						-- layout = { preset = "telescope" },
-					})
+					Snacks.picker.lines()
 				end,
 				desc = "Search in buffer",
 			},
@@ -225,6 +220,7 @@ return {
 				function()
 					Snacks.picker.undo()
 				end,
+				desc = "Find Undo",
 			},
 			{
 				"gb",
@@ -279,6 +275,7 @@ return {
 						end,
 					})
 				end,
+				desc = "Open Directory with Oil",
 			},
 		},
 	},

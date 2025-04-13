@@ -29,9 +29,7 @@ return {
 				mode = "v",
 			},
 		},
-		config = function()
-			require("nvim-surround").setup()
-		end,
+		opts = {},
 	},
 	{
 		"numToStr/Comment.nvim",
@@ -42,7 +40,7 @@ return {
 			},
 			{
 				"gc",
-				mode = "v",
+				mode = { "n", "v" },
 				desc = "Comment operator",
 			},
 		},
@@ -61,7 +59,10 @@ return {
 				desc = "Join Toggle",
 			},
 		},
-		opts = { use_default_keymaps = false },
+		opts = {
+			use_default_keymaps = false,
+			max_join_length = 300,
+		},
 	},
 	{
 		"gbprod/yanky.nvim",
@@ -70,9 +71,6 @@ return {
 		},
 		cmd = { "YankyRingHistory" },
 		keys = {
-			{ "y", "<Plug>(YankyYank)", mode = { "n", "x" }, desc = "Yank Text" },
-			{ "p", "<Plug>(YankyPutAfter)", mode = { "n", "x" }, desc = "Put Yanked Text After Cursor" },
-			{ "P", "<Plug>(YankyPutBefore)", mode = { "n", "x" }, desc = "Put Yanked Text Before Cursor" },
 			{ "[y", "<Plug>(YankyCycleForward)", desc = "Cycle Forward Through Yank History" },
 			{ "]y", "<Plug>(YankyCycleBackward)", desc = "Cycle Backward Through Yank History" },
 		},
@@ -80,5 +78,6 @@ return {
 
 	{
 		"jidn/vim-dbml",
+		ft = "dbml",
 	},
 }

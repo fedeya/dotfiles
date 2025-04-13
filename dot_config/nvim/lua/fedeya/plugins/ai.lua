@@ -20,10 +20,12 @@ return {
 		opts = {
 			suggestion = {
 				auto_trigger = true,
+				debounce = 75,
 				keymap = {
 					accept = false,
 				},
 			},
+			copilot_model = "gpt-4o-copilot",
 			filetypes = {
 				markdown = true,
 				yaml = true,
@@ -173,17 +175,18 @@ return {
 			provider = "claude",
 			auto_suggestions_provider = "claude-haiku",
 			copilot = {
-				model = "claude-3.5-sonnet",
+				model = "claude-3.7-sonnet",
 			},
-			claude = {
-				model = "claude-3-7-sonnet-20250219",
-			},
+			-- claude = {
+			-- 	model = "claude-3-7-sonnet-20250219",
+			-- },
 			file_selector = {
 				provider = "snacks",
 			},
 			behaviour = {
 				auto_suggestions = false,
 				auto_set_keymaps = false,
+				enable_claude_text_editor_tool_mode = true,
 			},
 			windows = {
 				width = 38,
