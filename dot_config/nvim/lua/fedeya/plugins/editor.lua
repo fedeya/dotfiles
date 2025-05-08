@@ -65,17 +65,6 @@ return {
 	},
 
 	{
-		"LunarVim/bigfile.nvim",
-		event = "BufReadPre",
-		enabled = false,
-		config = function()
-			require("bigfile").setup({
-				filesize = 1,
-			})
-		end,
-	},
-
-	{
 		"RRethy/vim-illuminate",
 		event = { "BufReadPost", "BufNewFile", "BufWritePre" },
 		enabled = false,

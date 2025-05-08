@@ -40,6 +40,7 @@ return {
 			},
 		},
 		config = function()
+			---@diagnostic disable-next-line: missing-fields
 			require("nvim-treesitter.configs").setup({
 				incremental_selection = { enable = true },
 				textobjects = {
@@ -57,8 +58,8 @@ return {
 							["if"] = { query = "@function.inner", desc = "inside function " },
 							["al"] = { query = "@loop.outer", desc = "around loop" },
 							["il"] = { query = "@loop.inner", desc = "inside loop" },
-							["aa"] = { query = "@parameter.outer", desc = "around argument" },
-							["ia"] = { query = "@parameter.inner", desc = "inside argument" },
+							["aa"] = { query = "@attribute.outer", desc = "around attribute" },
+							["ia"] = { query = "@attribute.inner", desc = "inside attribute" },
 						},
 					},
 					move = {

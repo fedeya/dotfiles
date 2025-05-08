@@ -35,6 +35,7 @@ return {
 		opts = function()
 			local formatters_by_ft = {
 				lua = { "stylua" },
+				python = { "black" },
 			}
 
 			local prettier_supported = {

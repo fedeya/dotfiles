@@ -186,6 +186,12 @@ return {
 				desc = "Resume last snack picker",
 			},
 			{
+				"<leader>gs",
+				function()
+					Snacks.picker.git_status()
+				end,
+			},
+			{
 				"<leader>gl",
 				function()
 					Snacks.picker.git_log()
@@ -204,6 +210,9 @@ return {
 				function()
 					---@diagnostic disable-next-line: missing-fields
 					Snacks.picker.buffers({
+						layout = {
+							preset = "bottom",
+						},
 						win = {
 							input = {
 								keys = {
@@ -227,6 +236,9 @@ return {
 				function()
 					---@diagnostic disable-next-line: missing-fields
 					Snacks.picker.buffers({
+						layout = {
+							preset = "bottom",
+						},
 						win = {
 							input = {
 								keys = {

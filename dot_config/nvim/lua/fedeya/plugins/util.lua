@@ -99,7 +99,7 @@ return {
 	},
 
 	{
-		"epwalsh/obsidian.nvim",
+		"obsidian-nvim/obsidian.nvim",
 		version = "*", -- recommended, use latest release instead of latest commit
 		lazy = true,
 		init = function()
@@ -127,6 +127,9 @@ return {
 					name = "brain",
 					path = "~/vaults/brain",
 				},
+			},
+			picker = {
+				name = "snacks.pick",
 			},
 
 			follow_url_func = function(url)
@@ -318,6 +321,25 @@ return {
 			floating_window_scaling_factor = 0.8,
 			keymaps = {
 				show_help = "<f1>",
+			},
+		},
+	},
+
+	{
+		"nvim-neorg/neorg",
+		lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+		version = "*", -- Pin Neorg to the latest stable release
+		opts = {
+			load = {
+				["core.defaults"] = {},
+				["core.concealer"] = {},
+				["core.dirman"] = {
+					config = {
+						workspaces = {
+							notes = "~/vaults/neorg",
+						},
+					},
+				},
 			},
 		},
 	},

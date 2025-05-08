@@ -12,6 +12,7 @@ vim.keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Sav
 
 -- Yank to clipboard
 vim.keymap.set({ "n", "v", "x" }, "<Leader>y", '"+y', { desc = "Copy to clipboard" })
+vim.keymap.set({ "n", "v", "x" }, "<Leader>Y", '"+y$', { desc = "Copy to clipboard (line)" })
 
 -- Better Paste
 vim.keymap.set({ "v", "x" }, "p", "P", { desc = "Paste without yanking", remap = false })
