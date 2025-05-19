@@ -103,6 +103,9 @@ return {
 		enabled = true,
 		---@type Options
 		opts = {
+			styles = {
+				transparency = true,
+			},
 			highlight_groups = {
 				CmpSel = { bg = "overlay" },
 				CmpBorder = { fg = "muted", bg = "surface" },

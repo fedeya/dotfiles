@@ -72,7 +72,7 @@ return {
 	},
 	{
 		"mason-org/mason-lspconfig.nvim",
-		event = { "BufReadPre", "BufNewFile" },
+		event = { "BufReadPre", "BufNewFile", "VeryLazy" },
 		dependencies = {
 			"neovim/nvim-lspconfig",
 			"williamboman/mason.nvim",

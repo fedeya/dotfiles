@@ -1,0 +1,186 @@
+# This is a demo config to showcase some of the most important commands.
+# It is meant to be changed and configured, as it is intentionally kept sparse.
+# For a (much) more advanced configuration example see my dotfiles:
+# https://github.com/FelixKratz/dotfiles
+
+PLUGIN_DIR="$CONFIG_DIR/plugins"
+
+##### Bar Appearance #####
+# Configuring the general appearance of the bar.
+# These are only some of the options available. For all options see:
+# https://felixkratz.github.io/SketchyBar/config/bar
+# If you are looking for other colors, see the color picker:
+# https://felixkratz.github.io/SketchyBar/config/tricks#color-picker
+
+text_color=0xffe0def4
+overlay_color=0xff26233a
+highlight_high_color=0xff524f67
+highlight_mid_color=0xff403d52
+muted_color=0xff6e6a86
+
+bar=(
+  position=top
+  height=44
+  blur_radius=40
+  # color=0xff26233a
+  color=0x55191724
+  border_color=$highlight_high_color
+  border_width=1
+  shadow=on
+  # corner_radius=8
+  margin=-1
+  y_offset=-1
+  padding_left=12
+  padding_right=8
+)
+
+sketchybar --bar "${bar[@]}"
+
+##### Changing Defaults #####
+# We now change some default values, which are applied to all further items.
+# For a full list of all available item properties see:
+# https://felixkratz.github.io/SketchyBar/config/items
+
+default=(
+  padding_left=4
+  padding_right=4
+  icon.font="JetbrainsMono Nerd Font:Bold:17.0"
+  label.font="JetbrainsMono Nerd Font:Bold:14.0"
+  icon.color=$text_color
+  label.color=$text_color
+  icon.padding_left=4
+  icon.padding_right=4
+  label.padding_left=4
+  label.padding_right=4
+)
+sketchybar --default "${default[@]}"
+
+
+##### Adding Mission Control Space Indicators #####
+# Let's add some mission control spaces:
+# https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
+# to indicate active and available mission control spaces.
+
+# SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+# for i in "${!SPACE_ICONS[@]}"
+# do
+#   sid="$(($i+1))"
+#   space=(
+#     space="$sid"
+#     icon="${SPACE_ICONS[i]}"
+#     icon.padding_left=7
+#     icon.padding_right=7
+#     background.color=0x40ffffff
+#     background.corner_radius=5
+#     background.height=25
+#     label.drawing=off
+#     script="$PLUGIN_DIR/space.sh"
+#     click_script="yabai -m space --focus $sid"
+#   )
+#   sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}"
+# done
+
+
+##### Adding Left Items #####
+# We add some regular items to the left side of the bar, where
+# only the properties deviating from the current defaults need to be set
+
+sketchybar --add item macos left \
+           --add event aerospace_workspace_change \
+           --set macos icon= label.drawing=off \
+                  icon.padding_left=12 icon.padding_right=12 background.height=30 background.corner_radius=8 \
+                  padding_right=0 \
+
+
+SPACE_ICONS=("" "" "" "" "" "" "" "7" "8" "9" "10")
+
+for sid in $(aerospace list-workspaces --all); do
+    space=(
+        space="$sid"
+        background.color=0xff403d52
+        background.corner_radius=5 
+        background.height=25 
+        icon="${SPACE_ICONS[$sid]}"
+        icon.padding_left=7
+        label.padding_right=7
+        background.drawing=off
+        label="$sid" 
+        click_script="aerospace workspace $sid"
+        script="$CONFIG_DIR/plugins/aerospace.sh $sid"
+    )
+
+    sketchybar --add space space.$sid left --subscribe space.$sid aerospace_workspace_change --set space.$sid "${space[@]}"
+done
+
+sketchybar --add event aerospace_mode_change \
+           --add item aerospace_mode left \
+           --set aerospace_mode icon= label=M \
+                 icon.padding_left=12 label.padding_right=12 background.height=30 background.corner_radius=8 background.color=$overlay_color \
+                 padding_left=8 background.border_color=$highlight_mid_color background.border_width=1 \
+                 script="$PLUGIN_DIR/aerospace-mode.sh" \
+           --subscribe aerospace_mode aerospace_mode_change
+
+sketchybar --add bracket spaces '/space\..*/'  macos             \
+           --set         spaces background.color=$overlay_color \
+                                background.corner_radius=6  \
+                                background.border_color=$highlight_mid_color \
+                                background.border_width=1 \
+                                background.padding_left=0 \
+                                background.padding_right=0 \
+                                background.height=30
+
+# sketchybar --add item chevron left \
+#            --set chevron icon="|" icon.color=$muted_color label.drawing=off
+
+sketchybar --add item front_app center \
+           --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
+           --subscribe front_app front_app_switched
+
+##### Adding Right Items #####
+# In the same way as the left items we can add items to the right side.
+# Additional position (e.g. center) are available, see:
+# https://felixkratz.github.io/SketchyBar/config/items#adding-items-to-sketchybar
+
+# Some items refresh on a fixed cycle, e.g. the clock runs its script once
+# every 10s. Other items respond to events they subscribe to, e.g. the
+# volume.sh script is only executed once an actual change in system audio
+# volume is registered. More info about the event system can be found here:
+# https://felixkratz.github.io/SketchyBar/config/events
+
+sketchybar --add item clock right \
+           --set clock update_freq=10 icon=  script="$PLUGIN_DIR/clock.sh" \
+                 background.color=$overlay_color icon.padding_left=8 label.padding_right=8 background.height=30 background.corner_radius=8 \
+                 background.border_color=$highlight_mid_color background.border_width=1 \
+          --add item volume right \
+           --set volume script="$PLUGIN_DIR/volume.sh" \
+                 background.color=$overlay_color icon.padding_left=8 label.padding_right=8 background.height=30 background.corner_radius=8 \
+                 background.border_color=$highlight_mid_color background.border_width=1 \
+           --subscribe volume volume_change \
+           --add item battery right \
+           --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+                 background.color=$overlay_color icon.padding_left=8 label.padding_right=8 background.height=30 background.corner_radius=8 \
+                 background.border_color=$highlight_mid_color background.border_width=1 \
+           --subscribe battery system_woke power_source_change
+
+SPOTIFY_EVENT="com.spotify.client.PlaybackStateChanged"
+
+sketchybar --add event spotify_change $SPOTIFY_EVENT \
+    --add item spotify right \
+    --set spotify \
+    icon= \
+    background.height=30 \
+    background.corner_radius=8 \
+    background.border_color=$highlight_mid_color \
+    background.border_width=1 \
+    icon.y_offset=1 \
+    icon.color=0xff1DB954 \
+    label.drawing=off \
+    label.padding_left=8 \
+    label.padding_right=8 \
+    icon.padding_left=8 \
+    icon.padding_right=8 \
+    script="$PLUGIN_DIR/spotify.sh" \
+    --subscribe spotify spotify_change mouse.clicked
+
+##### Force all scripts to run the first time (never do this in a script) #####
+sketchybar --update

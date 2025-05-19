@@ -36,7 +36,7 @@ return {
 	},
 	{
 		"tpope/vim-fugitive",
-		cmd = { "Git", "G" },
+		cmd = { "Git", "G", "Gread", "Gwrite" },
 	},
 	{
 		"sindrets/diffview.nvim",

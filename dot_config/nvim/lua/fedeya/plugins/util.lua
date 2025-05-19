@@ -102,9 +102,9 @@ return {
 		"obsidian-nvim/obsidian.nvim",
 		version = "*", -- recommended, use latest release instead of latest commit
 		lazy = true,
-		init = function()
-			vim.opt.conceallevel = 2
-		end,
+		-- init = function()
+		-- 	vim.opt.conceallevel = 2
+		-- end,
 		-- ft = "markdown",
 		-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
 		event = {
@@ -327,7 +327,8 @@ return {
 
 	{
 		"nvim-neorg/neorg",
-		lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+		enabled = false,
+		lazy = true, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
 		version = "*", -- Pin Neorg to the latest stable release
 		opts = {
 			load = {

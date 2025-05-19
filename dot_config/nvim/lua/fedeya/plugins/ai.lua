@@ -169,7 +169,6 @@ return {
 		event = "VeryLazy",
 		enabled = true,
 		version = false,
-		lazy = false,
 		--- @type avante.Config
 		opts = {
 			provider = "claude",

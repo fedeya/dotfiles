@@ -178,6 +178,9 @@ return {
 					show_on_insert_on_trigger_character = false,
 					show_on_trigger_character = false,
 				},
+				list = {
+					selection = { preselect = true, auto_insert = false },
+				},
 				accept = {
 					create_undo_point = false,
 					auto_brackets = {
