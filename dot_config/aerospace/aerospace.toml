@@ -163,11 +163,11 @@ automatically-unhide-macos-hidden-apps = true
 
     alt-m = "focus-monitor --wrap-around next"
 
-    alt-q = 'exec-and-forget open "/Applications/Google Chrome.app"'
-    alt-w = 'exec-and-forget open "/Applications/Ghostty.app/"'
+    alt-w = 'exec-and-forget open "/Applications/Google Chrome.app"'
+    alt-e = 'exec-and-forget open "/Applications/Ghostty.app/"'
     alt-c = 'exec-and-forget open "/Applications/Notion Calendar.app/"'
     alt-d = 'exec-and-forget open "/Applications/Discord.app/"'
-    alt-n = 'exec-and-forget open "/Applications/Notion.app/"'
+    alt-shift-n = 'exec-and-forget open "/Applications/Notion.app/"'
     alt-s = 'exec-and-forget open "/Applications/Slack.app/"'
     alt-p = 'exec-and-forget open "/Applications/Spotify.app/"'
 
@@ -223,6 +223,18 @@ automatically-unhide-macos-hidden-apps = true
 
 [[on-window-detected]]
 if.app-id = 'com.google.Chrome'
+if.window-title-regex-substring = 'about:blank'
+run = ['layout floating']
+check-further-callbacks = false
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+if.window-title-regex-substring = 'Picture in Picture'
+run = 'layout floating'
+check-further-callbacks = false
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
 run = ['layout tiling', 'move-node-to-workspace 1']
 
 [[on-window-detected]]
@@ -244,6 +256,10 @@ run = ['layout tiling', 'move-node-to-workspace 5']
 [[on-window-detected]]
 if.app-id = 'com.tinyspeck.slackmacgap'
 run = ['layout tiling', 'move-node-to-workspace 6']
+
+[[on-window-detected]]
+if.app-id = 'notion.id'
+run = ['layout tiling', 'move-node-to-workspace 7']
 
 [[on-window-detected]]
 if.app-id = 'com.1password.1password'

@@ -44,8 +44,8 @@ sketchybar --bar "${bar[@]}"
 default=(
   padding_left=4
   padding_right=4
-  icon.font="JetbrainsMono Nerd Font:Bold:17.0"
-  label.font="JetbrainsMono Nerd Font:Bold:14.0"
+  icon.font="JetBrainsMono Nerd Font:Bold:17.0"
+  label.font="JetBrainsMono Nerd Font:Bold:14.0"
   icon.color=$text_color
   label.color=$text_color
   icon.padding_left=4
@@ -92,24 +92,28 @@ sketchybar --add item macos left \
                   padding_right=0 \
 
 
-SPACE_ICONS=("" "" "" "" "" "" "" "7" "8" "9" "10")
+SPACE_ICONS=("" "" "" "" "" "" "" "" "" "" "")
 
 for sid in $(aerospace list-workspaces --all); do
     space=(
-        space="$sid"
+        # space="$sid"
         background.color=0xff403d52
         background.corner_radius=5 
         background.height=25 
         icon="${SPACE_ICONS[$sid]}"
-        icon.padding_left=7
-        label.padding_right=7
+        icon.padding_left=10
+        label.padding_right=10
         background.drawing=off
         label="$sid" 
         click_script="aerospace workspace $sid"
         script="$CONFIG_DIR/plugins/aerospace.sh $sid"
     )
 
-    sketchybar --add space space.$sid left --subscribe space.$sid aerospace_workspace_change --set space.$sid "${space[@]}"
+    sketchybar --add item space.$sid left --subscribe space.$sid aerospace_workspace_change --set space.$sid "${space[@]}"
+
+    if [[ -z $SPACE_ICONS[$sid] ]]; then
+      sketchybar --set space.$sid icon.drawing=off
+    fi
 done
 
 sketchybar --add event aerospace_mode_change \

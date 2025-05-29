@@ -133,3 +133,13 @@ autocmd("LspAttach", {
 		end
 	end,
 })
+
+autocmd({ "FileType" }, {
+	pattern = {
+		"json.kulala_ui",
+	},
+	callback = function()
+		vim.opt_local.relativenumber = true
+		vim.opt_local.conceallevel = 0
+	end,
+})
