@@ -1,0 +1,33 @@
+[[session]]
+name = "tmux config"
+path = "~/"
+startup_command = "nvim .tmux.conf"
+
+[[session]]
+name = "sesh config"
+path = "~/.config/sesh"
+startup_command = "nvim sesh.toml"
+
+[[session]]
+name = "nvim config"
+path = "~/.config/nvim"
+startup_command = "nvim"
+
+[[session]]
+name = "zsh config"
+path = "~/"
+startup_command = "nvim .zshrc"
+
+[[session]]
+name = "ghostty config"
+path = "~/.config/ghostty"
+startup_command = "nvim config"
+
+[[session]]
+name = "Downloads"
+path = "~/Downloads"
+startup_command = "yazi"
+
+[[session]]
+name = "playground"
+path = "~/"
