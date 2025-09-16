@@ -23,9 +23,9 @@ vim.keymap.set("v", ">", ">gv")
 
 vim.keymap.set({ "n", "x" }, "gw", "*N", { desc = "Search word under cursor" })
 
--- better scrolling
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
+-- -- better scrolling
+-- vim.keymap.set("n", "<C-d>", "<C-d>zz")
+-- vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- close
 vim.keymap.set("n", "<leader>qq", "<cmd>q<cr>", { desc = "Close current window" })
@@ -50,8 +50,8 @@ vim.keymap.set({ "n", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, si
 vim.keymap.set({ "n", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Better vertical movement
-vim.keymap.set({ "n", "v" }, "J", "v:count == 0 ? '6gj' : '6j'", { expr = true, silent = true })
-vim.keymap.set({ "n", "v" }, "K", "v:count == 0 ? '6gk' : '6k'", { expr = true, silent = true })
+-- vim.keymap.set({ "n", "v" }, "<C-d>", "v:count == 0 ? '10gj' : '10j'", { expr = true, silent = true })
+-- vim.keymap.set({ "n", "v" }, "<C-u>", "v:count == 0 ? '10gk' : '10k'", { expr = true, silent = true })
 
 -- Terminal
 -- vim.keymap.set("t", "jk", [[<C-\><C-n>]], { desc = "Enter Normal Mode" })
@@ -65,15 +65,15 @@ vim.keymap.set("n", "<Leader>wv", "<C-w>v", { desc = "Split window vertically" }
 
 -- VSCode
 if vim.g.vscode then
-	-- Commenting VSCode
-	vim.keymap.set("x", "gc", "<Plug>VSCodeCommentary", { silent = true })
-	vim.keymap.set("n", "gc", "<Plug>VSCodeCommentary", { silent = true })
-	vim.keymap.set("o", "gc", "<Plug>VSCodeCommentary", { silent = true })
-	vim.keymap.set("n", "gcc", "<Plug>VSCodeCommentaryLine", { silent = true })
+  -- Commenting VSCode
+  vim.keymap.set("x", "gc", "<Plug>VSCodeCommentary", { silent = true })
+  vim.keymap.set("n", "gc", "<Plug>VSCodeCommentary", { silent = true })
+  vim.keymap.set("o", "gc", "<Plug>VSCodeCommentary", { silent = true })
+  vim.keymap.set("n", "gcc", "<Plug>VSCodeCommentaryLine", { silent = true })
 end
 
 -- Neovide
 if vim.g.neovide then
-	vim.keymap.set({ "n", "v", "x", "o", "i" }, "<D-j>", "<C-n>", { remap = true })
-	vim.keymap.set({ "n", "v", "x", "o", "i" }, "<D-k>", "<C-p>", { remap = true })
+  vim.keymap.set({ "n", "v", "x", "o", "i" }, "<D-j>", "<C-n>", { remap = true })
+  vim.keymap.set({ "n", "v", "x", "o", "i" }, "<D-k>", "<C-p>", { remap = true })
 end

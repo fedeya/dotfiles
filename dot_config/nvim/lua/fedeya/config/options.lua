@@ -19,6 +19,7 @@ vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
 vim.o.undolevels = 10000
+vim.o.undofile = true
 vim.o.wildmode = "longest:full,full"
 vim.o.winminwidth = 5
 vim.o.smoothscroll = true
@@ -28,6 +29,7 @@ vim.o.ignorecase = true
 vim.o.smartindent = true
 vim.o.wrap = true
 vim.o.linebreak = true
+vim.o.jumpoptions = "view"
 vim.o.conceallevel = 2
 vim.o.confirm = true
 
@@ -40,6 +42,7 @@ vim.o.showmode = false
 vim.o.grepformat = "%f:%l:%c:%m"
 vim.o.timeoutlen = vim.g.vscode and 1000 or 300
 vim.o.virtualedit = "block"
+vim.o.list = true
 
 vim.o.termguicolors = true
 
@@ -49,6 +52,7 @@ vim.o.ruler = false
 vim.o.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 vim.o.mouse = "a"
+vim.o.mousescroll = "ver:10,hor:6"
 
 vim.o.updatetime = 200
 -- vim.o.winborder = "rounded"
@@ -59,12 +63,12 @@ vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 -- vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 vim.opt.fillchars = {
-	foldopen = "",
-	foldclose = "",
-	fold = " ",
-	foldsep = " ",
-	diff = "╱",
-	eob = " ",
+  foldopen = "",
+  foldclose = "",
+  fold = " ",
+  foldsep = " ",
+  diff = "╱",
+  eob = " ",
 }
 
 vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
@@ -76,10 +80,15 @@ vim.o.splitkeep = "screen"
 vim.o.guifont = "JetBrainsMono Nerd Font"
 
 if vim.g.neovide then
-	vim.g.neovide_background_color = "#1E1E2E"
-	vim.g.neovide_cursor_animation_length = 0
+  vim.g.neovide_background_color = "#1E1E2E"
+  vim.g.neovide_cursor_animation_length = 0
 end
 
 vim.diagnostic.config({
-	virtual_text = true,
+  virtual_text = true,
 })
+
+vim.g.no_python_maps = 1
+vim.g.markdown_recommended_style = 0
+
+-- vim.g.snacks_animate = false
