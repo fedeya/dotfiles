@@ -283,6 +283,13 @@ return {
         end,
         nowait = true,
       },
+      -- {
+      --   "ga",
+      --   function()
+      --     Snacks.picker.lsp_
+      --   end,
+      --   nowait = true,
+      -- },
       {
         "<leader>sd",
         function()
@@ -295,11 +302,11 @@ return {
         end,
         desc = "Diagnostics",
       },
-      {
-        "gI",
-        function() Snacks.picker.lsp_implementations() end,
-        desc = "Goto Implementation"
-      },
+      { "<leader>gi", function() Snacks.picker.gh_issue() end,                  desc = "GitHub Issues (open)" },
+      { "<leader>gI", function() Snacks.picker.gh_issue({ state = "all" }) end, desc = "GitHub Issues (all)" },
+      { "<leader>gp", function() Snacks.picker.gh_pr() end,                     desc = "GitHub Pull Requests (open)" },
+      { "<leader>gP", function() Snacks.picker.gh_pr({ state = "all" }) end,    desc = "GitHub Pull Requests (all)" },
+      { "gI",         function() Snacks.picker.lsp_implementations() end,       desc = "Goto Implementation" },
       {
         "<leader>o",
         function()
@@ -371,17 +378,17 @@ return {
   },
   -- {
   --   'dmtrKovalenko/fff.nvim',
-  --   build = 'cargo build --release',
-  --   -- or if you are using nixos
-  --   -- build = "nix run .#release",
-  --   opts = {                -- (optional)
+  --   build = function()
+  --     -- this will download prebuild binary or try to use existing rustup toolchain to build from source
+  --     -- (if you are using lazy you can use gb for rebuilding a plugin if needed)
+  --     require("fff.download").download_or_build_binary()
+  --   end,
+  --   opts = {
   --     debug = {
-  --       enabled = false,    -- we expect your collaboration at least during the beta
-  --       show_scores = true, -- to help us optimize the scoring system, feel free to share your scores!
+  --       enabled = false,
   --     },
+  --     prompt = ""
   --   },
-  --   -- No need to lazy-load with lazy.nvim.
-  --   -- This plugin initializes itself lazily.
   --   lazy = false,
   --   keys = {
   --     {

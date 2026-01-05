@@ -232,4 +232,9 @@ return {
       }
     end,
   },
+  {
+    'nanozuki/tabby.nvim',
+    event = "VeryLazy",
+    opts = {},
+  }
 }

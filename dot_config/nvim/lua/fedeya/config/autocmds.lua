@@ -121,12 +121,12 @@ autocmd("LspAttach", {
       buffer = event.bufnr,
     })
 
-    -- vim.keymap.set("n", "ga", function()
-    --   vim.lsp.buf.code_action()
-    -- end, {
-    --   desc = "Code Action",
-    --   buffer = event.bufnr,
-    -- })
+    vim.keymap.set("n", "ga", function()
+      vim.lsp.buf.code_action()
+    end, {
+      desc = "Code Action",
+      buffer = event.bufnr,
+    })
 
     vim.keymap.set("n", "<leader>i", function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())

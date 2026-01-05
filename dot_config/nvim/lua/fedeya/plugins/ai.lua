@@ -2,19 +2,20 @@ return {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
-    event = "InsertEnter",
+    lazy = false,
     keys = {
       {
-        "<Tab>",
+        "<tab>",
         function()
           if require("copilot.suggestion").is_visible() then
             require("copilot.suggestion").accept()
-          else
-            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Tab>", true, false, true), "n", false)
+            return nil
           end
+
+          return "<tab>"
         end,
-        desc = "Super Tab",
-        mode = "i",
+        expr = true,
+        mode = { "i", "n" }
       },
     },
     opts = {
@@ -30,6 +31,10 @@ return {
         markdown = true,
         yaml = true,
       },
+      -- server = {
+      --   type = "binary",
+      --   custom_server_filepath = vim.fn.stdpath("data") .. "/mason/bin/copilot-language-server"
+      -- }
     },
   },
   {
@@ -83,7 +88,7 @@ return {
         dependencies = { "nvim-lua/plenary.nvim" },
       },
     },
-    enabled = true,
+    enabled = false,
     keys = {
       {
         "<leader>aa",
@@ -434,4 +439,76 @@ return {
       },
     },
   },
+  {
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    opts = {
+      terminal = {
+        provider = 'snacks'
+      },
+      diff_opts = {
+        open_in_new_tab = true,
+        keep_terminal_focus = true,
+      }
+    },
+    keys = {
+      { "<leader>a",  nil,                              desc = "AI/Claude Code" },
+      { "<leader>ac", "<cmd>ClaudeCode<cr>",            desc = "Toggle Claude" },
+      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>",       desc = "Focus Claude" },
+      { "<leader>ar", "<cmd>ClaudeCode --resume<cr>",   desc = "Resume Claude" },
+      { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+      { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+      { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>",       desc = "Add current buffer" },
+      { "<leader>as", "<cmd>ClaudeCodeSend<cr>",        mode = "v",                  desc = "Send to Claude" },
+      {
+        "<leader>as",
+        "<cmd>ClaudeCodeTreeAdd<cr>",
+        desc = "Add file",
+        ft = { "NvimTree", "neo-tree", "oil", "minifiles" },
+      },
+      -- Diff management
+      { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
+      { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",   desc = "Deny diff" },
+    },
+  },
+  {
+    "folke/sidekick.nvim",
+    dependencies = {
+      "zbirenbaum/copilot.lua",
+    },
+    lazy = false,
+    opts = {
+      nes = {
+        enabled = false
+      }
+    },
+    keys = {
+      -- {
+      --   "<tab>",
+      --   function()
+      --     -- if require("sidekick").nes_jump_or_apply() then
+      --     --   return -- jumped or applied
+      --     -- end
+      --
+      --     -- if you are using Neovim's native inline completions
+      --     -- if vim.lsp.inline_completion.get() then
+      --     --   return
+      --     --
+      --     -- end
+      --     if require("copilot.suggestion").is_visible() then
+      --       require("copilot.suggestion").accept()
+      --     end
+      --     --
+      --
+      --     -- any other things (like snippets) you want to do on <tab> go here.
+      --
+      --     -- fall back to normal tab
+      --     return "<tab>"
+      --   end,
+      --   mode = { "i", "n" },
+      --   expr = true,
+      --   desc = "Goto/Apply Next Edit Suggestion",
+      -- }
+    }
+  }
 }

@@ -23,9 +23,9 @@ return {
         -- end, "Blame Line")
         map("n", "<leader>ghp", gs.preview_hunk, "Preview Hunk")
         map("n", "<leader>ghd", gs.diffthis, "Diff This")
-        map("n", "<leader>gD", function()
-          gs.diffthis("~")
-        end, "Diff This ~")
+        -- map("n", "<leader>gD", function()
+        --   gs.diffthis("~")
+        -- end, "Diff This ~")
         map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
       end,
     },
@@ -83,4 +83,26 @@ return {
     event = "VeryLazy",
     config = true,
   },
+  {
+    "esmuellert/vscode-diff.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    cmd = "CodeDiff",
+    opts = {
+      explorer = {
+        position = "right"
+      }
+    },
+    keys = {
+      {
+        "<leader>gd",
+        "<cmd>CodeDiff<cr>",
+        desc = "Code Diff",
+      },
+      {
+        "<leader>gD",
+        "<cmd>CodeDiff file HEAD<cr>",
+        desc = "Code Diff Current File",
+      }
+    }
+  }
 }

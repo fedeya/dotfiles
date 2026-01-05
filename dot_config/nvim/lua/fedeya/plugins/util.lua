@@ -122,6 +122,7 @@ return {
       ui = {
         enable = false,
       },
+      legacy_commands = false,
       workspaces = {
         {
           name = "brain",
@@ -340,4 +341,15 @@ return {
     opts = {},
   },
   { 'vuciv/golf' },
+  {
+    "mistricky/codesnap.nvim",
+    tag = "v2.0.0-beta.17",
+    opts = {},
+    cmd = {
+      "CodeSnap",
+      "CodeSnapSave",
+      "CodeSnapHighlight",
+      "CodeSnapSaveHighlight",
+    },
+  }
 }

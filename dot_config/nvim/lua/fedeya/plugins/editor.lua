@@ -374,6 +374,7 @@ return {
         padding = 2,
         max_width = 90,
         max_height = 40,
+        border = "rounded",
         win_options = {
           winblend = 0,
         },
@@ -384,6 +385,7 @@ return {
         ["<C-]>"] = { "actions.select", opts = { vertical = true } },
         ["<C-v>"] = { "actions.select", opts = { vertical = true } },
         ["q"] = "actions.close",
+        ["<C-h>"] = false,
       },
     },
     config = function(_, opts)
