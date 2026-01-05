@@ -1,4 +1,4 @@
-theme = "Rose Pine"
+theme = "rose-pine"
 
 font-size = 18
 window-inherit-font-size = true
@@ -43,4 +43,3 @@ auto-update = check
 cursor-color = #ebbcb9
 
 # term = xterm-256color
-keybind = shift+enter=text:\n
