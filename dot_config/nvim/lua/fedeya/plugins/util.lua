@@ -351,5 +351,5 @@ return {
       "CodeSnapHighlight",
       "CodeSnapSaveHighlight",
     },
-  }
+  },
 }

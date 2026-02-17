@@ -26,7 +26,6 @@ return {
           accept = false,
         },
       },
-      copilot_model = "gpt-4o-copilot",
       filetypes = {
         markdown = true,
         yaml = true,
@@ -81,12 +80,6 @@ return {
       "nvim-lua/plenary.nvim",
       "ravitemer/mcphub.nvim",
       "j-hui/fidget.nvim",
-      {
-        "Davidyz/VectorCode",
-        version = "*",
-        build = "uv tool upgrade vectorcode", -- This helps keeping the CLI up-to-date
-        dependencies = { "nvim-lua/plenary.nvim" },
-      },
     },
     enabled = false,
     keys = {
@@ -189,33 +182,66 @@ return {
               show_result_in_chat = true
             }
           },
-          vectorcode = {
-            opts = {
-              add_tool = true
+        },
+        display = {
+          chat = {
+            window = {
+              width = 80
             }
           }
         },
-        -- adapters = {
-        --   openrouter_claude = function()
-        --     return require("codecompanion.adapters").extend("openai_compatible", {
-        --       env = {
-        --         url = "https://openrouter.ai/api",
-        --         api_key = "cmd: op read op://personal/OpenRouter/credential --no-newline",
-        --         chat_url = "/v1/chat/completions",
-        --       },
-        --       schema = {
-        --         model = {
-        --           default = "anthropic/claude-sonnet-4",
-        --         },
-        --       },
-        --     })
-        --   end
-        -- },
-        strategies = {
+        adapters = {
+          -- openrouter_claude = function()
+          --   return require("codecompanion.adapters").extend("openai_compatible", {
+          --     env = {
+          --       url = "https://openrouter.ai/api",
+          --       api_key = "cmd: op read op://personal/OpenRouter/credential --no-newline",
+          --       chat_url = "/v1/chat/completions",
+          --     },
+          --     schema = {
+          --       model = {
+          --         default = "anthropic/claude-sonnet-4",
+          --       },
+          --     },
+          --   })
+          -- end
+          --
+          acp = {
+            claude_code = function()
+              return require("codecompanion.adapters").extend("claude_code", {
+                env = {
+                  -- ANTHROPIC_API_KEY = "cmd: op read op://personal/Anthropic/credential --no-newline",
+                  ANTHROPIC_API_KEY = function()
+                    local cache_file = "/tmp/anthropic_api_key_cache"
+                    local f = io.open(cache_file, "r")
+                    if f then
+                      local key = f:read("*a")
+                      f:close()
+                      if key and key ~= "" then
+                        return key
+                      end
+                    end
+                    local key = vim.fn.trim(vim.fn.system("op read op://personal/Anthropic/credential --no-newline"))
+                    f = io.open(cache_file, "w")
+                    if f then
+                      f:write(key)
+                      f:close()
+                      os.execute("chmod 600 " .. cache_file)
+                    end
+                    return key
+                  end
+                },
+                defaults = {
+                  model = "opus"
+                }
+              })
+            end
+          }
+        },
+        interactions = {
           chat = {
             adapter = {
-              name = "copilot",
-              model = "gpt-4.1",
+              name = "claude_code",
             },
             roles = {
               user = "Fedeya"
@@ -223,14 +249,12 @@ return {
           },
           inline = {
             adapter = {
-              name = "copilot",
-              model = "gpt-4.1",
+              name = "claude_code",
             }
           },
           cmd = {
             adapter = {
-              name = "copilot",
-              model = "gpt-4.1"
+              name = "claude_code",
             }
           },
         },
@@ -442,9 +466,13 @@ return {
   {
     "coder/claudecode.nvim",
     dependencies = { "folke/snacks.nvim" },
+    enabled = false,
     opts = {
       terminal = {
-        provider = 'snacks'
+        provider = 'snacks',
+        snacks_win_opts = {
+          width = 0.38,
+        }
       },
       diff_opts = {
         open_in_new_tab = true,
@@ -467,8 +495,12 @@ return {
         ft = { "NvimTree", "neo-tree", "oil", "minifiles" },
       },
       -- Diff management
-      { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Accept diff" },
-      { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",   desc = "Deny diff" },
+      {
+        "<leader>aa",
+        "<cmd>ClaudeCodeDiffAccept<cr>",
+        desc = "Accept diff",
+      },
+      { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Deny diff" },
     },
   },
   {
@@ -480,6 +512,12 @@ return {
     opts = {
       nes = {
         enabled = false
+      },
+      cli = {
+        mux = {
+          backend = "tmux",
+          enabled = false,
+        }
       }
     },
     keys = {
@@ -510,5 +548,71 @@ return {
       --   desc = "Goto/Apply Next Edit Suggestion",
       -- }
     }
+  },
+
+  {
+    "NickvanDyke/opencode.nvim",
+    keys = {
+      {
+        "<leader>ae",
+        function() require("opencode").ask("@this: ", { submit = true }) end,
+        mode = { "n", "x" },
+        desc = "Ask opencode",
+      },
+      {
+        "<leader>as",
+        function() require("opencode").select() end,
+        mode = { "n", "x" },
+        desc = "Execute opencode action",
+      },
+      {
+        "<leader>aa",
+        function() require("opencode").toggle() end,
+        mode = { "n", "t", "i" },
+        desc = "Toggle opencode",
+      },
+      {
+        "go",
+        function() return require("opencode").operator("@this ") end,
+        mode = { "x", "n" },
+        expr = true,
+        desc = "Add range to opencode",
+      },
+      {
+        "goo",
+        function() return require("opencode").operator("@this ") .. "_" end,
+        expr = true,
+        desc = "Add line to opencode",
+      },
+      {
+        "<S-C-u>",
+        function() require("opencode").command("session.half.page.up") end,
+        desc = "Scroll opencode up",
+      },
+      {
+        "<S-C-d>",
+        function() require("opencode").command("session.half.page.down") end,
+        desc = "Scroll opencode down",
+      },
+    },
+    config = function()
+      ---@type opencode.Opts
+      vim.g.opencode_opts = {
+        provider = {
+          enabled = "tmux",
+
+          tmux = {
+            options = "-h -p 40", -- Open in a horizontal split
+          }
+        },
+        events = {
+          reload = true,
+          permissions = false,
+        }
+      }
+
+      -- Required for `opts.events.reload`.
+      vim.o.autoread = true
+    end,
   }
 }
