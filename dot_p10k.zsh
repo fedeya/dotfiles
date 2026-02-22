@@ -186,10 +186,10 @@
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
 
   ################################[ prompt_char: prompt symbol ]################################
-  # Green prompt symbol if the last command succeeded.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=76
-  # Red prompt symbol if the last command failed.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=196
+  # Rose Pine: Rose for success.
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#ebbcba'
+  # Rose Pine: Love for error.
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#eb6f92'
   # Default prompt symbol.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='❯'
   # Prompt symbol in command vi mode.
@@ -205,18 +205,17 @@
   typeset -g POWERLEVEL9K_PROMPT_CHAR_LEFT_PROMPT_FIRST_SEGMENT_START_SYMBOL=
 
   ##################################[ dir: current directory ]##################################
-  # Default current directory color.
-  typeset -g POWERLEVEL9K_DIR_FOREGROUND=31
+  # Rose Pine: Pine for directories.
+  typeset -g POWERLEVEL9K_DIR_FOREGROUND='#31748f'
   # If directory is too long, shorten some of its segments to the shortest possible unique
   # prefix. The shortened directory can be tab-completed to the original.
   typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
   # Replace removed segment suffixes with this symbol.
   typeset -g POWERLEVEL9K_SHORTEN_DELIMITER=
-  # Color of the shortened directory segments.
-  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=103
-  # Color of the anchor directory segments. Anchor segments are never shortened. The first
-  # segment is always an anchor.
-  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=39
+  # Rose Pine: Subtle for shortened segments.
+  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND='#908caa'
+  # Rose Pine: Foam for anchor segments.
+  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND='#9ccfd8'
   # Display anchor directory segments in bold.
   typeset -g POWERLEVEL9K_DIR_ANCHOR_BOLD=true
   # Don't shorten directories that contain any of these files. They are anchors.
@@ -365,19 +364,19 @@
     fi
 
     if (( $1 )); then
-      # Styling for up-to-date Git status.
-      local       meta='%f'     # default foreground
-      local      clean='%76F'   # green foreground
-      local   modified='%178F'  # yellow foreground
-      local  untracked='%39F'   # blue foreground
-      local conflicted='%196F'  # red foreground
+      # Styling for up-to-date Git status (Rose Pine).
+      local       meta='%f'              # default foreground
+      local      clean='%F{#9ccfd8}'     # Foam
+      local   modified='%F{#f6c177}'     # Gold
+      local  untracked='%F{#c4a7e7}'     # Iris
+      local conflicted='%F{#eb6f92}'     # Love
     else
-      # Styling for incomplete and stale Git status.
-      local       meta='%244F'  # grey foreground
-      local      clean='%244F'  # grey foreground
-      local   modified='%244F'  # grey foreground
-      local  untracked='%244F'  # grey foreground
-      local conflicted='%244F'  # grey foreground
+      # Styling for incomplete and stale Git status (Rose Pine: Muted).
+      local       meta='%F{#6e6a86}'     # Muted
+      local      clean='%F{#6e6a86}'     # Muted
+      local   modified='%F{#6e6a86}'     # Muted
+      local  untracked='%F{#6e6a86}'     # Muted
+      local conflicted='%F{#6e6a86}'     # Muted
     fi
 
     local res
@@ -482,9 +481,9 @@
   # Enable counters for staged, unstaged, etc.
   typeset -g POWERLEVEL9K_VCS_{STAGED,UNSTAGED,UNTRACKED,CONFLICTED,COMMITS_AHEAD,COMMITS_BEHIND}_MAX_NUM=-1
 
-  # Icon color.
-  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR=76
-  typeset -g POWERLEVEL9K_VCS_LOADING_VISUAL_IDENTIFIER_COLOR=244
+  # Rose Pine: Foam for VCS icon, Muted for loading.
+  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR='#9ccfd8'
+  typeset -g POWERLEVEL9K_VCS_LOADING_VISUAL_IDENTIFIER_COLOR='#6e6a86'
   # Custom icon.
   typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_EXPANSION=
   # Custom prefix.
@@ -497,9 +496,9 @@
 
   # These settings are used for repositories other than Git or when gitstatusd fails and
   # Powerlevel10k has to fall back to using vcs_info.
-  typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND=76
-  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND=76
-  typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND=178
+  typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND='#9ccfd8'
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='#9ccfd8'
+  typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='#f6c177'
 
   ##########################[ status: exit code of the last command ]###########################
   # Enable OK_PIPE, ERROR_PIPE and ERROR_SIGNAL status states to allow us to enable, disable and
@@ -509,24 +508,24 @@
   # Status on success. No content, just an icon. No need to show it if prompt_char is enabled as
   # it will signify success by turning green.
   typeset -g POWERLEVEL9K_STATUS_OK=false
-  typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND=70
+  typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND='#31748f'
   typeset -g POWERLEVEL9K_STATUS_OK_VISUAL_IDENTIFIER_EXPANSION='✔'
 
   # Status when some part of a pipe command fails but the overall exit status is zero. It may look
   # like this: 1|0.
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE=true
-  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_FOREGROUND=70
+  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_FOREGROUND='#31748f'
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE_VISUAL_IDENTIFIER_EXPANSION='✔'
 
   # Status when it's just an error code (e.g., '1'). No need to show it if prompt_char is enabled as
   # it will signify error by turning red.
   typeset -g POWERLEVEL9K_STATUS_ERROR=false
-  typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND=160
+  typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND='#eb6f92'
   typeset -g POWERLEVEL9K_STATUS_ERROR_VISUAL_IDENTIFIER_EXPANSION='✘'
 
   # Status when the last command was terminated by a signal.
   typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL=true
-  typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_FOREGROUND=160
+  typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_FOREGROUND='#eb6f92'
   # Use terse signal names: "INT" instead of "SIGINT(2)".
   typeset -g POWERLEVEL9K_STATUS_VERBOSE_SIGNAME=false
   typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_VISUAL_IDENTIFIER_EXPANSION='✘'
@@ -534,7 +533,7 @@
   # Status when some part of a pipe command fails and the overall exit status is also non-zero.
   # It may look like this: 1|0.
   typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE=true
-  typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE_FOREGROUND=160
+  typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE_FOREGROUND='#eb6f92'
   typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE_VISUAL_IDENTIFIER_EXPANSION='✘'
 
   ###################[ command_execution_time: duration of the last command ]###################
@@ -542,8 +541,8 @@
   typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=3
   # Show this many fractional digits. Zero means round to seconds.
   typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_PRECISION=0
-  # Execution time color.
-  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=101
+  # Rose Pine: Subtle for execution time.
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='#908caa'
   # Duration format: 1d 2h 3m 4s.
   typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FORMAT='d h m s'
   # Custom icon.
@@ -554,14 +553,14 @@
   #######################[ background_jobs: presence of background jobs ]#######################
   # Don't show the number of background jobs.
   typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VERBOSE=false
-  # Background jobs color.
-  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND=70
+  # Rose Pine: Pine for background jobs.
+  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND='#31748f'
   # Custom icon.
   # typeset -g POWERLEVEL9K_BACKGROUND_JOBS_VISUAL_IDENTIFIER_EXPANSION='⭐'
 
   #######################[ direnv: direnv status (https://direnv.net/) ]########################
-  # Direnv color.
-  typeset -g POWERLEVEL9K_DIRENV_FOREGROUND=178
+  # Rose Pine: Gold for direnv.
+  typeset -g POWERLEVEL9K_DIRENV_FOREGROUND='#f6c177'
   # Custom icon.
   # typeset -g POWERLEVEL9K_DIRENV_VISUAL_IDENTIFIER_EXPANSION='⭐'
 
@@ -1621,8 +1620,8 @@
   #   P9K_WIFI_BARS         | signal strength in bars, from 0 to 4 (derived from P9K_WIFI_RSSI and P9K_WIFI_NOISE)
 
   ####################################[ time: current time ]####################################
-  # Current time color.
-  typeset -g POWERLEVEL9K_TIME_FOREGROUND=66
+  # Rose Pine: Subtle for time.
+  typeset -g POWERLEVEL9K_TIME_FOREGROUND='#908caa'
   # Format for the current time: 09:51:02. See `man 3 strftime`.
   typeset -g POWERLEVEL9K_TIME_FORMAT='%D{%I:%M:%S %p}'
   # If set to true, time will update when you hit enter. This way prompts for the past
