@@ -131,6 +131,10 @@ alias la="ls -a"
 alias lla="ls -la"
 alias lah="ls -lah"
 alias fm="yazi"
+alias wm="workmux"
+alias ghprc="gh pr create -f"
+alias ghprv="gh pr view -w"
+alias ghrv="gh repo view"
 
 pro() {
   cd $HOME/Fede/pro/$1
@@ -232,4 +236,13 @@ setopt hist_verify
 # Shell Integrations
 eval "$(zoxide init zsh)"
 eval "$(mise activate zsh)"
+eval "$(workmux completions zsh)"
 # eval "$(starship init zsh)"
+
+# opencode
+export PATH=/Users/fede/.opencode/bin:$PATH
+
+# Added by Antigravity
+export PATH="/Users/fede/.antigravity/antigravity/bin:$PATH"
+
+export OPENVIKING_CONFIG_FILE=~/.openviking/ov.conf # by default
