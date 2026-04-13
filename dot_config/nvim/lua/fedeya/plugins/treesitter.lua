@@ -24,7 +24,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     version = false,
     enabled = true,
-    commit = "0cfa59947416d14e36a41e6fe4f025abd8760301",
+    -- commit = "0cfa59947416d14e36a41e6fe4f025abd8760301",
     branch = "main",
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },

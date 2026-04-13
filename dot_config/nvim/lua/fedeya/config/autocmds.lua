@@ -111,10 +111,10 @@ autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
 
 autocmd("LspAttach", {
   callback = function(event)
-    vim.keymap.set("n", "gh", vim.lsp.buf.hover, {
-      desc = "Hover Doc",
-      buffer = event.bufnr,
-    })
+    -- vim.keymap.set("n", "gh", vim.lsp.buf.hover, {
+    --   desc = "Hover Doc",
+    --   buffer = event.bufnr,
+    -- })
 
     vim.keymap.set("n", "K", vim.lsp.buf.hover, {
       desc = "Hover Doc",
@@ -159,5 +159,31 @@ autocmd({ "FileType" }, {
 autocmd({ "VimEnter" }, {
   callback = function()
     vim.cmd([[clearjumps]])
+  end,
+})
+
+autocmd("LspProgress", {
+  callback = function(ev)
+    local value = ev.data.params.value or {}
+    if not value.kind then return end
+
+    local status = value.kind == "end" and 0 or 1
+    local percent = value.percentage or 0
+
+    local osc_seq = string.format("\27]9;4;%d;%d\a", status, percent)
+
+    if os.getenv("TMUX") then
+      osc_seq = string.format("\27Ptmux;\27%s\27\\", osc_seq)
+    end
+
+    io.stdout:write(osc_seq)
+    io.stdout:flush()
+  end,
+})
+
+autocmd("FileType", {
+  pattern = "nvim-undotree",
+  callback = function(ev)
+    vim.keymap.set("n", "q", ":q<CR>", { buffer = ev.buf, desc = "Close Undotree", silent = true })
   end,
 })

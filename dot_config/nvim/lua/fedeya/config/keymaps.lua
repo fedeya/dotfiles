@@ -76,3 +76,17 @@ if vim.g.neovide then
   vim.keymap.set({ "n", "v", "x", "o", "i" }, "<D-j>", "<C-n>", { remap = true })
   vim.keymap.set({ "n", "v", "x", "o", "i" }, "<D-k>", "<C-p>", { remap = true })
 end
+
+-- Goto
+
+vim.keymap.set("n", "gl", "$", { desc = "Go to end of line" })
+
+vim.keymap.set("n", "gh", "^", { desc = "Go to start of line" })
+
+-- Add undo break-points
+
+vim.keymap.set("i", ",", ",<c-g>u")
+
+vim.keymap.set("i", ".", ".<c-g>u")
+
+vim.keymap.set("i", ";", ";<c-g>u")

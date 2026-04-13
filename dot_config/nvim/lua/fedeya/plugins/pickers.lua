@@ -172,7 +172,15 @@ return {
       {
         "<leader>p",
         function()
-          Snacks.picker.files()
+          Snacks.picker.files(
+            {
+              exclude = { "node_modules", ".git/", ".cache", "dist", "build", ".DS_Store", ".venv", "__pycache__" },
+              hidden = true,
+              cmd = "fd",
+              follow = true,
+              -- args = { "-I", ".env" }
+            }
+          )
         end,
         desc = "Find files",
       },

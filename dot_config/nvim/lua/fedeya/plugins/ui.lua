@@ -28,19 +28,22 @@ return {
         },
       },
       messages = {
-        enabled = true,
+        enabled = false,
         view = "mini",
         view_search = "mini",
         view_error = "mini",
         view_warn = "mini",
       },
       notify = {
-        enabled = true,
+        enabled = false,
         view = "mini",
       },
+      cmdline = {
+        enabled = false,
+      },
       presets = {
-        command_palette = true,
         lsp_doc_border = true,
+        command_palette = false
         -- bottom_search = true,
       },
       routes = {

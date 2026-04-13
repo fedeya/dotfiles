@@ -306,6 +306,7 @@ return {
 
   {
     "mistweaverco/kulala.nvim",
+    enabled = false,
     ft = { "http", "rest" },
     opts = {
       global_keymaps = true,
