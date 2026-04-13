@@ -366,9 +366,9 @@
     if (( $1 )); then
       # Styling for up-to-date Git status (Rose Pine).
       local       meta='%f'              # default foreground
-      local      clean='%F{#9ccfd8}'     # Foam
+      local      clean='%F{#c4a7e7}'     # Iris
       local   modified='%F{#f6c177}'     # Gold
-      local  untracked='%F{#c4a7e7}'     # Iris
+      local  untracked='%F{#ebbcba}'     # Rose
       local conflicted='%F{#eb6f92}'     # Love
     else
       # Styling for incomplete and stale Git status (Rose Pine: Muted).
@@ -481,8 +481,8 @@
   # Enable counters for staged, unstaged, etc.
   typeset -g POWERLEVEL9K_VCS_{STAGED,UNSTAGED,UNTRACKED,CONFLICTED,COMMITS_AHEAD,COMMITS_BEHIND}_MAX_NUM=-1
 
-  # Rose Pine: Foam for VCS icon, Muted for loading.
-  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR='#9ccfd8'
+  # Rose Pine: Iris for VCS icon, Muted for loading.
+  typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_COLOR='#c4a7e7'
   typeset -g POWERLEVEL9K_VCS_LOADING_VISUAL_IDENTIFIER_COLOR='#6e6a86'
   # Custom icon.
   typeset -g POWERLEVEL9K_VCS_VISUAL_IDENTIFIER_EXPANSION=
@@ -496,8 +496,8 @@
 
   # These settings are used for repositories other than Git or when gitstatusd fails and
   # Powerlevel10k has to fall back to using vcs_info.
-  typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND='#9ccfd8'
-  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='#9ccfd8'
+  typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND='#c4a7e7'
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='#c4a7e7'
   typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='#f6c177'
 
   ##########################[ status: exit code of the last command ]###########################
@@ -910,8 +910,8 @@
   typeset -g POWERLEVEL9K_CONTEXT_PREFIX='%fwith '
 
   ###[ virtualenv: python virtual environment (https://docs.python.org/3/library/venv.html) ]###
-  # Python virtual environment color.
-  typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND=37
+  # Rose Pine: Foam for virtualenv.
+  typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND='#9ccfd8'
   # Don't show Python version next to the virtual environment name.
   typeset -g POWERLEVEL9K_VIRTUALENV_SHOW_PYTHON_VERSION=false
   # If set to "false", won't show virtualenv if pyenv is already shown.
