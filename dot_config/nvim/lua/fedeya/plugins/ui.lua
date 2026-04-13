@@ -98,6 +98,13 @@ return {
     opts = function()
       vim.o.laststatus = vim.g.lualine_laststatus
 
+      local function component_macro()
+        local reg = vim.fn.reg_recording()
+        if reg == "" then return "" end
+        return "%#DiagnosticError#● REC @" .. reg .. "%#StatusLine#"
+      end
+
+
       return {
         options = {
           theme = "auto",
@@ -181,6 +188,26 @@ return {
             },
           },
           lualine_x = {
+            {
+              function()
+                local res = vim.fn.searchcount()
+
+                if res.total > 0 then
+                  return string.format("%s/%d %s", res.current, res.total, vim.fn.getreg('/'))
+                else
+                  return ""
+                end
+              end,
+              cond = function()
+                return vim.fn.getreg('/') ~= ""
+              end,
+            },
+            {
+              component_macro,
+              cond = function()
+                return vim.fn.reg_recording() ~= ""
+              end,
+            },
             -- {
             --
             -- 	require("noice").api.status.search.get,
@@ -235,9 +262,9 @@ return {
       }
     end,
   },
-  {
-    'nanozuki/tabby.nvim',
-    event = "VeryLazy",
-    opts = {},
-  }
+  -- {
+  --   'nanozuki/tabby.nvim',
+  --   event = "VeryLazy",
+  --   opts = {},
+  -- }
 }

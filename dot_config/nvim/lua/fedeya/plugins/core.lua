@@ -1,29 +1,5 @@
 return {
   {
-    "mbbill/undotree",
-    cmd = "UndotreeToggle",
-    enabled = false,
-    keys = {
-      {
-        "<leader>u",
-        "<cmd>UndotreeToggle<cr>",
-        desc = "Toggle undotree",
-      },
-    },
-  },
-  {
-    {
-      "toppair/peek.nvim",
-      build = "deno task --quiet build:fast",
-      ft = { "markdown" },
-      config = function()
-        require("peek").setup()
-        vim.api.nvim_create_user_command("MarkdownPreviewOpen", require("peek").open, {})
-        vim.api.nvim_create_user_command("MarkdownPreviewClose", require("peek").close, {})
-      end,
-    },
-  },
-  {
     "alexghergh/nvim-tmux-navigation",
     opts = {},
     keys = {

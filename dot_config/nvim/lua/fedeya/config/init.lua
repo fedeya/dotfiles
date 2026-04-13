@@ -3,6 +3,7 @@ require("fedeya.config.keymaps")
 require("fedeya.config.lazy")
 require("fedeya.config.autocmds")
 require("fedeya.config.plugins")
+require("fedeya.config.ui")
 
 
 local function set_shada_file()

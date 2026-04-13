@@ -63,14 +63,6 @@ return {
     lazy = true,
   },
   {
-    "pmizio/typescript-tools.nvim",
-    lazy = true,
-    enabled = false,
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-  },
-  {
     "mason-org/mason-lspconfig.nvim",
     event = { "BufReadPre", "BufNewFile", "VeryLazy" },
     dependencies = {
@@ -99,47 +91,13 @@ return {
     event = { "BufReadPre", "BufNewFile" },
   },
   {
-    "gruntwork-io/terragrunt-ls",
-    ft = "hcl",
-    config = function()
-      local terragrunt_ls = require("terragrunt-ls")
-
-      terragrunt_ls.setup({
-        cmd_env = {
-          TG_LS_LOG = vim.fn.expand("/tmp/terragrunt-ls.log"),
-        },
-      })
-
-      if terragrunt_ls.client then
-        vim.api.nvim_create_autocmd("FileType", {
-          pattern = "hcl",
-          callback = function()
-            vim.lsp.buf_attach_client(0, terragrunt_ls.client)
-          end,
-        })
-      end
-    end,
-  },
-  {
-    "folke/neodev.nvim",
-    enabled = false,
-    opts = {
-      library = {
-        enabled = true,
-      },
-    },
-  },
-  {
     "j-hui/fidget.nvim",
     version = "*",
+    enabled = false,
     event = "LspAttach",
     opts = {}
   },
 
-  {
-    "yioneko/nvim-vtsls",
-    ft = { "typescript", "javascript", "typescriptreact", "javascriptreact" },
-  },
   {
     "folke/lazydev.nvim",
     ft = "lua", -- only load on lua files
@@ -153,25 +111,4 @@ return {
       },
     },
   },
-  {
-    "rachartier/tiny-code-action.nvim",
-    enabled = false,
-    dependencies = {
-      { "nvim-lua/plenary.nvim" },
-    },
-    event = "LspAttach",
-    opts = {
-      picker = "snacks"
-    },
-    keys = {
-      {
-        "ga",
-        function()
-          require("tiny-code-action").code_action()
-        end,
-        desc = "Code Action",
-        mode = { "n", "x", "v" },
-      },
-    }
-  }
 }

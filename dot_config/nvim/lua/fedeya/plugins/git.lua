@@ -38,44 +38,6 @@ return {
     "tpope/vim-fugitive",
     cmd = { "Git", "G", "Gread", "Gwrite" },
   },
-  {
-    "sindrets/diffview.nvim",
-    cmd = {
-      "DiffviewOpen",
-      "DiffviewClose",
-      "DiffviewToggleFiles",
-      "DiffviewFocusFiles",
-      "DiffviewRefresh",
-    },
-  },
-
-  {
-    "NeogitOrg/neogit",
-    cmd = "Neogit",
-    keys = {
-      {
-        "<leader>gn",
-        "<Cmd>Neogit<CR>",
-        desc = "Neogit",
-      },
-    },
-    dependencies = {
-      "nvim-lua/plenary.nvim",  -- required
-      "sindrets/diffview.nvim", -- optional - Diff integration
-      "ibhagwan/fzf-lua",       -- optional picking
-    },
-    opts = {
-      --- @type NeogitConfig
-      integrations = {
-        diffview = true,
-        fzf_lua = true,
-      },
-      kind = "floating",
-      commit_editor = {
-        kind = "floating",
-      },
-    },
-  },
 
   {
     "akinsho/git-conflict.nvim",

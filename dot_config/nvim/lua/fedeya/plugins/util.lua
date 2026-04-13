@@ -37,43 +37,6 @@ return {
   },
 
   {
-    "vyfor/cord.nvim",
-    build = ":Cord update",
-    event = "VeryLazy",
-    opts = {
-      -- display = {
-      -- theme = "catppuccin",
-      -- flavor = "dark",
-      -- },
-      text = {
-        workspace = "Secret Workspace",
-        viewing = "Viewing",
-        editing = "Editing",
-      },
-    },
-  },
-
-  -- {
-  -- 	"tpope/vim-repeat",
-  -- 	event = "VeryLazy",
-  -- },
-
-  -- {
-  -- 	"nvim-tree/nvim-web-devicons",
-  -- 	lazy = true,
-  -- 	opts = {
-  -- 		variant = "dark",
-  -- 		override_by_extension = {
-  -- 			["ts"] = {
-  -- 				icon = "",
-  -- 				color = "#2b7489",
-  -- 				name = "TypeScript",
-  -- 			},
-  -- 		},
-  -- 	},
-  -- },
-
-  {
     "echasnovski/mini.icons",
     lazy = true,
     specs = {
@@ -146,7 +109,7 @@ return {
 
   {
     "alker0/chezmoi.vim",
-    enabled = true,
+    enabled = false,
     init = function()
       vim.g["chezmoi#use_tmp_buffer"] = 1
       vim.g["chezmoi#source_dir_path"] = os.getenv("HOME") .. "/.local/share/chezmoi"
@@ -210,6 +173,17 @@ return {
       },
       scroll = {
         enabled = true,
+
+        animate = {
+          duration = { step = 5, total = 200 },
+          easing = "linear",
+        },
+        -- faster animation when repeating scroll after delay
+        animate_repeat = {
+          delay = 100, -- delay in ms before using the repeat animation
+          duration = { step = 5, total = 50 },
+          easing = "linear",
+        },
       },
       image = {
         enabled = true,
@@ -263,73 +237,7 @@ return {
     },
   },
 
-  {
-    "mikavilpas/yazi.nvim",
-    keys = {
-      {
-        -- Open in the current working directory
-        "<leader>fm",
-        "<cmd>Yazi cwd<cr>",
-        desc = "Open file manager (yazi)",
-      },
-    },
-    ---@type YaziConfig | {}
-    opts = {
-      -- if you want to open yazi instead of netrw, see below for more info
-      open_for_directories = false,
-      floating_window_scaling_factor = 0.8,
-      keymaps = {
-        show_help = "<f1>",
-      },
-    },
-  },
 
-  {
-    "nvim-neorg/neorg",
-    enabled = false,
-    lazy = true,   -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
-    version = "*", -- Pin Neorg to the latest stable release
-    opts = {
-      load = {
-        ["core.defaults"] = {},
-        ["core.concealer"] = {},
-        ["core.dirman"] = {
-          config = {
-            workspaces = {
-              notes = "~/vaults/neorg",
-            },
-          },
-        },
-      },
-    },
-  },
-
-  {
-    "mistweaverco/kulala.nvim",
-    enabled = false,
-    ft = { "http", "rest" },
-    opts = {
-      global_keymaps = true,
-      ui = {
-        max_response_size = 64000
-      }
-      -- ui = {
-      -- 	formatter = true,
-      -- },
-    },
-  },
-  {
-    'echasnovski/mini.animate',
-    enabled = false,
-    opts = {
-      cursor = {
-        enable = false,
-      },
-      scroll = {
-        enable = true
-      },
-    }
-  },
   {
     "karb94/neoscroll.nvim",
     enabled = false,
@@ -341,11 +249,15 @@ return {
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = {},
   },
-  { 'vuciv/golf' },
+  {
+    'vuciv/golf',
+    cmd = "Golf",
+  },
   {
     "mistricky/codesnap.nvim",
     tag = "v2.0.0-beta.17",
     opts = {},
+    enabled = false,
     cmd = {
       "CodeSnap",
       "CodeSnapSave",

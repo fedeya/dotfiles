@@ -10,7 +10,7 @@ vim.g.loaded_netrwPlugin = 1
 vim.o.nu                 = true
 vim.o.relativenumber     = true
 
--- vim.o.cmdheight = 1
+vim.o.cmdheight          = 0
 
 vim.o.completeopt        = "menu,menuone,noselect"
 
@@ -99,3 +99,23 @@ vim.g.no_python_maps = 1
 vim.g.markdown_recommended_style = 0
 
 -- vim.g.snacks_animate = false
+-- --
+-- require("vim._core.ui2").enable {
+--   enable = true,
+--   msg = {             -- Options related to the message module.
+--     targets = "cmd",
+--     cmd = {           -- Options related to messages in the cmdline window.
+--       height = 0.5,   -- Maximum height while expanded for messages beyond 'cmdheight'.
+--     },
+--     dialog = {        -- Options related to dialog window.
+--       height = 0.5,   -- Maximum height.
+--     },
+--     msg = {           -- Options related to msg window.
+--       height = 0.5,   -- Maximum height.
+--       timeout = 4000, -- Time a message is visible in the message window.
+--     },
+--     pager = {         -- Options related to message window.
+--       height = 0.5,   -- Maximum height.
+--     },
+--   },
+-- }
