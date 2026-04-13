@@ -1,0 +1,26 @@
+nerdfont: true
+agent: opencode
+mode: session
+window_prefix: wm-
+
+windows:
+  - name: editor
+    panes:
+      - command: nvim
+
+      - command: opencode --port
+        split: horizontal
+        percentage: 35
+        focus: true
+
+  - name: zsh
+    panes:
+      - focus: true
+
+files:
+  copy:
+    - .env
+
+post_create:
+  - mise trust
+  - "if [ -f uv.lock ]; then uv sync --all-packages; fi"
