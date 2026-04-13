@@ -292,18 +292,6 @@ return {
         nowait = true,
       },
       {
-        "gs",
-        function()
-          Snacks.picker.lsp_symbols({
-            layout = {
-              preset = "vscode",
-              preview = "main"
-            },
-          })
-        end,
-        nowait = true,
-      },
-      {
         "<leader>sd",
         function()
           Snacks.picker.diagnostics_buffer({
@@ -356,7 +344,7 @@ return {
   },
   {
     "bassamsdata/namu.nvim",
-    enabled = false,
+    enabled = true,
     opts = {
       namu_symbols = {
         enable = true,
