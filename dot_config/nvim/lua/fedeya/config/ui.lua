@@ -56,6 +56,7 @@ local SKIP_PATTERNS = {
   '%d fewer lines',
   '%d more lines',
   '%d lines yanked',
+  "No information available"
 }
 
 

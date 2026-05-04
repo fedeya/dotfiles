@@ -106,10 +106,13 @@
       "yarn *": "allow",
       "z *": "allow",
       "zip *": "allow",
-      "zoxide *": "allow"
+      "zoxide *": "allow",
     },
     "webfetch": "allow",
     "task": "allow",
+    "fff_*": "allow",
+    "datadog_*": "allow",
+    "grep_app_*": "allow",
     "skill": "allow",
     "external_directory": {
       "*": "allow",
@@ -132,7 +135,25 @@
     },
     "linear": {
       "type": "remote",
-      "url": "https://mcp.linear.app/mcp"
+      "url": "https://mcp.linear.app/mcp",
+      "enabled": true
+    },
+    "fff": {
+      "type": "local",
+      "command": [
+        "fff-mcp"
+      ],
+      "enabled": true
+    },
+    "datadog": {
+      "type": "remote",
+      "url": "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp",
+      "enabled": true
+    },
+    "notion": {
+      "type": "remote",
+      "url": "https://mcp.notion.com/mcp",
+      "enabled": true
     },
   },
   "lsp": {
@@ -145,5 +166,17 @@
         ".py"
       ]
     },
+    "ty": {
+      "command": [
+        "ty",
+        "server"
+      ],
+      "extensions": [
+        ".py"
+      ]
+    },
+    "pyright": {
+      "disabled": true
+    }
   }
 }
