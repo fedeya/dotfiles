@@ -47,13 +47,13 @@ return {
         bottom_search = false,
       },
       routes = {
-        -- {
-        -- 	filter = {
-        -- 		event = "msg_show",
-        -- 		kind = "search_count",
-        -- 	},
-        -- 	opts = { skip = true },
-        -- },
+        {
+          filter = {
+            event = "msg_show",
+            kind = "search_count",
+          },
+          opts = { skip = true },
+        },
         {
           filter = {
             event = "msg_show",
