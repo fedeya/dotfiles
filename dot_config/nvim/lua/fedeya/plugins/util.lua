@@ -165,6 +165,11 @@ return {
       input = {
         enabled = true,
       },
+      statuscolumn = {
+        enabled = true,
+        left = { 'sign', 'mark', 'git' },
+        right = { 'fold' }
+      },
       terminal = {
         win = {
           position = "float",
