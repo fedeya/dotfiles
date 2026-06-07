@@ -40,12 +40,11 @@ return {
       },
       cmdline = {
         enabled = true,
-        -- view = "cmdline--[[  ]]"
       },
       presets = {
         lsp_doc_border = true,
         command_palette = true,
-        bottom_search = true,
+        bottom_search = false,
       },
       routes = {
         -- {

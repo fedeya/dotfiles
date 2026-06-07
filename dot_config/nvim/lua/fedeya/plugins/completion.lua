@@ -183,7 +183,7 @@ return {
                   if kind_icon == '󰞋' then
                     return ctx.kind_hl
                   end
-                  return hl or ctx.kind_hl
+                  return hl
                 end,
               },
               kind = {
