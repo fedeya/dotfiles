@@ -68,7 +68,7 @@ autocmd({ "BufRead", "BufNewFile" }, {
 
 -- Fix conceallevel for json files
 autocmd({ "FileType" }, {
-  pattern = { "json", "jsonc", "json5", "http" },
+  pattern = { "json", "jsonc", "json5", "http", "jsonl" },
   callback = function()
     vim.opt_local.conceallevel = 0
   end,

@@ -419,9 +419,6 @@ return {
   {
     "MeanderingProgrammer/render-markdown.nvim",
     enabled = true,
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
     ft = {
       "markdown",
       "norg",

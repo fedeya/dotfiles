@@ -120,3 +120,15 @@ vim.g.markdown_recommended_style = 0
 --     },
 --   },
 -- }
+--
+--
+vim.filetype.add({
+  pattern = {
+    [".*/waybar/config"] = "jsonc",
+    [".*/mako/config"] = "dosini",
+    [".*/kitty/.+%.conf"] = "bash",
+    [".*/ghostty/config"] = "bash",
+    [".*/hypr/.+%.conf"] = "hyprlang",
+    ["%.env%.[%w_.-]+"] = "sh",
+  },
+})
