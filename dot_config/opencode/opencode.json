@@ -106,7 +106,7 @@
       "yarn *": "allow",
       "z *": "allow",
       "zip *": "allow",
-      "zoxide *": "allow",
+      "zoxide *": "allow"
     },
     "webfetch": "allow",
     "task": "allow",
@@ -120,7 +120,8 @@
     }
   },
   "plugin": [
-    "@mohak34/opencode-notifier@latest"
+    "@mohak34/opencode-notifier@latest",
+    "@slkiser/opencode-quota",
   ],
   "mcp": {
     "context7": {
@@ -154,7 +155,7 @@
       "type": "remote",
       "url": "https://mcp.notion.com/mcp",
       "enabled": true
-    },
+    }
   },
   "lsp": {
     "ruff": {
@@ -174,6 +175,82 @@
       "extensions": [
         ".py"
       ]
+    },
+    "typescript": {
+      "disabled": true
+    },
+    "vtsls": {
+      "command": [
+        "vtsls",
+        "--stdio"
+      ],
+      "extensions": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx",
+        ".mts",
+        ".cts",
+        ".mjs",
+        ".cjs"
+      ],
+      "initialization": {
+        "typescript": {
+          "updateImportsOnFileMove": "always",
+          "tsserver": {
+            "maxTsServerMemory": 8192,
+            "useSyntaxServer": "auto",
+            "experimental": {
+              "enableProjectDiagnostics": false
+            }
+          },
+          "suggest": {
+            "autoImports": true,
+            "completeFunctionCalls": true
+          },
+          "preferences": {
+            "importModuleSpecifier": "shortest",
+            "importModuleSpecifierEnding": "auto",
+            "includePackageJsonAutoImports": "auto",
+            "preferTypeOnlyAutoImports": true,
+            "autoImportFileExcludePatterns": [
+              "**/node_modules/**",
+              "**/dist/**",
+              "**/build/**",
+              "**/.next/**",
+              "**/coverage/**"
+            ]
+          }
+        },
+        "javascript": {
+          "updateImportsOnFileMove": "always",
+          "suggest": {
+            "autoImports": true,
+            "completeFunctionCalls": true
+          },
+          "preferences": {
+            "importModuleSpecifier": "shortest",
+            "importModuleSpecifierEnding": "auto",
+            "autoImportFileExcludePatterns": [
+              "**/node_modules/**",
+              "**/dist/**",
+              "**/build/**",
+              "**/.next/**",
+              "**/coverage/**"
+            ]
+          }
+        },
+        "vtsls": {
+          "autoUseWorkspaceTsdk": true,
+          "enableMoveToFileCodeAction": true,
+          "experimental": {
+            "completion": {
+              "enableServerSideFuzzyMatch": true,
+              "entriesLimit": 100
+            }
+          }
+        }
+      }
     },
     "pyright": {
       "disabled": true

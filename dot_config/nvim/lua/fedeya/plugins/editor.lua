@@ -7,6 +7,18 @@ return {
         save_on_toggle = true,
         -- sync_on_ui_close = true,
       },
+
+      -- default = {
+      --   select = function(item, _, _)
+      --     local path = item.value
+      --
+      --     if string.sub(path, 1, string.len("oil://")) == "oil://" then
+      --       require("oil").open_float(path)
+      --     else
+      --       vim.cmd.edit(path)
+      --     end
+      --   end
+      -- }
     },
     config = function(_, opts)
       local harpoon = require("harpoon")
@@ -14,6 +26,31 @@ return {
 
       harpoon:setup(opts)
       harpoon:extend(extensions.builtins.highlight_current_file())
+      harpoon:extend({
+        UI_CREATE = function(cx)
+          vim.keymap.set("n", "<C-v>", function()
+            harpoon.ui:select_menu_item({ vsplit = true })
+          end, { buffer = cx.bufnr })
+
+          vim.keymap.set("n", "<C-x>", function()
+            harpoon.ui:select_menu_item({ split = true })
+          end, { buffer = cx.bufnr })
+
+          vim.keymap.set("n", "<C-t>", function()
+            harpoon.ui:select_menu_item({ tabedit = true })
+          end, { buffer = cx.bufnr })
+        end,
+
+        SELECT = function(cx)
+          local path = cx.item.value
+
+          if vim.startswith(path, "oil://") then
+            require("oil").open_float(path)
+            return
+          end
+        end,
+      })
+
       -- harpoon:extend(extensions.builtins.navigate_with_number())
     end,
     keys = function()
@@ -298,6 +335,12 @@ return {
   {
     "stevearc/oil.nvim",
     lazy = false,
+    dependencies = {
+      {
+        "malewicz1337/oil-git.nvim",
+        opts = {}
+      }
+    },
     --- @type oil.SetupOpts
     opts = {
       default_file_explorer = true,
@@ -321,6 +364,7 @@ return {
         ["<C-s>"] = false,
         ["<C-]>"] = { "actions.select", opts = { vertical = true } },
         ["<C-v>"] = { "actions.select", opts = { vertical = true } },
+        ["<C-l>"] = false,
         ["q"] = "actions.close",
         ["<C-h>"] = false,
       },

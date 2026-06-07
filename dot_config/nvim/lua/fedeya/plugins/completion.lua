@@ -143,6 +143,10 @@ return {
     version = "1.*",
     dependencies = {
       "rafamadriz/friendly-snippets",
+      {
+        "fang2hou/blink-copilot",
+        opts = {}
+      }
     },
     enabled = true,
     opts_extend = { "sources.default" },
@@ -166,18 +170,31 @@ return {
               kind_icon = {
                 text = function(ctx)
                   local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
+
+                  if kind_icon == '󰞋' then
+                    return ctx.kind_icon
+                  end
+
                   return kind_icon
                 end,
                 -- (optional) use highlights from mini.icons
                 highlight = function(ctx)
-                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
-                  return hl
+                  local kind_icon, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                  if kind_icon == '󰞋' then
+                    return ctx.kind_hl
+                  end
+                  return hl or ctx.kind_hl
                 end,
               },
               kind = {
                 -- (optional) use highlights from mini.icons
                 highlight = function(ctx)
-                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+                  local kind_icon, hl, _ = require('mini.icons').get('lsp', ctx.kind)
+
+                  if kind_icon == '󰞋' then
+                    return ctx.kind_hl
+                  end
+
                   return hl
                 end,
               }
@@ -193,13 +210,21 @@ return {
         }
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'copilot', 'lsp', 'path', 'snippets', 'buffer' },
         per_filetype = {
           codecompanion = {
             'codecompanion',
             'buffer',
           },
-        }
+        },
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-copilot",
+            score_offset = 100,
+            async = true,
+          },
+        },
       },
       fuzzy = {
         implementation = 'prefer_rust_with_warning'

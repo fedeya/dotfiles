@@ -87,20 +87,20 @@ local function should_skip(kind, content)
   return false
 end
 
--- local orig_msg_show = msgs.msg_show
+local orig_msg_show = msgs.msg_show
 
 msgs.msg_show = function(kind, content, replace_last, _, append, id, trigger)
   if should_skip(kind, content) then
     return
   end
 
-  -- orig_msg_show(kind, content, replace_last, history, append, id, trigger)
+  orig_msg_show(kind, content, replace_last, history, append, id, trigger)
 
-  local tgt = ui2.cfg.msg.targets[kind]
-      or (trigger ~= '' and ui2.cfg.msg.targets[trigger])
-      or ui2.cfg.msg.targets[trigger]
-      or ui2.cfg.msg.target
-
-  msgs.show_msg(tgt, kind, content, replace_last, append, id)
-  msgs.set_pos(tgt)
+  -- local tgt = ui2.cfg.msg.targets[kind]
+  --     or (trigger ~= '' and ui2.cfg.msg.targets[trigger])
+  --     or ui2.cfg.msg.targets[trigger]
+  --     or ui2.cfg.msg.target
+  --
+  -- msgs.show_msg(tgt, kind, content, replace_last, append, id)
+  -- msgs.set_pos(tgt)
 end

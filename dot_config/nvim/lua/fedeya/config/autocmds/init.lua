@@ -219,20 +219,20 @@ autocmd("FileType", {
 --   end
 -- end
 
-autocmd('LspProgress', {
-  callback = function(ev)
-    local value = ev.data.params.value
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-
-    vim.api.nvim_echo({ { value.message or 'done' } }, false, {
-      id = 'lsp.' .. ev.data.client_id,
-      kind = 'progress',
-      source = 'vim.lsp',
-      title = "[" .. client.name .. "] " .. value.title,
-      status = value.kind ~= 'end' and 'running' or 'success',
-      percent = value.percentage,
-    })
-  end,
-})
+-- autocmd('LspProgress', {
+--   callback = function(ev)
+--     local value = ev.data.params.value
+--     local client = vim.lsp.get_client_by_id(ev.data.client_id)
+--
+--     vim.api.nvim_echo({ { value.message or 'done' } }, false, {
+--       id = 'lsp.' .. ev.data.client_id,
+--       kind = 'progress',
+--       source = 'vim.lsp',
+--       title = "[" .. client.name .. "] " .. value.title,
+--       status = value.kind ~= 'end' and 'running' or 'success',
+--       percent = value.percentage,
+--     })
+--   end,
+-- })
 
 -- require('fedeya.config.autocmds.macro')

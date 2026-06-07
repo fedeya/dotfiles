@@ -48,7 +48,7 @@ vim.o.timeoutlen         = vim.g.vscode and 1000 or 300
 vim.o.virtualedit        = "block"
 vim.o.list               = true
 
-vim.o.clipboard          = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
+-- vim.o.clipboard          = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
 vim.o.termguicolors      = true
 
 vim.o.scrolloff          = 4
@@ -96,6 +96,7 @@ vim.diagnostic.config({
 })
 
 vim.g.no_python_maps = 1
+vim.g.no_rust_maps = 1
 vim.g.markdown_recommended_style = 0
 
 -- vim.g.snacks_animate = false
