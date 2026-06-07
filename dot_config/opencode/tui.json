@@ -6,6 +6,7 @@
     "messages_half_page_down": "ctrl+d"
   },
   "plugin": [
-    "@slkiser/opencode-quota"
+    "@slkiser/opencode-quota",
+    "opencode-paste-as-file"
   ]
 }
