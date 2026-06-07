@@ -72,7 +72,11 @@ return {
     opts = {
       automatic_enable = true,
       ensure_installed = {
+        "copilot",
+        "ruff",
         "lua_ls",
+        "docker_language_server",
+        "biome",
         "jsonls",
         "tailwindcss",
         "eslint",

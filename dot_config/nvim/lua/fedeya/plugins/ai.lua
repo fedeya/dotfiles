@@ -2,6 +2,7 @@ return {
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
+    enabled = false,
     event = "InsertEnter",
     init = function()
       vim.api.nvim_create_autocmd("User", {

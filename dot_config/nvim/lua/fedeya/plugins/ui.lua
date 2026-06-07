@@ -82,9 +82,6 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
-    dependencies = {
-      "AndreM222/copilot-lualine",
-    },
     init = function()
       vim.g.lualine_laststatus = vim.o.laststatus
       if vim.fn.argc(-1) > 0 then
@@ -104,12 +101,57 @@ return {
         return "%#DiagnosticError#● REC @" .. reg .. "%#StatusLine#"
       end
 
+      local copilot_frames = require("fedeya.utils.ui").spinners.heavy
+      local copilot_frame = 1
+
+      local function copilot_client()
+        return vim.lsp.get_clients({
+          name = "copilot",
+          bufnr = vim.api.nvim_get_current_buf(),
+        })[1]
+      end
+
+      local function copilot_loading(client)
+        local bufnr = vim.api.nvim_get_current_buf()
+        for _, request in pairs(client.requests or {}) do
+          if
+              request.type == "pending"
+              and request.bufnr == bufnr
+              and request.method == "textDocument/inlineCompletion"
+          then
+            return true
+          end
+        end
+
+        return false
+      end
+
+      local function copilot_status()
+        local client = copilot_client()
+        if not client then return "" end
+
+        if vim.g.copilot_enabled == 0 then
+          return ""
+        end
+
+        if copilot_loading(client) then
+          local frame = copilot_frames[copilot_frame]
+          copilot_frame = copilot_frame % #copilot_frames + 1
+          return frame
+        end
+
+        return ""
+      end
+
 
       return {
         options = {
           theme = "auto",
           icons_enabled = true,
           globalstatus = vim.o.laststatus == 3,
+          refresh = {
+            statusline = 100,
+          },
           -- section_separators = { left = "", right = "" },
           -- component_separators = { left = "", right = "" },
           -- section_separators = { left = " ", right = " " },
@@ -215,9 +257,17 @@ return {
             -- 	color = { fg = "#ff9e64" },
             -- },
             {
-              "copilot",
+              copilot_status,
               separator = "",
+              cond = function()
+                return copilot_client() ~= nil
+              end,
               color = function()
+                local client = copilot_client()
+                if client and copilot_loading(client) then
+                  return { fg = Snacks.util.color("DiagnosticWarn") }
+                end
+
                 return { fg = Snacks.util.color("Special") }
               end,
             },

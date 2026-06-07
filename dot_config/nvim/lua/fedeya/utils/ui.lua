@@ -1,5 +1,9 @@
 local M = {}
 
+M.spinners = {
+	heavy = { "⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷" },
+}
+
 function M.border(hl_name)
 	return {
 		{ "╭", hl_name },
