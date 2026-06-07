@@ -23,9 +23,10 @@ vim.keymap.set("v", ">", ">gv")
 
 vim.keymap.set({ "n", "x" }, "gw", "*N", { desc = "Search word under cursor" })
 
--- -- better scrolling
--- vim.keymap.set("n", "<C-d>", "<C-d>zz")
--- vim.keymap.set("n", "<C-u>", "<C-u>zz")
+-- Better scrolling
+local half_scroll = 12
+vim.keymap.set("n", "<C-d>", half_scroll .. "<C-d>zz", { desc = "Scroll down and center" })
+vim.keymap.set("n", "<C-u>", half_scroll .. "<C-u>zz", { desc = "Scroll up and center" })
 
 -- close
 vim.keymap.set("n", "<leader>qq", "<cmd>q<cr>", { desc = "Close current window" })

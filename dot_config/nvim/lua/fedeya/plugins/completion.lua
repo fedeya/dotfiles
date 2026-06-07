@@ -159,7 +159,7 @@ return {
         nerd_font_variant = "mono",
       },
       cmdline = {
-        enabled = true,
+        enabled = false,
       },
       completion = {
         menu = {

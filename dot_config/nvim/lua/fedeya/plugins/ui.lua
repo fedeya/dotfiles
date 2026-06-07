@@ -28,7 +28,7 @@ return {
         },
       },
       messages = {
-        enabled = false,
+        enabled = true,
         view = "mini",
         view_search = "mini",
         view_error = "mini",
@@ -39,12 +39,13 @@ return {
         view = "mini",
       },
       cmdline = {
-        enabled = false,
+        enabled = true,
+        -- view = "cmdline--[[  ]]"
       },
       presets = {
         lsp_doc_border = true,
-        command_palette = false
-        -- bottom_search = true,
+        command_palette = true,
+        bottom_search = true,
       },
       routes = {
         -- {
