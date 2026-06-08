@@ -8,7 +8,7 @@ windows:
     panes:
       - command: nvim
 
-      - command: opencode --port
+      - command: <agent>
         split: horizontal
         percentage: 35
         focus: true
