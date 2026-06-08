@@ -102,16 +102,20 @@ return {
         mux = {
           backend = "tmux",
           enabled = true,
+          create = "split",
+          split = {
+            size = 0.2
+          }
         },
       },
     },
     keys = {
-      {
-        "<c-.>",
-        function() require("sidekick.cli").focus() end,
-        desc = "Sidekick Focus",
-        mode = { "n", "t", "i", "x" },
-      },
+      -- {
+      --   "<c-.>",
+      --   function() require("sidekick.cli").focus() end,
+      --   desc = "Sidekick Focus",
+      --   mode = { "n", "t", "i", "x" },
+      -- },
       {
         "<leader>aa",
         function() require("sidekick.cli").toggle() end,
