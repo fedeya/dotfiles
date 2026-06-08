@@ -1,0 +1,33 @@
+{
+  "lastChangelogVersion": "0.78.1",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.5",
+  "defaultThinkingLevel": "medium",
+  "packages": [
+    "npm:@ff-labs/pi-fff",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:pi-web-access",
+    "npm:pi-subagents",
+    "npm:@tran-quil/pi-rose-pine",
+    "npm:@gotgenes/pi-permission-system",
+    "npm:@vanillagreen/pi-tool-renderer",
+    "npm:@vanillagreen/pi-extension-manager"
+  ],
+  "theme": "dark",
+  "vstack": {
+    "extensionManager": {
+      "disabledItems": [],
+      "config": {
+        "@vanillagreen/pi-tool-renderer": {
+          "compactUserMessages": true,
+          "userMessageTrailingBlankLine": true,
+          "compactCompactionMessages": true,
+          "styledCodeBlocks": true,
+          "renderMutationTools": true,
+          "enabled": true
+        }
+      }
+    }
+  }
+}

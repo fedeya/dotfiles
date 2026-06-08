@@ -1,0 +1,17 @@
+{
+  "name": "pi-extensions",
+  "private": true,
+  "dependencies": {
+    "@dreki-gg/pi-plan-mode": "^0.24.0",
+    "@ff-labs/pi-fff": "^0.9.3",
+    "@gotgenes/pi-permission-system": "^10.5.1",
+    "@juicesharp/rpiv-ask-user-question": "^1.18.2",
+    "@juicesharp/rpiv-todo": "^1.18.2",
+    "@tran-quil/pi-rose-pine": "^1.1.2",
+    "@vanillagreen/pi-extension-manager": "^1.3.1",
+    "@vanillagreen/pi-tool-renderer": "^1.6.0",
+    "pi-subagents": "^0.28.0",
+    "pi-tool-display": "^0.4.2",
+    "pi-web-access": "^0.10.7"
+  }
+}
