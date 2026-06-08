@@ -12,7 +12,8 @@
     "npm:@tran-quil/pi-rose-pine",
     "npm:@gotgenes/pi-permission-system",
     "npm:@vanillagreen/pi-tool-renderer",
-    "npm:@vanillagreen/pi-extension-manager"
+    "npm:@vanillagreen/pi-extension-manager",
+    "npm:pi-vim"
   ],
   "theme": "dark",
   "vstack": {
@@ -25,7 +26,8 @@
           "compactCompactionMessages": true,
           "styledCodeBlocks": true,
           "renderMutationTools": true,
-          "enabled": true
+          "enabled": true,
+          "diffPreviewLines": 1000
         }
       }
     }
