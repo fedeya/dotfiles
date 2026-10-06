@@ -9,7 +9,7 @@ My personal dotfiles, managed with [mise](https://mise.jdx.dev/dotfiles.html) (`
 ## New machine
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/fedeya/dotfiles/main/bootstrap/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/fedeya/dotfiles/mise/bootstrap/install.sh | bash
 ```
 
 It installs mise, clones this repo to `~/dotfiles`, links the global mise config and runs `mise bootstrap`. If an app already created its own config, replace it with `mise bootstrap --force-dotfiles`.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # New machine:
-#   curl -fsSL https://raw.githubusercontent.com/fedeya/dotfiles/main/bootstrap/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/fedeya/dotfiles/mise/bootstrap/install.sh | bash
 set -euo pipefail
 
 DOTFILES=~/dotfiles
