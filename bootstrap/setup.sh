@@ -6,19 +6,21 @@ set -euo pipefail
 step() { printf '\n==> %s\n' "$*"; }
 has() { command -v "$1" >/dev/null 2>&1; }
 
-if has bun && [ -f ~/.config/opencode/package.json ]; then
+if has bun && [ ! -d ~/.config/opencode/node_modules ]; then
 	step "opencode plugin deps"
 	(cd ~/.config/opencode && bun install --silent)
 fi
 
-if has npm && [ -f ~/.pi/agent/npm/package.json ]; then
+# pi updates these packages itself; only seed them on a fresh machine
+if has npm && [ ! -d ~/.pi/agent/npm/node_modules ]; then
 	step "pi extensions"
-	(cd ~/.pi/agent/npm && npm install --silent --no-fund --no-audit)
+	(cd ~/.pi/agent/npm && npm install --silent --no-fund --no-audit --legacy-peer-deps)
 fi
 
 if has herdr; then
 	step "herdr integrations and plugins"
-	herdr integration status | grep -q '^opencode: current' || herdr integration install opencode
+	integrations=$(herdr integration status 2>&1 || true)
+	grep -q '^opencode: current' <<<"$integrations" || herdr integration install opencode
 
 	installed=$(herdr plugin list 2>/dev/null || true)
 	for repo in \
