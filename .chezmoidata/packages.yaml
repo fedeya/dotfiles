@@ -1,0 +1,65 @@
+packages:
+  darwin:
+    taps:
+      - raine/workmux
+      - jnsahaj/lumen
+    brews:
+      - ast-grep
+      - bash
+      - bat
+      - btop
+      - coreutils
+      - eza
+      - fd
+      - fzf
+      - gh
+      - gifsicle
+      - git-delta
+      - helix
+      - herdr
+      - htop
+      - hunk
+      - jnsahaj/lumen/lumen
+      - lazygit
+      - mise
+      - ncspot
+      - neovim
+      - parallel
+      - raine/workmux/workmux
+      - reattach-to-user-namespace
+      - ripgrep
+      - sem-cli
+      - sesh
+      - spotify_player
+      - tailscale
+      - the_silver_searcher
+      - tokei
+      - usage
+      - vhs
+      - wireshark
+      - worktrunk
+      - yazi
+      - zoxide
+    casks:
+      - 1password-cli
+      - font-jetbrains-mono-nerd-font
+      - ghostty
+      - opencode-desktop
+      - orbstack
+      - raycast
+      - spotify
+      - zed
+  # only when `work = true` (asked on `chezmoi init`)
+  work:
+    brews:
+      - awscli-local
+      - overmind
+      - pgcli
+    casks:
+      - cloudflare-warp
+      - granola
+      - linear
+      - microsoft-edge
+      - notion
+      - notion-calendar
+      - slack

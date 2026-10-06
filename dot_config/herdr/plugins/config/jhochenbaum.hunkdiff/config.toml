@@ -1,0 +1,10 @@
+[review]
+placement = "split"     # opens beside the current pane
+watch = true            # refresh while the agent keeps editing
+
+# [roundtrip] uses the plugin defaults: comments are cleared from hunk after
+# sending, and the agent answers in its own terminal.
+
+[hunk]
+# Use the brew-installed hunk (same version as the CLI and the hunk-review skill)
+bin = "/opt/homebrew/bin/hunk"

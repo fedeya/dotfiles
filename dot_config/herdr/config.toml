@@ -1,0 +1,169 @@
+onboarding = false
+
+[ui]
+pane_scrollbars = false
+hide_tab_bar_when_single_tab = false
+tab_bar_right = [
+  { type = "command", command = "~/.config/herdr/scripts/status-workspace.sh", interval_seconds = 1, timeout_seconds = 2 },
+  { type = "zoom" },
+  { type = "datetime", format = "%H:%M" },
+]
+tab_bar_right_separator = " · "
+prompt_new_tab_name = false
+agent_panel_sort = "priority"
+
+[ui.toast]
+delivery = "herdr"
+
+[theme]
+name = "rose-pine"
+auto_switch = false
+
+[keys]
+prefix = "ctrl+a"
+reload_config = "prefix+shift+r"
+resize_mode = "prefix+r"
+
+focus_pane_left = ""
+focus_pane_down = ""
+focus_pane_up = ""
+focus_pane_right = ""
+
+split_horizontal = "prefix+minus"
+split_vertical = "prefix+backslash"
+
+zoom = ["prefix+m", "alt+f", "alt+g"]
+
+next_tab = "alt+k"
+previous_tab = "alt+j"
+move_tab_previous = "ctrl+alt+h"
+move_tab_next = "ctrl+alt+l"
+navigate_workspace_up = ["k", "up"]
+navigate_workspace_down = ["j", "down"]
+navigate_pane_up = "shift+k"
+navigate_pane_down = "shift+j"
+swap_pane_right = ""
+next_agent = "prefix+j"
+previous_agent = "prefix+k"
+edit_scrollback = "prefix+shift+e"
+
+[[keys.command]]
+key = "prefix+shift+s"
+type = "popup"
+command = "spotify_player"
+width = "85%"
+height = "85%"
+
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "vim-herdr-navigation.left"
+description = "navigate left (nvim/herdr)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "vim-herdr-navigation.down"
+description = "navigate down (nvim/herdr)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "vim-herdr-navigation.up"
+description = "navigate up (nvim/herdr)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "vim-herdr-navigation.right"
+description = "navigate right (nvim/herdr)"
+
+[[keys.command]]
+key = "prefix+ctrl+l"
+type = "shell"
+command = "\"${HERDR_BIN_PATH:-herdr}\" pane send-keys \"$HERDR_PANE_ID\" ctrl+l"
+description = "send ctrl+l (clear screen) to pane"
+
+[[keys.command]]
+key = "prefix+shift+l"
+type = "plugin_action"
+command = "fedeya.herdr-sesh.last"
+description = "jump to previous workspace"
+
+[[keys.command]]
+key = "prefix+ctrl+o"
+type = "shell"
+command = "~/.config/herdr/scripts/rotate-panes.sh"
+description = "rotate panes (tmux rotate-window)"
+
+[[keys.command]]
+key = "prefix+e"
+type = "plugin_action"
+command = "chmarax.herdr-nvim.toggle"
+description = "nvim sidebar"
+
+[[keys.command]]
+key = "prefix+f"
+type = "plugin_action"
+command = "chmarax.herdr-nvim.pick-file"
+description = "open file from agent output"
+
+[[keys.command]]
+key = "prefix+shift+g"
+type = "plugin_action"
+command = "worktrunk.open"
+description = "Worktree: switch / create from default branch"
+
+[[keys.command]]
+key = "prefix+shift+c"
+type = "plugin_action"
+command = "worktrunk.open-current"
+description = "Worktree: switch / create from current branch"
+
+[[keys.command]]
+key = "prefix+shift+m"
+type = "plugin_action"
+command = "worktrunk.merge"
+description = "Worktree: merge into the target branch"
+
+[[keys.command]]
+key = "prefix+alt+d"
+type = "plugin_action"
+command = "worktrunk.remove"
+description = "Worktree: remove"
+
+[[keys.command]]
+key = "prefix+o"
+type = "plugin_action"
+command = "fedeya.herdr-sesh.open"
+description = "sesh (fzf)"
+
+[[keys.command]]
+key = "prefix+d"
+type = "shell"
+command = "~/.config/herdr/scripts/tuicr-review.sh auto"
+description = "tuicr: review changes (uncommitted, or the branch when clean)"
+
+[[keys.command]]
+key = "prefix+shift+b"
+type = "shell"
+command = "~/.config/herdr/scripts/tuicr-review.sh branch"
+description = "tuicr: review this branch against its base"
+
+[[keys.command]]
+key = "prefix+a"
+type = "shell"
+command = "~/.config/herdr/scripts/tuicr-review.sh send"
+description = "tuicr: send the review comments to the agent and clear them (tuicr stays open)"
+
+[[keys.command]]
+key = "prefix+shift+v"
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"
+description = "reviewr: code review pane"
+
+[[keys.command]]
+key = "prefix+n"
+type = "shell"
+command = "~/.config/herdr/scripts/attention.sh"
+description = "jump to the agent that needs you (blocked, then done)"

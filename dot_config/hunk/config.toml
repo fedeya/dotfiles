@@ -1,0 +1,57 @@
+theme = "custom"
+mode = "auto"
+
+# Vim-style extras on top of the defaults (j/k, g/G, d/u, /, n/N, [ ] hunks)
+line_numbers = true
+wrap_lines = true
+hunk_headers = true
+menu_bar = false
+agent_notes = true
+copy_decorations = false
+cursor_line = "row"
+
+[keybindings]
+"hunk.review.halfPageDown" = ["d", "ctrl+d"]
+"hunk.review.halfPageUp" = ["u", "ctrl+u"]
+"hunk.review.pageDown" = ["space", "f", "ctrl+f"]
+"hunk.review.pageUp" = ["b", "ctrl+b", "shift+space"]
+"hunk.review.nextFile" = "."
+"hunk.review.previousFile" = ","
+"hunk.review.alignCurrentLineCenter" = "zz"
+
+# Rosé Pine with the exact palette (https://rosepinetheme.com/palette), same as tuicr's.
+# The built-in "rose-pine" uses off-palette panels (#292735) and pure white text.
+[custom_theme]
+base = "rose-pine"
+label = "Rosé Pine (palette)"
+background = "#191724"        # base
+panel = "#191724"
+panelAlt = "#1f1d2e"          # surface
+border = "#403d52"            # highlight med
+accent = "#ebbcba"            # rose
+accentMuted = "#524f67"       # highlight high
+text = "#e0def4"
+muted = "#6e6a86"
+contextBg = "#191724"
+contextContentBg = "#191724"
+addedBg = "#1d3138"
+addedContentBg = "#1d3138"
+removedBg = "#3a1f2e"
+removedContentBg = "#3a1f2e"
+addedSignColor = "#9ccfd8"    # foam
+removedSignColor = "#eb6f92"  # love
+lineNumberBg = "#191724"
+lineNumberFg = "#6e6a86"
+selectedHunk = "#26233a"      # overlay
+badgeAdded = "#9ccfd8"
+badgeRemoved = "#eb6f92"
+badgeNeutral = "#908caa"
+fileNew = "#9ccfd8"
+fileDeleted = "#eb6f92"
+fileRenamed = "#c4a7e7"
+fileModified = "#f6c177"
+fileUntracked = "#908caa"
+noteBorder = "#c4a7e7"
+noteBackground = "#1f1d2e"
+noteTitleBackground = "#26233a"
+noteTitleText = "#e0def4"

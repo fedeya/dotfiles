@@ -1,0 +1,20 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+# Re-runs when this file changes.
+set -euo pipefail
+
+# keyboard: fast repeat, short delay, no accent popup
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 15
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+# dock
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock autohide-delay -int 0
+defaults write com.apple.dock tilesize -int 50
+
+# finder: list view
+defaults write com.apple.finder FXPreferredViewStyle -string Nlsv
+
+killall Dock 2>/dev/null || true
+{{ end -}}

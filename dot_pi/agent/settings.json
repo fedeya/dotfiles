@@ -1,35 +1,59 @@
 {
-  "lastChangelogVersion": "0.78.1",
+  "lastChangelogVersion": "0.87.1",
   "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.5",
+  "defaultModel": "gpt-6-sol",
   "defaultThinkingLevel": "medium",
   "packages": [
     "npm:@ff-labs/pi-fff",
     "npm:@juicesharp/rpiv-ask-user-question",
-    "npm:@juicesharp/rpiv-todo",
     "npm:pi-web-access",
     "npm:pi-subagents",
-    "npm:@tran-quil/pi-rose-pine",
-    "npm:@gotgenes/pi-permission-system",
     "npm:@vanillagreen/pi-tool-renderer",
-    "npm:@vanillagreen/pi-extension-manager",
-    "npm:pi-vim"
+    "npm:pi-mcp-adapter",
+    "./packages/pi-zentui-minimalist",
+    "npm:@dietrichgebert/ponytail",
+    "npm:omp-startup",
+    "npm:@pi-ohm/references",
+    "npm:@bacnh85/pi-notify",
+    "npm:@narumitw/pi-btw",
+    "npm:@lnilluv/pi-ralph-loop",
+    "npm:glimpseui"
   ],
-  "theme": "dark",
-  "vstack": {
+  "theme": "rosepine",
+  "notify": {
+    "onComplete": true,
+    "onError": true,
+    "onQuestion": true,
+    "sound": true
+  },
+  "kendex": {
     "extensionManager": {
       "disabledItems": [],
       "config": {
         "@vanillagreen/pi-tool-renderer": {
-          "compactUserMessages": true,
-          "userMessageTrailingBlankLine": true,
-          "compactCompactionMessages": true,
-          "styledCodeBlocks": true,
+          "compactUserMessages": false,
           "renderMutationTools": true,
-          "enabled": true,
-          "diffPreviewLines": 1000
+          "splitDiffs": true,
+          "shikiDiffs": true,
+          "wordDiffHighlights": true,
+          "diffBackgrounds": true,
+          "showDiffHunkMeta": true,
+          "toolChrome": "outlines",
+          "workingIndicator": "pulse",
+          "bashOutputMode": "preview",
+          "bashCollapsedLines": 6,
+          "bashPreviewLines": 120,
+          "bashLiveOutputDelayMs": 600,
+          "bashLiveTailLines": 6,
+          "commandPreviewChars": 140,
+          "renderGitDiffCommandDiffs": true,
+          "diffPreviewLines": 40
         }
       }
     }
-  }
+  },
+  "tuiMode": "fullscreen",
+  "showHardwareCursor": true,
+  "editorPaddingX": 0,
+  "outputPad": 1
 }

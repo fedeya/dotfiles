@@ -153,6 +153,12 @@ return {
             -- height = 0.8,
             backdrop = true,
           },
+          config = function(layout)
+            if vim.o.columns >= 120 then
+              layout.layout.width = 0.9
+              layout.layout[2].width = 0.5
+            end
+          end,
         },
         sources = {
           files = {
@@ -282,12 +288,7 @@ return {
       {
         "gr",
         function()
-          Snacks.picker.lsp_references({
-            layout = {
-              preset = "vscode",
-              preview = "main"
-            },
-          })
+          Snacks.picker.lsp_references()
         end,
         nowait = true,
       },

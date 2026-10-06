@@ -15,12 +15,13 @@ windows:
 
   - name: zsh
     panes:
-      - focus: true
+      - focus: false
 
 files:
   copy:
     - .env
+    - .codegraph
 
 post_create:
   - mise trust
-  - "if [ -f uv.lock ]; then uv sync --all-packages; fi"
+  - "if [ -f uv.lock ]; then just install; fi"

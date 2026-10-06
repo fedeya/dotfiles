@@ -1,0 +1,5 @@
+open_mode = "workspace"
+picker_placement = "popup"
+popup_width = "70%"
+popup_height = "60%"
+show_remote_branches = true

@@ -1,0 +1,7 @@
+[tools]
+awscli = { version = "latest", symlink_bins = "true" }
+bun = "latest"
+go = "latest"
+node = "22"
+rust = "latest"
+uv = "latest"

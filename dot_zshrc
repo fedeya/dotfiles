@@ -25,6 +25,7 @@ zinit light-mode for \
     zdharma-continuum/zinit-annex-rust
 
 # Load Completions
+fpath=(~/.zsh/completions $fpath)
 autoload -Uz compinit && compinit
 autoload -Uz _zinit
 
@@ -120,12 +121,13 @@ export BAT_THEME="rose-pine"
 # Aliases
 alias cat="bat"
 alias icat="kitty icat"
+alias vim="nvim"
 alias ls="eza --icons=always"
 alias cd="z"
 alias cdi="__zoxide_zi"
 alias tf="terraform"
 alias kali="docker exec kali"
-alias cfg="chezmoi"
+alias cfg="mise dot"
 alias ll="ls -lh"
 alias la="ls -a"
 alias lla="ls -la"
@@ -188,9 +190,6 @@ export PATH="~/go/bin:$PATH"
 # ruby
 export RUBYOPT="-W0 -W:no-deprecated -W:no-performance -W:no-experimental"
 
-# Created by `pipx` on 2024-07-02 00:08:43
-export PATH="$PATH:/Users/fede/.local/bin"
-
 # java
 # export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-11.jdk/Contents/Home
 
@@ -200,7 +199,6 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export XDG_CONFIG_HOME=$HOME/.config
 
-export PATH=$PATH:/Users/aerolab/.spicetify
 
 # Completions Styling
 zstyle ':completion:*:git-checkout:*' sort false
@@ -239,10 +237,17 @@ eval "$(mise activate zsh)"
 eval "$(workmux completions zsh)"
 # eval "$(starship init zsh)"
 
-# opencode
-export PATH=/Users/fede/.opencode/bin:$PATH
-
-# Added by Antigravity
-export PATH="/Users/fede/.antigravity/antigravity/bin:$PATH"
-
 export OPENVIKING_CONFIG_FILE=~/.openviking/ov.conf # by default
+
+# Pi
+export MCP_UI_VIEWER=off
+
+# opencode
+export PATH="$HOME/.opencode/bin:$PATH"
+
+export PATH="$HOME/.local/bin:$PATH"
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+# Machine-specific (work) config, not versioned
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

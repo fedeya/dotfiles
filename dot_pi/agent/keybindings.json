@@ -1,0 +1,9 @@
+{
+  "app.model.cycleForward": [],
+  "tui.select.up": ["up", "ctrl+p"],
+  "tui.select.down": ["down", "ctrl+n"],
+  "tui.select.pageUp": ["pageUp", "ctrl+u"],
+  "tui.select.pageDown": ["pageDown", "ctrl+d"],
+  "tui.altScreen.halfPageUp": "ctrl+u",
+  "tui.altScreen.halfPageDown": "ctrl+d"
+}

@@ -1,0 +1,14 @@
+{{- /* Generated into ~/.config/chezmoi/chezmoi.toml by `chezmoi init` */ -}}
+{{- $work := promptBoolOnce . "work" "Work machine (installs work apps)" false -}}
+
+# Regular files become symlinks into the source directory, so editing
+# ~/.config/nvim/... edits the repo directly (no `chezmoi re-add` needed).
+# Templates, private and executable files are still copied.
+mode = "symlink"
+
+[data]
+work = {{ $work }}
+
+[git]
+autoCommit = false
+autoPush = false

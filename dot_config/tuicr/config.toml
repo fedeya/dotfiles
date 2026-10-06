@@ -1,0 +1,7 @@
+theme = "rose-pine"           # local theme: themes/rose-pine.toml
+diff_view = "side-by-side"
+editor = "nvim"
+
+leader = " "
+relative_line_numbers = true
+compact_folders = true

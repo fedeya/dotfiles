@@ -51,7 +51,10 @@ return {
     cmd = "CodeDiff",
     opts = {
       explorer = {
-        position = "right"
+        position = "left",
+        height = 100,
+        width = 40,
+        view_mode = 'tree'
       }
     },
     keys = {

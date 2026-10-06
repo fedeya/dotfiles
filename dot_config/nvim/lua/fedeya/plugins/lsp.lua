@@ -39,6 +39,7 @@ return {
         },
         scroll_preview = { scroll_down = "<C-f>", scroll_up = "<C-b>" },
         ui = {
+          code_action = '',
           border = require("fedeya.utils.ui").border("CmpBorder"),
         },
         rename = {
@@ -115,4 +116,10 @@ return {
       },
     },
   },
+
+  {
+    "zeioth/garbage-day.nvim",
+    event = "VeryLazy",
+    opts = {},
+  }
 }

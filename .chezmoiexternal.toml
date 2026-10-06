@@ -1,0 +1,9 @@
+[".tmux/plugins/tpm"]
+type = "git-repo"
+url = "https://github.com/tmux-plugins/tpm.git"
+refreshPeriod = "168h"
+
+# local herdr plugin (linked by run_onchange_after_30-setup.sh)
+["pro/herdr-sesh"]
+type = "git-repo"
+url = "https://github.com/fedeya/herdr-sesh.git"

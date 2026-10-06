@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# Agent integrations, herdr/tmux plugins and npm deps. Idempotent; re-runs when
+# this file or the plugin package.json files change.
+# opencode package.json: {{ include "dot_config/opencode/package.json" | sha256sum }}
+# pi package.json: {{ include "dot_pi/agent/npm/package.json" | sha256sum }}
+set -euo pipefail
+
+step() { printf '\n==> %s\n' "$*"; }
+has() { command -v "$1" >/dev/null 2>&1; }
+
+if has bun; then
+	step "opencode plugin deps"
+	(cd ~/.config/opencode && bun install --silent)
+fi
+
+# pi updates these packages itself; only seed them on a fresh machine
+if has npm && [ ! -d ~/.pi/agent/npm/node_modules ]; then
+	step "pi extensions"
+	(cd ~/.pi/agent/npm && npm install --silent --no-fund --no-audit --legacy-peer-deps)
+fi
+
+if has herdr; then
+	step "herdr integrations and plugins"
+	integrations=$(herdr integration status 2>&1 || true)
+	grep -q '^opencode: current' <<<"$integrations" || herdr integration install opencode
+
+	installed=$(herdr plugin list 2>/dev/null || true)
+	for repo in \
+		ChmaraX/herdr-nvim \
+		jhochenbaum/herdr-hunk-diff \
+		persiyanov/herdr-reviewr \
+		paulbkim-dev/vim-herdr-navigation \
+		devashish2203/herdr-worktrunk; do
+		grep -q "github:$repo@" <<<"$installed" || herdr plugin install "$repo" --yes
+	done
+	if [ -d ~/pro/herdr-sesh ] && ! grep -q 'local:.*/herdr-sesh' <<<"$installed"; then
+		herdr plugin link ~/pro/herdr-sesh
+	fi
+fi
+
+if has wt && [ ! -f ~/.config/opencode/plugins/worktrunk.ts ]; then
+	step "worktrunk opencode plugin"
+	wt config plugins opencode install
+fi
+
+if [ -x ~/.tmux/plugins/tpm/bin/install_plugins ]; then
+	step "tmux plugins"
+	~/.tmux/plugins/tpm/bin/install_plugins >/dev/null
+fi

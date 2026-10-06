@@ -1,4 +1,5 @@
 README.md
+LICENSE
 
 {{- if ne .chezmoi.os "linux" }}
 .config/waybar
@@ -6,5 +7,9 @@ README.md
 {{- end }}
 
 {{- if ne .chezmoi.os "darwin" }}
-~/Library/*
+Library
+.config/aerospace
+.config/borders
+.config/karabiner
+.config/sketchybar
 {{- end }}

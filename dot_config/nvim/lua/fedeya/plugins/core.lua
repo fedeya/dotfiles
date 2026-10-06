@@ -1,6 +1,7 @@
 return {
   {
     "alexghergh/nvim-tmux-navigation",
+    cond = vim.env.HERDR_ENV ~= "1",
     opts = {},
     keys = {
       {
@@ -35,6 +36,24 @@ return {
         mode = { "n", "t" },
       },
     },
+  },
+  {
+    "kaar/nvim-herdr-navigator",
+    cond = vim.env.HERDR_ENV == "1",
+    init = function()
+      vim.g.herdr_navigator_no_mappings = 1
+    end,
+    keys = {
+      { "<C-h>", "<Cmd>HerdrNavigateLeft<CR>", desc = "Navigate to left herdr pane", mode = { "n", "t" } },
+      { "<C-j>", "<Cmd>HerdrNavigateDown<CR>", desc = "Navigate to down herdr pane", mode = { "n", "t" } },
+      { "<C-k>", "<Cmd>HerdrNavigateUp<CR>", desc = "Navigate to up herdr pane", mode = { "n", "t" } },
+      { "<C-l>", "<Cmd>HerdrNavigateRight<CR>", desc = "Navigate to right herdr pane", mode = { "n", "t" } },
+    },
+  },
+  {
+    "ChmaraX/herdr-nvim",
+    cond = vim.env.HERDR_ENV == "1",
+    opts = { prefix = "<leader>c" },
   },
   {
     "NvChad/nvim-colorizer.lua",
