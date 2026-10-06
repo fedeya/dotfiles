@@ -1,0 +1,54 @@
+# Rosé Pine for tuicr — palette from https://rosepinetheme.com/palette
+# base #191724 · surface #1f1d2e · overlay #26233a · muted #6e6a86 · subtle #908caa
+# text #e0def4 · love #eb6f92 · gold #f6c177 · rose #ebbcba · pine #31748f
+# foam #9ccfd8 · iris #c4a7e7 · hl-low #21202e · hl-med #403d52 · hl-high #524f67
+panel_bg = "#191724"
+bg_highlight = "#26233a"
+fg_primary = "#e0def4"
+fg_secondary = "#908caa"
+fg_dim = "#6e6a86"
+
+diff_add = "#9ccfd8"
+diff_add_bg = "#1d3138"
+diff_del = "#eb6f92"
+diff_del_bg = "#3a1f2e"
+diff_context = "#e0def4"
+diff_hunk_header = "#c4a7e7"
+expanded_context_fg = "#6e6a86"
+
+syntax_add_bg = "#1d3138"
+syntax_del_bg = "#3a1f2e"
+syntax_theme = "rose-pine.tmTheme"
+
+file_added = "#9ccfd8"
+file_modified = "#f6c177"
+file_deleted = "#eb6f92"
+file_renamed = "#c4a7e7"
+
+reviewed = "#31748f"
+pending = "#f6c177"
+
+comment_note = "#9ccfd8"
+comment_suggestion = "#c4a7e7"
+comment_issue = "#eb6f92"
+comment_praise = "#31748f"
+
+border_focused = "#ebbcba"
+border_unfocused = "#403d52"
+status_bar_bg = "#1f1d2e"
+cursor_color = "#ebbcba"
+cursor_line_bg = "#21202e"
+branch_name = "#c4a7e7"
+help_indicator = "#6e6a86"
+
+message_info_fg = "#191724"
+message_info_bg = "#9ccfd8"
+message_warning_fg = "#191724"
+message_warning_bg = "#f6c177"
+message_error_fg = "#191724"
+message_error_bg = "#eb6f92"
+update_badge_fg = "#191724"
+update_badge_bg = "#f6c177"
+
+mode_fg = "#191724"
+mode_bg = "#ebbcba"

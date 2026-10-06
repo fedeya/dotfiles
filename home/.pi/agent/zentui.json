@@ -1,0 +1,29 @@
+{
+  "components": {
+    "editor": {
+      "enabled": true,
+      "style": "minimalist",
+      "styles": {
+        "minimalist": {
+          "showGit": false
+        }
+      }
+    },
+    "footer": {
+      "style": "starship",
+      "styles": {
+        "starship": {
+          "compactFormat": "$git_branch$wrap_sep$context$wrap_sep$tokens$wrap_sep($codex_quota)",
+          "segments": {
+            "cwd": false,
+            "gitBranch": true,
+            "gitStatus": false
+          }
+        }
+      }
+    },
+    "userMessages": {
+      "enabled": false
+    }
+  }
+}

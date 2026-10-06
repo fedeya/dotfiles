@@ -1,0 +1,26 @@
+{
+  "name": "pi-extensions",
+  "private": true,
+  "dependencies": {
+    "@bacnh85/pi-notify": "^0.1.5",
+    "@dietrichgebert/ponytail": "^4.10.0",
+    "@dreki-gg/pi-plan-mode": "^0.24.0",
+    "@ff-labs/pi-fff": "^0.11.0",
+    "@gotgenes/pi-permission-system": "^33.0.7",
+    "@juicesharp/rpiv-ask-user-question": "^2.11.0",
+    "@juicesharp/rpiv-todo": "^2.11.0",
+    "@lnilluv/pi-ralph-loop": "^2.1.0",
+    "@narumitw/pi-btw": "^0.61.0",
+    "@pi-ohm/references": "^0.6.4-dev.27705031416.1.1d8069f",
+    "@vanillagreen/pi-extension-manager": "^3.0.1",
+    "@vanillagreen/pi-session-manager": "^1.5.1",
+    "@vanillagreen/pi-tool-renderer": "^2.0.2",
+    "glimpseui": "^0.8.1",
+    "omp-startup": "^0.1.12",
+    "pi-mcp-adapter": "^2.37.0",
+    "pi-subagents": "^0.71.0",
+    "pi-tool-display": "^0.5.0",
+    "pi-web-access": "^0.31.0",
+    "pi-zentui": "^0.25.0"
+  }
+}

@@ -1,0 +1,37 @@
+[[themes]]
+name = "Rose Pine"
+
+[themes.palette]
+background = "#191724"
+foreground = "#e0def4"
+black = "#191724"
+red = "#eb6f92"
+green = "#31748f"
+yellow = "#f6c177"
+blue = "#9ccfd8"
+magenta = "#c4a7e7"
+cyan = "#ebbcba"
+white = "#e0def4"
+bright_black = "#26233a"
+bright_red = "#eb6f92"
+bright_green = "#31748f"
+bright_yellow = "#f6c177"
+bright_blue = "#9ccfd8"
+bright_magenta = "#c4a7e7"
+bright_cyan = "#ebbcba"
+bright_white = "#e0def4"
+
+[themes.component_style]
+selection = { bg = "#26233a", modifiers = ["Bold"] }
+block_title = { fg = "#c4a7e7", modifiers = ["Bold"] }
+playback_track = { fg = "#e0def4", modifiers = ["Bold"] }
+playback_album = { fg = "#f6c177" }
+playback_metadata = { fg = "#6e6a86" }
+playback_progress_bar = { bg = "#26233a", fg = "#9ccfd8" }
+current_playing = { fg = "#eb6f92", modifiers = ["Bold"] }
+page_desc = { fg = "#c4a7e7", modifiers = ["Bold"] }
+table_header = { fg = "#ebbcba", modifiers = ["Bold"] }
+border = { fg = "#26233a" }
+playback_status = { fg = "#31748f", modifiers = ["Bold"] }
+playback_artists = { fg = "#c4a7e7", modifiers = ["Bold"] }
+playlist_desc = { fg = "#6e6a86" }

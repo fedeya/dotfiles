@@ -1,32 +1,33 @@
 # Fedeya Dotfiles
 
-This is my personal dotfiles repository. It contains my configuration files for miscellaneous programs and tools.
+My personal dotfiles, managed with [mise](https://mise.jdx.dev/dotfiles.html) (`[dotfiles]` + `mise bootstrap`).
 
-## Installation
+- `home/` mirrors `$HOME`. Each path listed in [`home/.config/mise/config.toml`](home/.config/mise/config.toml) is symlinked into place, so editing `~/.config/nvim/...` edits this repo; just commit.
+- The same config declares Homebrew packages, macOS defaults, repos and a setup task ([`bootstrap/setup.sh`](bootstrap/setup.sh)).
+- `linux/` holds Linux-only configs.
 
-To install the dotfiles, is necessary to install `chezmoi` first. You can do this by running the following command:
+## New machine
 
 ```bash
-sh -c "$(curl -fsLS git.io/chezmoi)" -- init --apply fedeya
+curl -fsSL https://raw.githubusercontent.com/fedeya/dotfiles/main/bootstrap/install.sh | bash
 ```
 
-This will clone the repository and apply the configuration to your system.
+It installs mise, clones this repo to `~/dotfiles`, links the global mise config and runs `mise bootstrap`. If an app already created its own config, replace it with `mise bootstrap --force-dotfiles`.
 
-## MacOS Setup
+## Day to day
 
-### Increase Repeat and Delay Until Repeat
-
-- Repeat
-
+```bash
+mise dot status              # everything linked?
+mise dot add ~/.config/foo   # start managing a new file/dir (moves it here, links it back)
+mise bootstrap --dry-run     # preview packages/defaults/dotfiles changes
+mise bootstrap
 ```
-Settings -> Keyboard -> Key Repeat -> Fast (all the way to the right)
-```
 
-- Delay Until Repeat
+## Machine-specific config (not versioned)
 
-```
-Settings -> Keyboard -> Delay Until Repeat -> Short (all the way to the right)
-```
+- `~/.config/mise/config.local.toml`: extra packages/tools for this machine (e.g. work apps)
+- `~/.zshrc.local`: sourced at the end of `.zshrc`
+- OpenCode work config: an `opencode.json` in the parent folder of the work projects (OpenCode merges every `opencode.json` from `/` down to the project)
 
 ## License
 

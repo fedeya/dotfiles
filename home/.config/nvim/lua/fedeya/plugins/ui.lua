@@ -1,0 +1,332 @@
+return {
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    enabled = true,
+    opts = {
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = false,
+          ["vim.lsp.util.stylize_markdown"] = false,
+          ["cmp.entry.get_documentation"] = false,
+        },
+        progress = {
+          enabled = true,
+        },
+        signature = {
+          enabled = false,
+        },
+        hover = {
+          enabled = true,
+        },
+      },
+      views = {
+        cmdline_popup = {
+          -- border = {
+          --   style = border "CmpBorder"
+          -- },
+        },
+      },
+      messages = {
+        enabled = true,
+        view = "mini",
+        view_search = "mini",
+        view_error = "mini",
+        view_warn = "mini",
+      },
+      notify = {
+        enabled = false,
+        view = "mini",
+      },
+      cmdline = {
+        enabled = true,
+      },
+      presets = {
+        lsp_doc_border = true,
+        command_palette = true,
+        bottom_search = false,
+      },
+      routes = {
+        {
+          filter = {
+            event = "msg_show",
+            kind = "search_count",
+          },
+          opts = { skip = true },
+        },
+        {
+          filter = {
+            event = "msg_show",
+            kind = "",
+            find = "written",
+          },
+          opts = { skip = true },
+        },
+        {
+          filter = {
+            event = "notify",
+            find = "No information available",
+          },
+          opts = { skip = true },
+        },
+      },
+    },
+    config = function(_, opts)
+      require("noice").setup(opts)
+    end,
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
+  },
+
+  {
+    "nvim-lualine/lualine.nvim",
+    event = "VeryLazy",
+    init = function()
+      vim.g.lualine_laststatus = vim.o.laststatus
+      if vim.fn.argc(-1) > 0 then
+        -- set an empty statusline till lualine loads
+        vim.o.statusline = " "
+      else
+        -- hide the statusline on the starter page
+        vim.o.laststatus = 0
+      end
+    end,
+    opts = function()
+      vim.o.laststatus = vim.g.lualine_laststatus
+
+      local function component_macro()
+        local reg = vim.fn.reg_recording()
+        if reg == "" then return "" end
+        return "%#DiagnosticError#● REC @" .. reg .. "%#StatusLine#"
+      end
+
+      local copilot_frames = require("fedeya.utils.ui").spinners.heavy
+      local copilot_frame = 1
+
+      local function copilot_client()
+        return vim.lsp.get_clients({
+          name = "copilot",
+          bufnr = vim.api.nvim_get_current_buf(),
+        })[1]
+      end
+
+      local function copilot_loading(client)
+        local bufnr = vim.api.nvim_get_current_buf()
+        for _, request in pairs(client.requests or {}) do
+          if
+              request.type == "pending"
+              and request.bufnr == bufnr
+              and request.method == "textDocument/inlineCompletion"
+          then
+            return true
+          end
+        end
+
+        return false
+      end
+
+      local function copilot_status()
+        local client = copilot_client()
+        if not client then return "" end
+
+        if vim.g.copilot_enabled == 0 then
+          return ""
+        end
+
+        if copilot_loading(client) then
+          local frame = copilot_frames[copilot_frame]
+          copilot_frame = copilot_frame % #copilot_frames + 1
+          return frame
+        end
+
+        return ""
+      end
+
+
+      return {
+        options = {
+          theme = "auto",
+          icons_enabled = true,
+          globalstatus = vim.o.laststatus == 3,
+          refresh = {
+            statusline = 100,
+          },
+          -- section_separators = { left = "", right = "" },
+          -- component_separators = { left = "", right = "" },
+          -- section_separators = { left = " ", right = " " },
+          -- component_separators = { left = " ", right = " " },
+          component_separators = { left = "", right = "" },
+          section_separators = { left = "", right = "" },
+          disabled_filetypes = {
+            statusline = { "dashboard", "alpha", "starter", "snacks_dashboard" },
+            winbar = {},
+          },
+          always_divide_middle = true,
+        },
+        sections = {
+          lualine_a = {
+            {
+              "mode",
+              icon = "",
+              -- separator = { left = "", right = "" },
+              -- color = {
+              -- 	fg = "#1c1d21",
+              -- 	bg = "#b4befe",
+              -- },
+            },
+          },
+          lualine_b = {
+            {
+              "branch",
+              icon = "",
+              separator = { left = "", right = "" },
+              -- color = {
+              -- 	fg = "#1c1d21",
+              -- 	bg = "#7d83ac",
+              -- },
+            },
+            {
+              "diff",
+              separator = { left = "", right = "" },
+              source = function()
+                local gitsigns = vim.b.gitsigns_status_dict
+
+                if gitsigns then
+                  return {
+                    added = gitsigns.added,
+                    modified = gitsigns.changed,
+                    removed = gitsigns.removed,
+                  }
+                end
+              end,
+              -- color = {
+              -- 	fg = "#1c1d21",
+              -- 	bg = "#7d83ac",
+              -- },
+            },
+          },
+          lualine_c = {
+            {
+              "diagnostics",
+              separator = { left = "", right = "" },
+              -- color = {
+              -- 	bg = "#45475a",
+              -- },
+            },
+            {
+              "filetype",
+              icon_only = true,
+              separator = "",
+              padding = { left = 1, right = 0 },
+            },
+            {
+              "filename",
+              path = 1,
+              padding = { left = 0, right = 1 },
+              symbols = {
+                unnamed = "",
+              },
+            },
+          },
+          lualine_x = {
+            -- {
+            --   function()
+            --     local status = require("sidekick.status").cli()
+            --     return " " .. (#status > 1 and #status or "")
+            --   end,
+            --   cond = function()
+            --     return #require("sidekick.status").cli() > 0
+            --   end,
+            --   color = function()
+            --     return "Special"
+            --   end,
+            -- },
+            {
+              function()
+                local res = vim.fn.searchcount()
+
+                if res.total > 0 then
+                  return string.format("%s/%d %s", res.current, res.total, vim.fn.getreg('/'))
+                else
+                  return ""
+                end
+              end,
+              cond = function()
+                return vim.fn.getreg('/') ~= ""
+              end,
+            },
+            {
+              component_macro,
+              cond = function()
+                return vim.fn.reg_recording() ~= ""
+              end,
+            },
+            -- {
+            --
+            -- 	require("noice").api.status.search.get,
+            -- 	cond = require("noice").api.status.search.has,
+            -- 	color = { fg = "#ff9e64" },
+            -- },
+            {
+              copilot_status,
+              separator = "",
+              cond = function()
+                return copilot_client() ~= nil
+              end,
+              color = function()
+                local client = copilot_client()
+                if client and copilot_loading(client) then
+                  return { fg = Snacks.util.color("DiagnosticWarn") }
+                end
+
+                return { fg = Snacks.util.color("Special") }
+              end,
+            },
+            {
+              require("lazy.status").updates,
+              separator = "",
+              cond = require("lazy.status").has_updates,
+              color = function()
+                return { fg = Snacks.util.color("Special") }
+              end,
+            },
+          },
+          lualine_y = { "filetype" },
+          lualine_z = {
+            {
+              "location",
+              icon = "",
+              -- color = {
+              -- 	fg = "#1c1d21",
+              -- 	bg = "#f2cdcd",
+              -- },
+            },
+          },
+        },
+        inactive_sections = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = {
+            {
+              "filename",
+              path = 1,
+            },
+          },
+          lualine_x = { "location" },
+          lualine_y = {},
+          lualine_z = {},
+        },
+        tabline = {},
+        winbar = {},
+        inactive_winbar = {},
+        extensions = { "lazy" },
+      }
+    end,
+  },
+  -- {
+  --   'nanozuki/tabby.nvim',
+  --   event = "VeryLazy",
+  --   opts = {},
+  -- }
+}

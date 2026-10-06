@@ -1,0 +1,65 @@
+# Worktrunk: replacement for workmux (see ~/.config/workmux/config.yaml)
+# Each new worktree: copy gitignored files except .venv (copy-on-write), create a tmux session, run setup in the background.
+# tmux is the navigation primitive: `wt switch` jumps to the worktree's tmux session.
+# If OC_SESSION is set (passed by OpenCode), the agent pane resumes that session
+# and the tmux client is not switched.
+
+# Same layout as workmux: <repo>__worktrees/<branch-with-dashes>
+worktree-path = "{{ repo_path }}/../{{ repo }}__worktrees/{{ branch | sanitize }}"
+
+[switch]
+cd = false
+
+[step.copy-ignored]
+# venvs contain absolute paths; rebuilt from the uv cache instead
+exclude = [".venv/"]
+
+[[pre-start]]
+copy = "wt step copy-ignored"
+
+[[pre-start]]
+tmux = """
+[ "${HERDR_ENV:-}" = "1" ] && exit 0
+~/.config/worktrunk/tmux-session.sh 'wt-{{ repo | sanitize }}-{{ branch | sanitize }}' '{{ worktree_path }}'
+"""
+
+# Background: `wt switch` returns right away; output goes to `wt config state logs`
+[post-start]
+setup = """
+mise trust 2>/dev/null || true
+if [ -f uv.lock ]; then
+  if mise exec -- just --summary 2>/dev/null | tr ' ' '\n' | grep -qx setup; then
+    mise exec -- just setup
+  else
+    mise exec -- just install
+  fi
+fi
+"""
+
+[post-switch]
+tmux = """
+[ -n "${TMUX:-}" ] && [ -z "${OC_SESSION:-}" ] || exit 0
+W='{{ worktree_path }}'
+# Reuse any existing session rooted at this worktree (sesh, workmux, wt-)
+E=$(tmux list-sessions -F '#{session_path}	#{session_name}' | awk -F'\t' -v w="$W" '$1 == w { print $2; exit }')
+if [ -n "$E" ]; then tmux switch-client -t "=$E"; exit 0; fi
+# Primary worktree: let sesh create/name its session
+if [ "$W" = '{{ primary_worktree_path }}' ]; then sesh connect "$W"; exit 0; fi
+S=$(printf '%s' 'wt-{{ repo | sanitize }}-{{ branch | sanitize }}' | tr '.:' '--')
+~/.config/worktrunk/tmux-session.sh "$S" "$W"
+tmux switch-client -t "=$S"
+"""
+herdr = """
+[ "${HERDR_ENV:-}" = "1" ] || exit 0
+~/.config/worktrunk/herdr-workspace.sh '{{ worktree_path }}' '{{ primary_worktree_path }}' '{{ branch }}'
+"""
+
+[post-remove]
+tmux = """
+S=$(printf '%s' 'wt-{{ repo | sanitize }}-{{ branch | sanitize }}' | tr '.:' '--')
+tmux kill-session -t "=$S" 2>/dev/null || true
+"""
+herdr = """
+[ "${HERDR_ENV:-}" = "1" ] || exit 0
+~/.config/worktrunk/herdr-close-workspace.sh '{{ worktree_path }}'
+"""

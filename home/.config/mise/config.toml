@@ -1,0 +1,191 @@
+# Global mise config, versioned in ~/dotfiles (this file is a symlink to it).
+# Machine-only settings (work packages, etc.) go in ~/.config/mise/config.local.toml,
+# which is never versioned.
+#
+#   mise bootstrap --dry-run   # preview everything
+#   mise bootstrap             # apply packages, dotfiles, macOS defaults, tools, setup task
+#   mise dot status            # are the dotfiles linked?
+
+[settings]
+dotfiles.root = "~/dotfiles/home"
+dotfiles.default_mode = "symlink"
+
+[tools]
+awscli = { version = "latest", symlink_bins = "true" }
+bun = "latest"
+go = "latest"
+node = "22"
+rust = "latest"
+uv = "latest"
+
+# ---------------------------------------------------------------------------
+# Dotfiles: ~/<path> -> ~/dotfiles/home/<path>
+# ---------------------------------------------------------------------------
+[dotfiles]
+"~/.config/mise/config.toml" = { mode = "symlink" }
+
+# shell / git / tmux
+"~/.zshrc" = { mode = "symlink" }
+"~/.zprofile" = { mode = "symlink" }
+"~/.profile" = { mode = "symlink" }
+"~/.fzf.zsh" = { mode = "symlink" }
+"~/.p10k.zsh" = { mode = "symlink" }
+"~/.zsh/completions" = { mode = "symlink-each" }
+"~/.gitconfig" = { mode = "symlink" }
+"~/.tmux.conf" = { mode = "symlink" }
+"~/.config/tmux" = { mode = "symlink" }
+"~/.config/sesh" = { mode = "symlink" }
+"~/.config/workmux" = { mode = "symlink" }
+
+# editors
+"~/.config/nvim" = { mode = "symlink" }
+"~/.config/helix" = { mode = "symlink" }
+"~/.config/zed/settings.json" = { mode = "symlink" }
+
+# terminals / desktop
+"~/.config/ghostty" = { mode = "symlink" }
+"~/.config/kitty" = { mode = "symlink" }
+"~/.config/alacritty" = { mode = "symlink" }
+"~/.config/wezterm" = { mode = "symlink" }
+"~/.config/aerospace" = { mode = "symlink" }
+"~/.config/borders" = { mode = "symlink" }
+"~/.config/sketchybar" = { mode = "symlink" }
+# Karabiner recommends linking the whole directory (it rewrites karabiner.json)
+"~/.config/karabiner" = { mode = "symlink" }
+
+# cli tools
+"~/.config/bat" = { mode = "symlink" }
+"~/.config/btop" = { mode = "symlink" }
+"~/.config/lazygit" = { mode = "symlink" }
+"~/Library/Application Support/lazygit/config.yml" = { mode = "symlink" }
+"~/.config/spotify-player" = { mode = "symlink" }
+"~/.config/hunk/config.toml" = { mode = "symlink" }
+"~/.config/tuicr" = { mode = "symlink" }
+
+# herdr + worktrunk (the rest of ~/.config/herdr is runtime state)
+"~/.config/herdr/config.toml" = { mode = "symlink" }
+"~/.config/herdr/scripts" = { mode = "symlink" }
+"~/.config/herdr/plugins/config" = { mode = "symlink-each" }
+"~/.config/herdr-nvim" = { mode = "symlink" }
+"~/.config/worktrunk" = { mode = "symlink" }
+
+# opencode (plugins/herdr-*, herdr-tui-session.js and worktrunk.ts are installed by
+# the bootstrap task; work config lives in ~/pro/opencode.json)
+"~/.config/opencode/opencode.json" = { mode = "symlink" }
+"~/.config/opencode/cli.json" = { mode = "symlink" }
+"~/.config/opencode/AGENTS.md" = { mode = "symlink" }
+"~/.config/opencode/package.json" = { mode = "symlink" }
+"~/.config/opencode/plugins/workmux-status.ts" = { mode = "symlink" }
+"~/.config/opencode/skills" = { mode = "symlink-each" }
+
+# pi
+"~/.pi/agent/settings.json" = { mode = "symlink" }
+"~/.pi/agent/AGENTS.md" = { mode = "symlink" }
+"~/.pi/agent/keybindings.json" = { mode = "symlink" }
+"~/.pi/agent/zentui.json" = { mode = "symlink" }
+"~/.pi/agent/themes" = { mode = "symlink-each" }
+"~/.pi/agent/extensions" = { mode = "symlink-each" }
+"~/.pi/agent/packages" = { mode = "symlink-each" }
+"~/.pi/agent/npm/package.json" = { mode = "symlink" }
+
+# linux only
+[dotfiles."~/.config/waybar"]
+source = "~/dotfiles/linux/waybar"
+mode = "symlink"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.config/wofi"]
+source = "~/dotfiles/linux/wofi"
+mode = "symlink"
+variants = [{ os = "linux" }]
+
+# ---------------------------------------------------------------------------
+# Repos
+# ---------------------------------------------------------------------------
+[bootstrap.repos]
+"~/dotfiles" = { url = "https://github.com/fedeya/dotfiles.git" }
+"~/.tmux/plugins/tpm" = { url = "https://github.com/tmux-plugins/tpm.git" }
+"~/pro/herdr-sesh" = { url = "https://github.com/fedeya/herdr-sesh.git" }
+
+# ---------------------------------------------------------------------------
+# Packages (Homebrew formulae and casks)
+# ---------------------------------------------------------------------------
+[bootstrap.brew]
+adopt = true
+
+[bootstrap.brew.taps]
+"raine/workmux" = "https://github.com/raine/homebrew-workmux.git"
+"jnsahaj/lumen" = "https://github.com/jnsahaj/homebrew-lumen.git"
+
+[bootstrap.packages]
+"brew:ast-grep" = "latest"
+"brew:bash" = "latest"
+"brew:bat" = "latest"
+"brew:btop" = "latest"
+"brew:coreutils" = "latest"
+"brew:eza" = "latest"
+"brew:fd" = "latest"
+"brew:fzf" = "latest"
+"brew:gh" = "latest"
+"brew:gifsicle" = "latest"
+"brew:git-delta" = "latest"
+"brew:helix" = "latest"
+"brew:herdr" = "latest"
+"brew:htop" = "latest"
+"brew:hunk" = "latest"
+"brew:jnsahaj/lumen/lumen" = "latest"
+"brew:lazygit" = "latest"
+"brew:ncspot" = "latest"
+"brew:neovim" = "latest"
+"brew:parallel" = "latest"
+"brew:raine/workmux/workmux" = "latest"
+"brew:reattach-to-user-namespace" = "latest"
+"brew:ripgrep" = "latest"
+"brew:sem-cli" = "latest"
+"brew:sesh" = "latest"
+"brew:spotify_player" = "latest"
+"brew:tailscale" = "latest"
+"brew:the_silver_searcher" = "latest"
+"brew:tokei" = "latest"
+"brew:usage" = "latest"
+"brew:vhs" = "latest"
+"brew:wireshark" = "latest"
+"brew:worktrunk" = "latest"
+"brew:yazi" = "latest"
+"brew:zoxide" = "latest"
+
+"brew-cask:1password-cli" = "latest"
+"brew-cask:font-jetbrains-mono-nerd-font" = "latest"
+"brew-cask:ghostty" = "latest"
+"brew-cask:opencode-desktop" = "latest"
+"brew-cask:orbstack" = "latest"
+"brew-cask:raycast" = "latest"
+"brew-cask:spotify" = "latest"
+"brew-cask:zed" = "latest"
+
+# ---------------------------------------------------------------------------
+# macOS
+# ---------------------------------------------------------------------------
+[bootstrap.macos.keyboard]
+key_repeat = 2
+initial_key_repeat = 15
+press_and_hold = false
+
+[bootstrap.macos.dock]
+autohide = true
+autohide_delay = 0
+tilesize = 50
+
+[bootstrap.macos.finder]
+preferred_view_style = "list"
+
+[bootstrap.hooks]
+post-defaults = "killall Dock || true"
+
+# ---------------------------------------------------------------------------
+# Setup that has no declarative section. Runs on every `mise bootstrap`, so each
+# step is idempotent.
+# ---------------------------------------------------------------------------
+[tasks.bootstrap]
+description = "Install agent integrations, herdr/tmux plugins and npm deps"
+run = "~/dotfiles/bootstrap/setup.sh"

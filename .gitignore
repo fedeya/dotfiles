@@ -1,2 +1,7 @@
 .DS_Store
-dot_DS_Store
+node_modules/
+
+# written by apps into directories that are symlinked here
+home/.config/karabiner/automatic_backups/
+*.bak
+*.bak-*

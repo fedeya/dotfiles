@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@opencode/plugin": "^2.0.14"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2"
+  }
+}
